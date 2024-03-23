@@ -11,11 +11,12 @@
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 23/03/2024 15:52:24
+ Date: 23/03/2024 18:03:56
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
 -- ----------------------------
 -- Table structure for admin
 -- ----------------------------
@@ -33,6 +34,7 @@ CREATE TABLE `admin`  (
 -- ----------------------------
 -- Records of admin
 -- ----------------------------
+INSERT INTO `admin` VALUES (1, 'qsl', '123456', 'http://fsdgfsdg', 'sl', 0);
 
 -- ----------------------------
 -- Table structure for diary
@@ -75,10 +77,10 @@ CREATE TABLE `follow`  (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for like
+-- Table structure for love
 -- ----------------------------
-DROP TABLE IF EXISTS `like`;
-CREATE TABLE `like`  (
+DROP TABLE IF EXISTS `love`;
+CREATE TABLE `love`  (
   `id` int(0) NOT NULL COMMENT '主键，自增',
   `diary_id` int(0) NULL DEFAULT NULL COMMENT '游记id',
   `author_id` int(0) NULL DEFAULT NULL COMMENT '作者id',
@@ -87,7 +89,7 @@ CREATE TABLE `like`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of like
+-- Records of love
 -- ----------------------------
 
 -- ----------------------------
@@ -96,12 +98,12 @@ CREATE TABLE `like`  (
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
   `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '主键，自增',
-  `openid` int(0) NULL DEFAULT NULL COMMENT '微信用户唯一标识，从微信官方获取',
+  `openid` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '微信用户唯一标识，从微信官方获取',
   `avatarUrl` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '用户头像地址',
   `gender` tinyint(0) NULL DEFAULT NULL COMMENT '性别：0代表女，1代表男',
   `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '用户在应用内的名字',
   `nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '用户微信昵称',
-  `phone` int(0) NULL DEFAULT NULL COMMENT '手机号码',
+  `phone` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL COMMENT '手机号码',
   `tips` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '个性签名',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
@@ -109,5 +111,6 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
+INSERT INTO `user` VALUES (1, 'fefafa', 'faewfaef', 1, 'sg', 'sg', '1765454545', '少说多做');
 
 SET FOREIGN_KEY_CHECKS = 1;
