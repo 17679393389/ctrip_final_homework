@@ -3,5 +3,6 @@
   "projectname": "travel_diary_miniprogram",
   "setting": {
     "compileHotReLoad": true
-  }
+  },
+  "libVersion": "3.3.4"
 }

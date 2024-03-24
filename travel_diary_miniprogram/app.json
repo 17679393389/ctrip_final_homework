@@ -1,12 +1,33 @@
 {
   "pages": [
+    "pages/home/home",
     "pages/index/index",
     "pages/logs/logs"
   ],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "Weixin",
-    "navigationBarBackgroundColor": "#ffffff"
+    "navigationBarTitleText": "旅行日记",
+    "navigationBarBackgroundColor": "#f4ea2a"
+  },
+  "tabBar": {
+    "color": "#B0B0B0",
+    "selectedColor": "#000000",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+        {
+            "pagePath": "pages/home/home",
+            "text": "游记",
+            "iconPath": "/images/首页未选中.png",
+            "selectedIconPath": "/images/首页已选中.png"
+        },
+        {
+            "pagePath": "pages/index/index",
+            "text": "我的",
+            "iconPath": "/images/我的未选中.png",
+            "selectedIconPath": "/images/我的已选中.png"
+        }
+      ]
   },
   "style": "v2",
   "componentFramework": "glass-easel",

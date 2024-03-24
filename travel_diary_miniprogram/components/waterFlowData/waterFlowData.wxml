@@ -1,0 +1,9 @@
+<!-- demo.wxml -->
+
+<l-card full type="cover" image="{{data.image}}" title="{{data.title}}" l-class="life-container" l-img-class="life-img" image-mode="widthFix" l-title-class="life-title" bindtap="onProduct">
+	<view style="display: flex; align-items: center;">
+		<l-avatar text="{{data.user.nickname}}" size="60" src="http://img3.a0bi.com/upload/ttq/20161015/1476518118768.png" />
+		<l-icon name="like" color="#34BFA3" style="margin-left: auto;" />
+		<view style="margin-right: 15rpx; font-family: sans-serif; font-size: 25rpx;">{{data.likeCount}}</view>
+	</view>
+</l-card>

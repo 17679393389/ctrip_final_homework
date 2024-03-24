@@ -1,0 +1,9 @@
+<!--pages/home.wxml-->
+<view>
+<view style="margin-top: 10px;">
+	<l-search-bar show-cancel="{{false}}" placeholder="搜索"/>
+</view>
+	
+<l-water-flow column-gap="-5px" generic:l-water-flow-item="waterFlowData"/>
+</view>
+
