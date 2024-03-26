@@ -1,6 +1,6 @@
 <!-- demo.wxml -->
 <!-- plaintext="{{data.video !== ''}}" 要显示视频就把card设置成纯文本格式 -->
-<l-card  full type="cover" image="{{data.photoList[0]}}" title="{{data.title}}" l-class="life-container" l-img-class="life-img" image-mode="widthFix" l-title-class="life-title" bindtap="onDiary">
+<l-card  full type="cover" image="{{data.photoList[0]}}" title="{{data.title}}" l-class="life-container" l-img-class="life-img" image-mode="widthFix" l-title-class="life-title" bindtap="onDiary" data-diary="{{data}}">
 <!-- 短视频显示 -->
 	<!-- <video poster="https://it-recite.oss-cn-shenzhen.aliyuncs.com/5f4b90ad37b844f8a04402d6ad76d2fa.png" src="{{data.video}}" controls="controls" style="width: 100%; height: 400rpx;"></video> -->
 	<view style="display: flex; align-items: center;">
