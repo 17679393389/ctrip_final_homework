@@ -171,7 +171,11 @@ exports.searchDiaries = async (req, res) => {
         ],
         checked_status: 1 // 只查询审核通过的游记
       },
-      include: [{ model: User, as: 'author', attributes: ['username'] }], // 关联查询用户表，只返回用户名
+      include: [
+        { model: User, attributes: ["username", "avatarUrl"], as: "author" },
+        { model: Admin, attributes: ["name"], as: "checked" },
+        { model: Love, attributes: ["like_count"], as: "love" },
+      ], // 关联查询用户表，并指定返回的字段
       offset,
       limit: parseInt(pageSize)
     });
@@ -183,6 +187,16 @@ exports.searchDiaries = async (req, res) => {
       diaryData.update_time = new Date(diaryData.update_time).toLocaleString();
       diaryData.checked_at = new Date(diaryData.checked_at).toLocaleString();
       diaryData.photoList = diaryData.photo.split(',').map(url => url.trim());
+      // 从关联的用户表中获取用户名和头像 URL
+      diaryData.username = diaryData.author.username;
+      diaryData.avatarUrl = diaryData.author.avatarUrl;
+      //从关联的管理员表中获取审核员的姓名
+      diaryData.checked_person = diaryData.checked.name;
+      //从关联的点赞表中获取该条游记的点赞数
+      diaryData.love_count = diaryData.love.like_count;
+      // 删除原始的 author 字段，如果不需要保留的话
+      delete diaryData.author;
+      delete diaryData.love;
       return diaryData;
     });
 
