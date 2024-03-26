@@ -17,6 +17,11 @@ Component({
    * 组件的方法列表
    */
   methods: {
-
+    //跳转到游记详情页面
+    onDiary(){
+      wx.navigateTo({
+        url: '/pages/diaryDetail/diaryDetail',
+      })
+    }
   }
 })

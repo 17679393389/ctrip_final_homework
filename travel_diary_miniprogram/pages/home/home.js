@@ -1,75 +1,96 @@
 // pages/index/index.js
+const baseUrl = getApp().globalData.baseUrl
 Page({
   data: {
-    diaries: [
-      {
-        title: '旅行日记标题1',
-        image: '/images/waterFlowTest.png',
-        img_height:"",
-        user: {
-          avatar: '/images/avatar1.jpg',
-          nickname: 'sl'
-        },
-        likeCount: 10
+    page: 1, //当前分页
+    pageSize: 8, //每次刷新获取10条游记
+    totalPage: 0, //总页数
+    reachedEnd: false, // 是否到达最后一页的标志变量
+    diaries: [],
+    curClass: '1' //当前类别
+  },
+  onLoad: function () {
+    // console.log(getApp().globalData.baseUrl)
+    this.getDiaryList()
+    // console.log(this.data.totalPage)
+  },
+  //下拉刷新处理函数
+  onReachBottom() {
+    if (!this.data.reachedEnd) { // 判断是否到达最后一页
+      const curPage = this.data.page + 1;
+      this.setData({
+        page: curPage
+      }, () => {
+        this.getDiaryList();
+        wx.showNavigationBarLoading(); // 显示加载动画
+      });
+    }
+  },
+  //按照当前页面获取游记列表
+  getDiaryList() {
+    console.log("开始获取数据")
+    let that = this
+    
+    wx.request({
+      url: baseUrl + '/diary/getDiariesList',
+      data: {
+        page: this.data.page,
+        pageSize: this.data.pageSize,
+        category: this.data.curClass
       },
-      {
-        title: '旅行日记标题3',
-        image: '/images/waterFlowTest2.png',
-        user: {
-          avatar: '/images/avatar2.jpg',
-          nickname: 'sl'
-        },
-        likeCount: 8
+      method: 'GET',
+      success(res) {
+        console.log(res.data.diaries)
+        that.setData({
+          totalPage: res.data.totalPages,
+          diaries: res.data.diaries
+        })
+        if (that.data.page === that.data.totalPage) {
+          that.setData({
+            reachedEnd: true // 设置 reachedEnd 为 true，表示到达最后一页
+          });
+        }
+        // console.log(that.data)
+        wx.lin.renderWaterFlow(res.data.diaries, true, () => {
+          console.log('渲染成功')
+          console.log("隐藏加载动画")
+          wx.hideNavigationBarLoading(); // 隐藏加载动画
+        })
       },
-      {
-        title: '旅行日记标题4',
-        image: '/images/waterFlowTest3.png',
-        user: {
-          avatar: '/images/avatar2.jpg',
-          nickname: 'sl'
-        },
-        likeCount: 8
+      complete() {}
+    })
+  },
+  //按照分类查看游记
+  changeTabs(res) {
+    // console.log(parseInt(res.detail.activeKey))
+    this.setData({curClass: res.detail.activeKey})
+    this.getDiaryList()
+  },
+  //搜索游记
+  searchDiaries(req){
+    // console.log('触发搜索')
+    // console.log(req.detail.value)
+    let that = this
+    wx.request({
+      url: baseUrl + '/diary/searchDiaries',
+      method:'GET',
+      data:{
+        page:this.data.page,
+        pageSize:this.data.pageSize,
+        keyword: req.detail.value
       },
-      {
-        title: '旅行日记标题2',
-        image: '/images/waterFlowTest4.png',
-        user: {
-          avatar: '/images/avatar2.jpg',
-          nickname: 'sl'
-        },
-        likeCount: 8
+      success(res){
+        // console.log(res)
+        that.setData({
+          diaries:res.data.diaries,
+          totalPage:res.data.totalPages
+        })
+        wx.lin.renderWaterFlow(res.data.diaries, true, () => {
+          console.log('渲染成功')
+          console.log("隐藏加载动画")
+          wx.hideNavigationBarLoading(); // 隐藏加载动画
+        })
       }
-    ],
-    cardHeights: [] // 保存每个卡片的高度
-  },
-  onLoad: function() {
-    // 获取图片信息并动态计算每个卡片的高度
-    Promise.all(this.data.diaries.map(diary => this.getImageInfo(diary.image)))
-      .then(imageInfos => {
-        const cardHeights = imageInfos.map(info => {
-        console.log(info.height,info.width)
-          return 350 * info.height / info.width; // 根据图片的宽高比例动态计算高度
-        });
-        console.log(cardHeights)
-        // 将计算好的卡片高度应用到每个日记对象的 img_height 属性上
-        this.data.diaries.forEach((diary, index) => {
-          diary.img_height = cardHeights[index];
-        });
-      })
-      .catch(error => {
-        console.error('获取图片信息失败', error);
-      });
-      wx.lin.renderWaterFlow(this.data.diaries, false ,()=>{
-        console.log('渲染成功')
-      })
-  },
-  getImageInfo: function(url) {
-    return new Promise((resolve, reject) => {
-      wx.getImageInfo({
-        src: url,
-        success: resolve,
-        fail: reject
-      });
-    });
+    })
   }
 })

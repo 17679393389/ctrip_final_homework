@@ -8,7 +8,9 @@ const loveRoutes = require('./routes/loveRoutes');
 const followRoutes = require('./routes/followRoutes');
 const sequelize = require('./utils/db_connection')
 const app = express();
-
+const cors = require('cors');
+// 使用 CORS 中间件
+app.use(cors());
 // 解析请求体
 app.use(bodyParser.json());
 

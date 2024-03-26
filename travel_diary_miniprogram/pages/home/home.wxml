@@ -1,9 +1,24 @@
 <!--pages/home.wxml-->
 <view>
 <view style="margin-top: 10px;">
-	<l-search-bar show-cancel="{{false}}" placeholder="搜索"/>
+	<l-search-bar show-cancel="{{false}}" placeholder="搜索" bind:linblur="searchDiaries"/>
+	<l-tabs equal-width="{{true}}" scrollable="{{true}}" bind:linchange="changeTabs">
+        <l-tabpanel tab="全部" key="1" slot="1">
+        </l-tabpanel>
+        <l-tabpanel tab="攻略" key="2" slot="2">
+        </l-tabpanel>
+        <l-tabpanel tab="风景" key="3" slot="3">
+        </l-tabpanel>
+        <l-tabpanel tab="美食" key="4" slot="4">
+        </l-tabpanel>
+				<l-tabpanel tab="交通" key="5" slot="5">
+        </l-tabpanel>
+				<l-tabpanel tab="住宿" key="6" slot="6">
+        </l-tabpanel>
+				<l-tabpanel tab="其他" key="7" slot="7">
+        </l-tabpanel>
+      </l-tabs>
 </view>
-	
 <l-water-flow column-gap="-5px" generic:l-water-flow-item="waterFlowData"/>
 </view>
 

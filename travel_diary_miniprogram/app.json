@@ -2,7 +2,8 @@
   "pages": [
     "pages/home/home",
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/diaryDetail/diaryDetail"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -15,19 +16,19 @@
     "backgroundColor": "#ffffff",
     "borderStyle": "white",
     "list": [
-        {
-            "pagePath": "pages/home/home",
-            "text": "游记",
-            "iconPath": "/images/首页未选中.png",
-            "selectedIconPath": "/images/首页已选中.png"
-        },
-        {
-            "pagePath": "pages/index/index",
-            "text": "我的",
-            "iconPath": "/images/我的未选中.png",
-            "selectedIconPath": "/images/我的已选中.png"
-        }
-      ]
+      {
+        "pagePath": "pages/home/home",
+        "text": "游记",
+        "iconPath": "/images/首页未选中.png",
+        "selectedIconPath": "/images/首页已选中.png"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "我的",
+        "iconPath": "/images/我的未选中.png",
+        "selectedIconPath": "/images/我的已选中.png"
+      }
+    ]
   },
   "style": "v2",
   "componentFramework": "glass-easel",

@@ -1,7 +1,9 @@
 // models/diary.js 游记实体
 const { DataTypes } = require("sequelize");
 const sequelize = require("../utils/db_connection.js");
-
+const User = require("./user")
+const Admin = require("./admin")
+const Love = require("./love")
 const Diary = sequelize.define("Diary", {
   id: {   //游记id
     type: DataTypes.INTEGER,
@@ -49,6 +51,11 @@ const Diary = sequelize.define("Diary", {
     allowNull: false,
     unique: false,
   },
+  checked_at: {   //审核时间
+    type: DataTypes.DATE,
+    allowNull: false,
+    unique: false,
+  },
   checked_status: {    //审核状态：-1：未审核，0：拒绝，1：通过
     type: DataTypes.TINYINT,
     allowNull: false,
@@ -69,5 +76,12 @@ const Diary = sequelize.define("Diary", {
     freezeTableName: true, // 禁止自动命名表格
     timestamps: false, // 禁止自动生成 createdAt 和 updatedAt 字段
   });
+
+// 设置 Diary 与 User 的关联关系
+Diary.belongsTo(User, { foreignKey: 'create_by', as: 'author' });
+// 设置 Diary 与 Admin 的关联关系
+Diary.belongsTo(Admin, { foreignKey: 'checked_by', as: 'checked' });
+// 设置 Diary 与 Love 的关联关系
+Diary.belongsTo(Love, { foreignKey: 'id', as: 'love' });
 
 module.exports = Diary;

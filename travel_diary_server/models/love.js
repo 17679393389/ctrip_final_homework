@@ -1,6 +1,7 @@
 // models/love.js 点赞实体
 const { DataTypes } = require("sequelize");
 const sequelize = require("../utils/db_connection.js");
+const Diary = require("./diary");
 const Love = sequelize.define("Love", {
   id: {   //点赞id
     type: DataTypes.INTEGER,
