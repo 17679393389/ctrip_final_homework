@@ -1,7 +1,8 @@
 // controllers/userController.js
 const User = require("../models/user");
 const passWordEncryption = require("../utils/pwdEncrypt.js");
-
+const { signToken } = require("../utils/authMiddleware.js");
+const getOpenid = require("../utils/wx.js");
 // 获取所有用户
 exports.getAllUsers = async (req, res) => {
   try {
@@ -27,7 +28,9 @@ exports.createUser = async (req, res) => {
     const pwd = passWordEncryption(req.body.password);
     req.body.password = pwd;
     const newUser = await User.create(req.body);
-    res.json(newUser);
+    //生成token
+    const token = signToken({ id: newUser.openid });
+    res.json({ newUser, token });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -80,7 +83,7 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
-//用户登录
+//用户密码登录
 exports.loginUser = async (req, res) => {
   try {
     const user = await User.findOne({
@@ -94,8 +97,43 @@ exports.loginUser = async (req, res) => {
     } else if (user.password !== pwdHash) {
       res.status(404).json({ message: "用户名或密码错误" });
     } else {
-      res.json(user);
+      //生成token
+      const token = signToken({ username: req.body.username });
+      res.json({ user, token });
+      // res.json(user);
     }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+//用户授权登录
+exports.loginWithWx = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        openid: req.body.openid,
+      },
+    });
+    if (!user) {
+      res
+        .status(403)
+        .json({ message: "用户不存在，请注册哦", openid: req.body.openid });
+    } else {
+      //生成token
+      const token = signToken({ id: req.body.openid });
+      // res.json(user);
+      res.json({ user, token });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// 获取用户唯一标识
+exports.getUserIdentifier = async (req, res) => {
+  try {
+    const wxRes = await getOpenid(req.body.code);
+    res.json(wxRes);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
