@@ -12,7 +12,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    //拿到的游记信息，需要渲染在本页面
+    console.log(JSON.parse(options.data))
   },
 
   /**

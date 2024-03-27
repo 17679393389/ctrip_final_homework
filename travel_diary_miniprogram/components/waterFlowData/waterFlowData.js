@@ -18,9 +18,11 @@ Component({
    */
   methods: {
     //跳转到游记详情页面
-    onDiary(){
+    onDiary(e){
+      // console.log(e.currentTarget.dataset.diary)
+      // const data = JSON.stringify(data)
       wx.navigateTo({
-        url: '/pages/diaryDetail/diaryDetail',
+        url: '/pages/diaryDetail/diaryDetail?data='+JSON.stringify(e.currentTarget.dataset.diary)
       })
     }
   }
