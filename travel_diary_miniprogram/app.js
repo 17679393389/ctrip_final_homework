@@ -68,4 +68,15 @@ App({
       }
     }
   },
+
+  //检测返回的响应体中是否存在新的token，存在则更新
+  listenForNewToken(res) {
+    const newToken = res.header.Authorization;
+    if (newToken) {
+      // 更新全局变量中的 token
+      this.globalData.token = newToken;
+      // 更新本地存储的 token
+      wx.setStorageSync('token', newToken);
+    }
+  }
 });

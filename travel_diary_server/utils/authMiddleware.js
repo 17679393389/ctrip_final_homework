@@ -1,15 +1,15 @@
 // utils/authMiddleware.js
 
 const jwt = require("jsonwebtoken");
-const { secretKey } = require("../config"); // 导入你的密钥
+const { secretKey } = require("../config"); // 导入密钥
 
 //生成JWT
 const signToken = (res) => {
   console.log("sds", res);
-  let expires = new Date();
-  expires.setTime(expires.getTime() + 24 * 60 * 60 * 1000);
+  // let expires = new Date();
+  // expires.setTime(expires.getTime() + 24 * 60 * 60 * 1000);
   return jwt.sign(res, secretKey, {
-    expiresIn: "3s",
+    expiresIn: "120s",
   });
 };
 
