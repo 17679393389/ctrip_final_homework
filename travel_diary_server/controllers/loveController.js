@@ -1,5 +1,5 @@
 // controllers/likeController.js
-const Like = require('../models/love');
+const Like = require('../models/love_');
 
 exports.getAllLoves = async (req, res) => {
   try {

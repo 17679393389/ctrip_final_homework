@@ -2,7 +2,7 @@
 const Diary = require("../models/diary");
 const User = require("../models/user");
 const Admin = require("../models/admin");
-const Love = require("../models/love");
+const Love_ = require("../models/love_");
 const { Op } = require("sequelize");
 exports.getAllDiaries = async (req, res) => {
   try {
@@ -117,7 +117,7 @@ exports.getDiariesList = async (req, res) => {
       include: [
         { model: User, attributes: ["username", "avatarUrl"], as: "author" },
         { model: Admin, attributes: ["name"], as: "checked" },
-        { model: Love, attributes: ["like_count"], as: "love" },
+        { model: Love_, attributes: ["like_count"], as: "love_" },
       ], // 关联查询用户表，并指定返回的字段
     });
 
@@ -134,10 +134,10 @@ exports.getDiariesList = async (req, res) => {
       //从关联的管理员表中获取审核员的姓名
       diaryData.checked_person = diaryData.checked.name;
       //从关联的点赞表中获取该条游记的点赞数
-      diaryData.love_count = diaryData.love.like_count;
+      diaryData.love_count = diaryData.love_.like_count;
       // 删除原始的 author 字段，如果不需要保留的话
       delete diaryData.author;
-      delete diaryData.love;
+      delete diaryData.love_;
       return diaryData;
     });
 
@@ -174,7 +174,7 @@ exports.searchDiaries = async (req, res) => {
       include: [
         { model: User, attributes: ["username", "avatarUrl"], as: "author" },
         { model: Admin, attributes: ["name"], as: "checked" },
-        { model: Love, attributes: ["like_count"], as: "love" },
+        { model: Love_, attributes: ["like_count"], as: "love_" },
       ], // 关联查询用户表，并指定返回的字段
       offset,
       limit: parseInt(pageSize)
@@ -193,10 +193,10 @@ exports.searchDiaries = async (req, res) => {
       //从关联的管理员表中获取审核员的姓名
       diaryData.checked_person = diaryData.checked.name;
       //从关联的点赞表中获取该条游记的点赞数
-      diaryData.love_count = diaryData.love.like_count;
+      diaryData.love_count = diaryData.love_.like_count;
       // 删除原始的 author 字段，如果不需要保留的话
       delete diaryData.author;
-      delete diaryData.love;
+      delete diaryData.love_;
       return diaryData;
     });
 

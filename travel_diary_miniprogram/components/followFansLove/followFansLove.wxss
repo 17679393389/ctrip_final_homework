@@ -1,0 +1,12 @@
+/* components/followFansLove/followFansLove.wxss */
+.num {	
+	color: #FFB034;
+	font-size: large;
+	font-style: italic;
+}
+
+.text {
+	/* color: #88ada6; */
+	color: #808080;
+	font-size: small;
+}

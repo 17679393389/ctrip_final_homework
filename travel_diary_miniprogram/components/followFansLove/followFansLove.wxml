@@ -1,0 +1,15 @@
+<!--components/followFansLove/followFansLove.wxml-->
+<l-grid show-border="true">
+    <l-grid-item key="1" slot="1">
+        <view class="num">{{follow_count}}</view>
+        <view class="text">关注</view>
+     </l-grid-item>
+    <l-grid-item key="2" slot="2">
+        <view class="num">{{fans_count}}</view>
+        <view class="text">粉丝</view>
+    </l-grid-item>
+    <l-grid-item key="3" slot="3">
+        <view class="num">{{love_count}}</view>
+        <view class="text">获赞</view>
+    </l-grid-item>
+</l-grid>

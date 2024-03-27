@@ -3,7 +3,9 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../utils/db_connection.js");
 const User = require("./user")
 const Admin = require("./admin")
-const Love = require("./love")
+const Love_ = require("./love_.js")
+// const Follow = require("./follow")
+
 const Diary = sequelize.define("Diary", {
   id: {   //游记id
     type: DataTypes.INTEGER,
@@ -82,6 +84,6 @@ Diary.belongsTo(User, { foreignKey: 'create_by', as: 'author' });
 // 设置 Diary 与 Admin 的关联关系
 Diary.belongsTo(Admin, { foreignKey: 'checked_by', as: 'checked' });
 // 设置 Diary 与 Love 的关联关系
-Diary.belongsTo(Love, { foreignKey: 'id', as: 'love' });
+Diary.belongsTo(Love_, { foreignKey: 'id', as: 'love_' });
 
 module.exports = Diary;

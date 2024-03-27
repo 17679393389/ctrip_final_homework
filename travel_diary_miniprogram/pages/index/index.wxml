@@ -1,4 +1,5 @@
 <!--index.wxml-->
+<followFansLove follow_count="{{follow_count}}" fans_count="{{fans_count}}" love_count="{{love_count}}"/>
 <scroll-view class="scrollarea" scroll-y type="list">
   <view class="container">
     <view class="userinfo">

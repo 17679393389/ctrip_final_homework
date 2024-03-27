@@ -1,8 +1,7 @@
 // models/love.js 点赞实体
 const { DataTypes } = require("sequelize");
 const sequelize = require("../utils/db_connection.js");
-const Diary = require("./diary");
-const Love = sequelize.define("Love", {
+const Love_ = sequelize.define("Love_", {
   id: {   //点赞id
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -30,4 +29,5 @@ const Love = sequelize.define("Love", {
   timestamps: false, // 禁止自动生成 createdAt 和 updatedAt 字段
 });
 
-module.exports = Love;
+
+module.exports = Love_;
