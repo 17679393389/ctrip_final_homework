@@ -1,0 +1,27 @@
+<view class="register">
+    <l-button special="{{true}}" l-class="back">
+        <l-icon name="left" color="#707070"/>
+     </l-button>
+     <view class="register-hello">
+        {{hello}}
+     </view>
+     <view class="register-container">
+        <l-avatar size="200" src="{{avatarUrl}}" l-class="head-img"></l-avatar>
+        <input type="nickname" value="{{username}}" class="username" bindinput="usernameInput"/>
+        <view class="gender">
+            <l-radio-group placement="row" current="1" l-class="gender-type" bind:linchange="genderSelect">
+                <l-radio custom="{{true}}" key="1">
+                    <image slot="custom" src="{{male}}"/>
+                    <text style="color:{{gender == '1' ? '#128bc9':'#707070'}}">男</text>
+                </l-radio>
+                <l-radio custom="{{true}}" key="0">
+                    <image slot="custom" src="{{female}}"/>
+                    <text style="color:{{gender == '0' ? '#db80a9':'#707070'}}">女</text>
+                </l-radio>
+            </l-radio-group>
+        </view>
+        
+        <input type="password" placeholder="设置一下密码吧" bindinput="passwordInput"/>
+     </view>
+     <l-button size="large" shape="circle" type="warning"  width="650" l-class="register-bt" bind:lintap="handleRegister">注册</l-button>
+</view>
