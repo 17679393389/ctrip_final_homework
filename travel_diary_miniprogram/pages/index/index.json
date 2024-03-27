@@ -1,4 +1,6 @@
 {
   "usingComponents": {
+    "followFansLove":"/components/followFansLove/followFansLove"
+
   }
 }

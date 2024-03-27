@@ -1,5 +1,7 @@
 // controllers/userController.js
 const User = require("../models/user");
+const Love = require("../models/love_"); // 引入Love 和 Follow 模型
+const Follow = require("../models/follow"); // 引入Love 和 Follow 模型
 const passWordEncryption = require("../utils/pwdEncrypt.js");
 const { signToken } = require("../utils/authMiddleware.js");
 const getOpenid = require("../utils/wx.js");
@@ -134,6 +136,40 @@ exports.getUserIdentifier = async (req, res) => {
   try {
     const wxRes = await getOpenid(req.body.code);
     res.json(wxRes);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// 获取用户的获赞数、关注数、粉丝数
+exports.getUserStats = async (req, res) => {
+  try {
+    const { author_id } = req.query; // 从路由参数中获取用户ID
+
+    // 查询用户获赞总数
+    const likeCount = await Love.sum("like_count", {
+      where: { author_id: author_id },
+    });
+
+    // 查询用户关注总数
+    const followingCount = await Follow.count({
+      where: { fans_id: author_id },
+    });
+
+    // 查询用户粉丝数
+    const followersCount = await Follow.count({
+      where: { up_id: author_id },
+    });
+
+    // 构建返回的统计信息对象
+    const userStats = {
+      likeCount,
+      followingCount,
+      followersCount,
+    };
+
+    // 发送响应
+    res.json(userStats);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
