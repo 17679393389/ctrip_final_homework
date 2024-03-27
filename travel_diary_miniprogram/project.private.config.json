@@ -5,5 +5,25 @@
     "compileHotReLoad": true,
     "urlCheck": false
   },
-  "libVersion": "2.19.2"
+  "libVersion": "2.19.2",
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "regitser",
+          "pathName": "pages/register/register",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/login/login",
+          "pathName": "pages/login/login",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        }
+      ]
+    }
+  }
 }

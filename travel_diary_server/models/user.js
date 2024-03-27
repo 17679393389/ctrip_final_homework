@@ -59,7 +59,7 @@ const User = sequelize.define(
     password: {
       //用户密码
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
   },
   {

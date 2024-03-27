@@ -6,7 +6,7 @@
         {{hello}}
      </view>
      <view class="register-container">
-        <l-avatar size="200" src="{{avatarUrl}}" l-class="head-img"></l-avatar>
+        <l-avatar size="200" src="{{avatarUrl}}" l-class="head-img" bind:lintap="onChooseAvatar"></l-avatar>
         <input type="nickname" value="{{username}}" class="username" bindinput="usernameInput"/>
         <view class="gender">
             <l-radio-group placement="row" current="1" l-class="gender-type" bind:linchange="genderSelect">

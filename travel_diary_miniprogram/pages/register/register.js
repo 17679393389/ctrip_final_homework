@@ -10,6 +10,28 @@ Page({
     male: "../../images/男已选中.png",
     female: "../../images/女未选中.png",
   },
+  //选择头像
+  onChooseAvatar() {
+    const that = this;
+    wx.chooseMessageFile({
+      count: 1,
+      type: "image",
+      success(res) {
+        that.setData({
+          avatarUrl: res.tempFiles[0].path,
+        });
+      },
+      fail(res) {
+        wx.showToast({
+          title: res,
+          duration: 2000,
+        });
+        console.log(res);
+      },
+    });
+  },
+
+  //性别选择
   genderSelect(e) {
     console.log(e);
     if (e.detail.key == "1") {
@@ -26,16 +48,19 @@ Page({
       });
     }
   },
+  //用户名输入
   usernameInput(e) {
     this.setData({
       username: e.detail.value,
     });
   },
+  //密码输入
   passwordInput(e) {
     this.setData({
       password: e.detail.value,
     });
   },
+  //注册
   handleRegister() {
     //校验
     if (this.data.password == "") {

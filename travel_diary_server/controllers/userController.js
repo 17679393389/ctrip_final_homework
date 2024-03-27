@@ -1,5 +1,6 @@
 // controllers/userController.js
 const User = require("../models/user");
+const passWordEncryption = require("../utils/pwdEncrypt.js");
 
 // 获取所有用户
 exports.getAllUsers = async (req, res) => {
@@ -22,7 +23,9 @@ exports.createUser = async (req, res) => {
     if (user) {
       res.status(403).json({ message: "该昵称已存在" });
     }
-    console.log(req.body);
+    //密码加密
+    const pwd = passWordEncryption(req.body.password);
+    req.body.password = pwd;
     const newUser = await User.create(req.body);
     res.json(newUser);
   } catch (error) {
@@ -85,9 +88,10 @@ exports.loginUser = async (req, res) => {
         username: req.body.username,
       },
     });
+    const pwdHash = passWordEncryption(req.body.password);
     if (!user) {
       res.status(403).json({ message: "用户不存在，请注册哦" });
-    } else if (user.password !== req.body.password) {
+    } else if (user.password !== pwdHash) {
       res.status(404).json({ message: "用户名或密码错误" });
     } else {
       res.json(user);
