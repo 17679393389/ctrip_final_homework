@@ -4,6 +4,8 @@ Page({
   data: {
     username: "",
     password: "",
+    userInfo: {},
+    hasUserInfo: false,
   },
   usernameInput(e) {
     this.setData({
@@ -16,7 +18,7 @@ Page({
     });
   },
 
-  //用户登录注册
+  //用户账号密码登录
   handleLogin() {
     //校验
     if (this.data.username == "" || this.data.password == "") {
@@ -47,13 +49,15 @@ Page({
           "Content-Type": "application/json",
         },
         success: (res) => {
-          console.log(res);
           if (res.statusCode == 200) {
-            app.globalData.userInfo = res.data;
-            wx.setStorageSync("userInfo", JSON.stringify(res.data));
+            app.globalData.userInfo = res.data.user;
+            app.globalData.token = res.data.token;
+            wx.setStorageSync("userInfo", JSON.stringify(res.data.user));
+            wx.setStorageSync("token", res.data.token);
             wx.switchTab({
               url: "/pages/home/home",
             });
+            res.header["Authorization"] = res.data.token;
           } else {
             wx.showToast({
               title: res.data.message,
@@ -71,6 +75,48 @@ Page({
         },
       });
     }
+  },
+
+  //用户授权登录
+  wxLogin() {
+    wx.request({
+      url: baseUrl + "/user/login_wx",
+      data: {
+        openid: wx.getStorageSync("openid"),
+      },
+      header: {
+        "content-type": "application/json",
+      },
+      method: "POST",
+      success: function (res) {
+        //可以把openid保存到本地缓存，方便以后调用
+        wx.setStorageSync("openid", res.data.openid);
+        if (res.statusCode == 200) {
+          console.log(res.data);
+          app.globalData.userInfo = res.data.user;
+          app.globalData.token = res.data.token;
+          wx.setStorageSync("userInfo", JSON.stringify(res.data.user));
+          wx.setStorageSync("token", res.data.token);
+          res.header["Authorization"] = res.data.token;
+          wx.switchTab({
+            url: "/pages/home/home",
+          });
+        } else {
+          wx.showToast({
+            title: res.data.message,
+            icon: "none",
+            duration: 2000,
+          });
+        }
+      },
+      fail: function (error) {
+        wx.showToast({
+          title: error.data.error,
+          icon: "none",
+          duration: 2000,
+        });
+      },
+    });
   },
   toRegister() {
     wx.navigateTo({

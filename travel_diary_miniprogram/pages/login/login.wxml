@@ -22,6 +22,6 @@
     </view>
     <view class="login-bt">
     <l-button size="large" shape="circle" type="warning"  width="650" bind:lintap="handleLogin">账号密码登录</l-button>
-    <l-button size="large" shape="circle" l-class="login-grant" width="650">一键登录</l-button>
+    <l-button size="large" shape="circle" l-class="login-grant" width="650" bind:lintap="wxLogin">一键登录</l-button>
 </view>
 </view>

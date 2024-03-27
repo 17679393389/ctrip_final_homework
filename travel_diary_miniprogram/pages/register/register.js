@@ -9,6 +9,8 @@ Page({
     gender: "1",
     male: "../../images/男已选中.png",
     female: "../../images/女未选中.png",
+    uploadImg: 0, //记录上传图片的状态
+    genderOp: 0, //记录性别选择
   },
   //选择头像
   onChooseAvatar() {
@@ -19,6 +21,7 @@ Page({
       success(res) {
         that.setData({
           avatarUrl: res.tempFiles[0].path,
+          uploadImg: 1,
         });
       },
       fail(res) {
@@ -33,7 +36,6 @@ Page({
 
   //性别选择
   genderSelect(e) {
-    console.log(e);
     if (e.detail.key == "1") {
       this.setData({
         gender: e.detail.key,
@@ -47,6 +49,9 @@ Page({
         male: "../../images/男未选中.png",
       });
     }
+    this.setData({
+      genderOp: 1,
+    });
   },
   //用户名输入
   usernameInput(e) {
@@ -79,40 +84,66 @@ Page({
       });
       return;
     } else {
-      const userInfo = {
-        username: this.data.username,
-        password: this.data.password,
-        avatarUrl: this.data.avatarUrl,
-        gender: this.data.gender,
-      };
-      console.log(userInfo);
-      wx.request({
-        url: baseUrl + "/user/register",
-        data: userInfo,
-        method: "POST",
-        header: {
-          "Content-Type": "application/json",
-        },
-        success: (res) => {
-          console.log(res);
-          if (res.statusCode == 200) {
-            app.globalData.userInfo = res.data;
-            wx.setStorageSync("userInfo", JSON.stringify(res.data));
-            wx.switchTab({
-              url: "/pages/home/home",
-            });
-          } else {
-            wx.showToast({
-              title: res.data.message,
-              icon: "none",
-              duration: 2000,
-            });
+      const that = this;
+      wx.getUserProfile({
+        desc: "展示用户信息",
+        success: function (res) {
+          const userInfo = {
+            username: that.data.username,
+            nickname: res.userInfo.nickName,
+            password: that.data.password,
+            avatarUrl: that.data.avatarUrl,
+            gender: that.data.gender,
+            openid: wx.getStorageSync("openid"),
+          };
+          //判断是否需要换头像
+          if (that.data.uploadImg == 0) {
+            userInfo.avatarUrl = res.userInfo.avatarUrl;
           }
+          //判断是否需要换性别
+          if (that.data.genderOp == 0) {
+            userInfo.gender = res.userInfo.gender;
+          }
+          console.log(userInfo);
+          wx.request({
+            url: baseUrl + "/user/register",
+            data: userInfo,
+            method: "POST",
+            header: {
+              "Content-Type": "application/json",
+            },
+            success: (res) => {
+              console.log(res);
+              if (res.statusCode == 200) {
+                app.globalData.userInfo = res.data;
+                app.globalData.token = res.data.token;
+                wx.setStorageSync("userInfo", JSON.stringify(res.data));
+                wx.setStorageSync("token", res.data.token);
+                res.header["Authorization"] = res.data.token;
+                wx.switchTab({
+                  url: "/pages/home/home",
+                });
+              } else {
+                wx.showToast({
+                  title: res.data.message,
+                  icon: "none",
+                  duration: 2000,
+                });
+              }
+            },
+            fail: (res) => {
+              console.log(res);
+              wx.showToast({
+                title: res.data.error,
+                icon: "none",
+                duration: 2000,
+              });
+            },
+          });
         },
-        fail: (res) => {
-          console.log(res);
+        fail: function (res) {
           wx.showToast({
-            title: res.data.error,
+            title: "获取用户信息失败，请重试",
             icon: "none",
             duration: 2000,
           });
