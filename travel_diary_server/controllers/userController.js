@@ -35,6 +35,27 @@ exports.createUser = async (req, res) => {
   }
 };
 
+//用户登录
+exports.loginUser = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        username: req.body.username,
+      },
+    });
+    if (!user) {
+      res.status(403).json({ message: "用户不存在，请注册哦" });
+    } else if (user.password !== req.body.password) {
+      res.status(404).json({ message: "用户名或密码错误" });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+      res.json(user);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // 根据 ID 获取用户
 exports.getUserById = async (req, res) => {
   try {
