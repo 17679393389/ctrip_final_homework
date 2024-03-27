@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "l-button":"/miniprogram_npm/lin-ui/button/index",
+    "l-input":"/miniprogram_npm/lin-ui/input/index",
+    "l-icon":"/miniprogram_npm/lin-ui/icon/index",
+    "l-avatar":"/miniprogram_npm/lin-ui/avatar/index",
+    "l-radio-group":"/miniprogram_npm/lin-ui/radio-group/index",
+    "l-radio":"/miniprogram_npm/lin-ui/radio/index"
+  },
+  "navigationStyle": "custom"
+}

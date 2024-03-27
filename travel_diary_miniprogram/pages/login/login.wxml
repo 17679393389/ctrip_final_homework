@@ -1,0 +1,27 @@
+<view class="login">
+    <l-button special="{{true}}" l-class="back">
+       <l-icon name="left" color="#707070"/>
+    </l-button>
+    <image src="../../images/login.png"></image>
+    <view class="login-container">
+        <view class="login-text">
+            <text>你好~</text>
+            <text>开始记录你的旅行日记吧~</text>
+        </view>
+        <l-input width="650" label-width="90" placeholder="请输入用户名" l-class="input" bind:lininput="usernameInput">
+            <view class="nickname" slot="left">
+                <l-icon name="user" color="#707070" />  
+            </view>
+        </l-input>
+        <l-input width="650" type="password" label-width="90" placeholder="请输入8-16位的密码" l-class="input" bind:lininput="passwordInput">
+            <view class="password" slot="left">
+                <l-icon name="password" color="#707070"/> 
+            </view>
+        </l-input>
+        <text class="toRegister"  bindtap="toRegister">没有账户？注册</text>
+    </view>
+    <view class="login-bt">
+    <l-button size="large" shape="circle" type="warning"  width="650" bind:lintap="handleLogin">账号密码登录</l-button>
+    <l-button size="large" shape="circle" l-class="login-grant" width="650">一键登录</l-button>
+</view>
+</view>

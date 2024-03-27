@@ -2,6 +2,8 @@
 const User = require("../models/user");
 const Love = require("../models/love_"); // 引入Love 和 Follow 模型
 const Follow = require("../models/follow"); // 引入Love 和 Follow 模型
+const passWordEncryption = require("../utils/pwdEncrypt.js");
+
 // 获取所有用户
 exports.getAllUsers = async (req, res) => {
   try {
@@ -15,10 +17,21 @@ exports.getAllUsers = async (req, res) => {
 // 创建新用户
 exports.createUser = async (req, res) => {
   try {
-    const user = await User.create(req.body);
-    res.status(201).json(user);
+    const user = await User.findOne({
+      where: {
+        username: req.body.username,
+      },
+    });
+    if (user) {
+      res.status(403).json({ message: "该昵称已存在" });
+    }
+    //密码加密
+    const pwd = passWordEncryption(req.body.password);
+    req.body.password = pwd;
+    const newUser = await User.create(req.body);
+    res.json(newUser);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -60,7 +73,7 @@ exports.deleteUser = async (req, res) => {
       where: { id: req.params.id },
     });
     if (deleted) {
-      res.status(204).send();
+      res.status(200).send();
     } else {
       res.status(404).json({ message: "User not found" });
     }

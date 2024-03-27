@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : MySQL8.0
+ Source Server         : test
  Source Server Type    : MySQL
- Source Server Version : 80032
+ Source Server Version : 80018
  Source Host           : localhost:3306
  Source Schema         : travel_diary
 
  Target Server Type    : MySQL
- Target Server Version : 80032
+ Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 26/03/2024 16:07:02
+ Date: 27/03/2024 10:32:02
 */
 
 SET NAMES utf8mb4;
@@ -22,14 +22,14 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '主键，自增',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键，自增',
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '管理员账号',
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '管理员密码',
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '头像',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '姓名',
-  `role` tinyint(0) NULL DEFAULT 0 COMMENT '角色：0-审核人员，只能审核游记通过或者拒绝。1-管理员，可以通过、拒绝和删除游记',
+  `role` tinyint(4) NULL DEFAULT 0 COMMENT '角色：0-审核人员，只能审核游记通过或者拒绝。1-管理员，可以通过、拒绝和删除游记',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of admin
@@ -41,21 +41,21 @@ INSERT INTO `admin` VALUES (1, 'qsl', '123456', 'https://it-recite.oss-cn-shenzh
 -- ----------------------------
 DROP TABLE IF EXISTS `diary`;
 CREATE TABLE `diary`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '主键，自增',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键，自增',
   `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '游记标题',
   `content` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '游记内容',
   `photo` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '游记配图的url，支持多图',
   `label` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '游记标签，例如：攻略/风景/摄影/美食/住宿',
-  `create_by` int(0) NULL DEFAULT NULL COMMENT '创建人的用户id',
-  `create_at` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最近的更新时间',
+  `create_by` int(11) NULL DEFAULT NULL COMMENT '创建人的用户id',
+  `create_at` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '最近的更新时间',
   `checked_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '审核员的用户名',
-  `checked_at` datetime(0) NULL DEFAULT NULL COMMENT '审核时间',
-  `checked_status` tinyint(0) NULL DEFAULT -1 COMMENT '-1：审核中，0：拒绝，1：通过，默认-1',
+  `checked_at` datetime NULL DEFAULT NULL COMMENT '审核时间',
+  `checked_status` tinyint(4) NULL DEFAULT -1 COMMENT '-1：审核中，0：拒绝，1：通过，默认-1',
   `checked_opinion` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '审核意见',
-  `is_deleted` tinyint(0) NULL DEFAULT 0 COMMENT '是否删除，0：拒绝，1：通过，默认为0',
+  `is_deleted` tinyint(4) NULL DEFAULT 0 COMMENT '是否删除，0：拒绝，1：通过，默认为0',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of diary
@@ -78,14 +78,30 @@ INSERT INTO `diary` VALUES (12, '牛首山', '佛教圣地', 'https://it-recite.
 -- ----------------------------
 DROP TABLE IF EXISTS `follow`;
 CREATE TABLE `follow`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '主键，自增',
-  `up_id` int(0) NULL DEFAULT NULL COMMENT '博主的用户id',
-  `fans_id` int(0) NULL DEFAULT NULL COMMENT '粉丝的id',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键，自增',
+  `up_id` int(11) NULL DEFAULT NULL COMMENT '博主的用户id',
+  `fans_id` int(11) NULL DEFAULT NULL COMMENT '粉丝的id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of follow
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for like
+-- ----------------------------
+DROP TABLE IF EXISTS `like`;
+CREATE TABLE `like`  (
+  `id` int(11) NOT NULL COMMENT '主键，自增',
+  `diary_id` int(11) NULL DEFAULT NULL COMMENT '游记id',
+  `author_id` int(11) NULL DEFAULT NULL COMMENT '作者id',
+  `like_count` int(11) NULL DEFAULT 0 COMMENT '点赞数，默认为0',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of like
 -- ----------------------------
 
 -- ----------------------------
@@ -93,12 +109,12 @@ CREATE TABLE `follow`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `love`;
 CREATE TABLE `love`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '主键，自增',
-  `diary_id` int(0) NULL DEFAULT NULL COMMENT '游记id',
-  `author_id` int(0) NULL DEFAULT NULL COMMENT '作者id',
-  `like_count` int(0) NULL DEFAULT 0 COMMENT '点赞数，默认为0',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键，自增',
+  `diary_id` int(11) NULL DEFAULT NULL COMMENT '游记id',
+  `author_id` int(11) NULL DEFAULT NULL COMMENT '作者id',
+  `like_count` int(11) NULL DEFAULT 0 COMMENT '点赞数，默认为0',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of love
@@ -121,20 +137,22 @@ INSERT INTO `love` VALUES (12, 12, 1, 5);
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '主键，自增',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键，自增',
   `openid` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '微信用户唯一标识，从微信官方获取',
   `avatarUrl` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '用户头像地址',
-  `gender` tinyint(0) NULL DEFAULT NULL COMMENT '性别：0代表女，1代表男',
+  `gender` tinyint(4) NULL DEFAULT NULL COMMENT '性别：0代表女，1代表男',
   `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '用户在应用内的名字',
   `nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '用户微信昵称',
   `phone` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL COMMENT '手机号码',
   `tips` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '个性签名',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '用户登录密码',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'fefafa', 'https://it-recite.oss-cn-shenzhen.aliyuncs.com/2b56fa24d81742f48531e00079e41101.jpg', 1, '哆啦A梦', 'sl', '1765454545', '少说多做');
+INSERT INTO `user` VALUES (1, 'fefafa', 'https://it-recite.oss-cn-shenzhen.aliyuncs.com/2b56fa24d81742f48531e00079e41101.jpg', 1, '哆啦A梦', 'sl', '1765454545', '少说多做', NULL);
+INSERT INTO `user` VALUES (2, NULL, 'http://tmp/5zQhBCigC6WLe05551318a71e1b68871908f67fdc4b7.jpg', 1, '酸甜土豆丝', NULL, NULL, NULL, 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f');
 
 SET FOREIGN_KEY_CHECKS = 1;
