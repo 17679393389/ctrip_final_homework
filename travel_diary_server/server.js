@@ -10,7 +10,7 @@ const sequelize = require('./utils/db_connection')
 const app = express();
 const cors = require('cors');
 const session = require('express-session');
-
+const ipRateLimit = require('./utils/ipRateLimit');
 // 使用 CORS 中间件
 app.use(cors());
 
@@ -24,7 +24,8 @@ app.use(session({
   saveUninitialized: true, // 是否自动保存未初始化的 session 数据，true 表示每次请求都会创建一个 session，即使用户未登录
 }));
 
-
+// 限制请求频率
+app.use(ipRateLimit);
 
 // 设置路由
 app.use('/user', userRoutes);
