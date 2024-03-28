@@ -18,7 +18,7 @@ const checkTokenExpiration = (req, res, next) => {
         console.log("token要过期了",decoded.user)
     // 从会话中获取用户 ID
       const userId = req.session.userId;
-      const newToken = jwt.sign({id:userId}, secretKey, { expiresIn: "3*24*60*60s" }); // 生成新的 token
+      const newToken = jwt.sign({id:userId}, secretKey, { expiresIn: "259200s" }); // 生成新的 token,时长3天
       console.log(newToken)
       res.set("Authorization", newToken); // 发送新的 token 给用户
     }
