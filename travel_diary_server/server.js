@@ -9,10 +9,22 @@ const followRoutes = require('./routes/followRoutes');
 const sequelize = require('./utils/db_connection')
 const app = express();
 const cors = require('cors');
+const session = require('express-session');
+
 // 使用 CORS 中间件
 app.use(cors());
+
 // 解析请求体
 app.use(bodyParser.json());
+
+// 配置 Session 中间件
+app.use(session({
+  secret: 'sdhgfuiashdgisadhgpaeihtwiehgjiashdj', // 用于签名 session ID 的密钥
+  resave: false, // 是否每次请求都重新保存 session，false 表示只有当 session 数据发生变化时才会重新保存
+  saveUninitialized: true, // 是否自动保存未初始化的 session 数据，true 表示每次请求都会创建一个 session，即使用户未登录
+}));
+
+
 
 // 设置路由
 app.use('/user', userRoutes);

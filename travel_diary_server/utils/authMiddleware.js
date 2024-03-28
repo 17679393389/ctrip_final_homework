@@ -9,7 +9,7 @@ const signToken = (res) => {
   // let expires = new Date();
   // expires.setTime(expires.getTime() + 24 * 60 * 60 * 1000);
   return jwt.sign(res, secretKey, {
-    expiresIn: "120s",
+    expiresIn: "3*24*60*60s",   //token有效期为3天
   });
 };
 

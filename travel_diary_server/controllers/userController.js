@@ -121,6 +121,8 @@ exports.loginWithWx = async (req, res) => {
         .status(403)
         .json({ message: "用户不存在，请注册哦", openid: req.body.openid });
     } else {
+       // 保存用户ID到会话中
+       req.session.userId = user.id;
       //生成token
       const token = signToken({ id: req.body.openid });
       // res.json(user);
