@@ -1,0 +1,31 @@
+<view class="page">
+<view class="diaryPublish">
+    <l-button special="{{true}}" l-class="back" bind:lintap="onGoBack">
+        <l-icon size="30" name="left" color="#707070"/>
+     </l-button>
+     <view class="media-container" hover-class="none" hover-stop-propagation="false">
+        <l-image-picker count="9" bind:linchange="onChangeTap" size="3" l-item-class="meida-item" mode="aspectFill"/>
+     </view>
+     <view class="title">
+        <l-input  label-width="0" placeholder="这次的标题是什么呢~" l-input-class="title-input"  bind:lininput="titleInput" />
+     </view>
+     <view class="content">
+        <l-textarea indicator="{{true}}" l-class="content-textarea" height="650" maxlength="200" bind:lininput="contentInput" placeholder="说你想说的吧..."  />
+     </view>
+     <view class="categorize">
+        <l-collapse>
+            <l-collapse-item title="游记类型" l-title-class="cate-title">
+               <l-radio-group l-class="category-radio" placement="row" bind:linchange="onCategorySelect">
+                  <view wx:for="{{category}}" wx:key="index" class="category-item {{index == categoryItem ? 'cateitem-active':''}}">
+                     <l-radio key="{{index}}" custom="{{true}}" l-class="{{index == categoryItem ? 'cateitem-active':''}}">{{item}}</l-radio>
+                  </view>
+              </l-radio-group>
+            </l-collapse-item>
+          </l-collapse>
+     </view>
+    
+</view>
+<view class="publish-bt">
+   <l-button width="650" l-class="publish-bt2" bind:lintap="onDairyPublish"> 发布游记</l-button>
+</view>
+</view>

@@ -40,7 +40,7 @@ App({
         });
       },
     });
-    this.checkLogin();
+    // this.checkLogin();
   },
   globalData: {
     userInfo: null,
@@ -49,7 +49,6 @@ App({
   },
   // 登录检测：token
   checkLogin() {
-    console.log("app launched", wx.getStorageSync("token"));
     //全局变量或缓存中存在token，直接赋值，否则重新登录
     var token = this.globalData.token;
     if (!token) {
@@ -76,7 +75,7 @@ App({
       // 更新全局变量中的 token
       this.globalData.token = newToken;
       // 更新本地存储的 token
-      wx.setStorageSync('token', newToken);
+      wx.setStorageSync("token", newToken);
     }
-  }
+  },
 });

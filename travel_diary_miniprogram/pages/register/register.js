@@ -119,7 +119,6 @@ Page({
                 app.globalData.token = res.data.token;
                 wx.setStorageSync("userInfo", JSON.stringify(res.data));
                 wx.setStorageSync("token", res.data.token);
-                res.header["Authorization"] = res.data.token;
                 wx.switchTab({
                   url: "/pages/home/home",
                 });

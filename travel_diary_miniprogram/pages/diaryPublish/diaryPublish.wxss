@@ -1,0 +1,53 @@
+.diaryPublish{
+    display: flex;
+    flex-direction: column;
+    margin: 5%;
+}
+.media-container{
+    margin-block: 15px;
+}
+.title{
+    margin-bottom: 10px;
+}
+.title .title-input{
+    font-size: 35rpx;
+    color: #3c3c3c;
+}
+.content{
+    margin-bottom: 10px;
+}
+.content-textarea{
+    border: 0 !important;
+    font-size: 30rpx !important;
+    height: 300rpx;
+}
+.categorize{
+    margin-top: 10px;
+}
+.category-radio{
+    display: flex;
+    flex-direction: row;
+}
+.category-item{
+    width: 50px;
+    border: 1px solid #f4ea2a;
+    border-radius: 3px;
+    margin-inline: 5px;
+    transition: background-color 0.2s;
+}
+.cateitem-active{
+    color: #fff !important;
+    background-color:#f4ea2a ;
+}
+.publish-bt{
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.publish-bt2{
+    width: 80%;
+    border-radius: 20px !important;
+    background-color: #f4ea2a !important;
+    color: #fff;
+}

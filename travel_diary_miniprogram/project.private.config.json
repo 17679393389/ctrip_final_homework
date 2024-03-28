@@ -10,6 +10,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "publish",
+          "pathName": "pages/diaryPublish/diaryPublish",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "regitser",
           "pathName": "pages/register/register",
           "query": "",
