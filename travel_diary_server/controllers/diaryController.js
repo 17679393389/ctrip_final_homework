@@ -74,9 +74,7 @@ exports.getDiariesList = async (req, res) => {
     let whereClause = { checked_status: 1 }; // 初始化查询条件对象
 
     if (category !== "1") {
-      switch (
-        category 
-      ) {
+      switch (category) {
         case "2":
           whereClause.label = { [Op.like]: "%攻略%" };
           break;
@@ -125,12 +123,7 @@ exports.getDiariesList = async (req, res) => {
       include: [
         { model: User, attributes: ["username", "avatarUrl"], as: "author" },
         { model: Admin, attributes: ["name"], as: "checked" },
-        {
-          model: Love_,
-          attributes: ["like_count"],
-          as: "love_",
-          where: sequelize.literal('diary.id = love_.diary_id'), // 添加条件，确保 Diary.id 与 Love.diary_id 相等
-        },
+        { model: Love_, attributes: ["like_count"], as: "love_" },
       ], // 关联查询用户表，并指定返回的字段
     });
 
@@ -163,7 +156,6 @@ exports.getDiariesList = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 
 // 按照标题和用户名模糊搜索游记
 exports.searchDiaries = async (req, res) => {
@@ -226,7 +218,7 @@ exports.searchDiaries = async (req, res) => {
 exports.getUserDiaries = async (req, res) => {
   try {
     const { openid, page, pageSize } = req.query; // 获取客户端发送的openid、页码和每页数量参数
-    
+
     // 查询总的记录数
     const totalCount = await Diary.count({
       where: { create_by: openid }, // 添加查询条件，只查询指定用户的游记
@@ -243,7 +235,7 @@ exports.getUserDiaries = async (req, res) => {
       where: { create_by: openid }, // 添加查询条件，只查询指定用户的游记
       offset: offset,
       limit: parseInt(pageSize), // 将每页数量转换为整数
-      order: [['create_at', 'DESC']], // 按创建时间从晚到早排序
+      order: [["create_at", "DESC"]], // 按创建时间从晚到早排序
       include: [
         { model: User, attributes: ["username", "avatarUrl"], as: "author" },
         { model: Admin, attributes: ["name"], as: "checked" },
@@ -279,7 +271,7 @@ exports.getUserDiaries = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};//编辑游记内容
+}; //编辑游记内容
 const updateDiary = (diary) => {
   try {
     const [updated] = Diary.update(diary, {
