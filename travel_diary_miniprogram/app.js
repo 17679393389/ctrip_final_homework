@@ -55,6 +55,7 @@ App({
       token = wx.getStorageSync("token");
       if (token) {
         this.globalData.token = token;
+        this.globalData.userInfo = JSON.parse(wx.getStorageInfoSync("userInfo"))
       } else {
         wx.clearStorageSync();
         wx.showToast(

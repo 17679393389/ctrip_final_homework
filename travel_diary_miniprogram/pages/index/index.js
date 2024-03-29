@@ -63,7 +63,7 @@ Page({
       url: baseUrl + "/user/getUserStats",
       method: "GET",
       data: {
-        author_id: 1,
+        author_id: getApp().globalData.userInfo.id,
       },
       header: {
         Authorization: getApp().globalData.token,
