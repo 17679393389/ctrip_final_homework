@@ -14,7 +14,7 @@ const Love_ = sequelize.define("Love_", {
     unique: false
   },
   author_id: {   //作者id
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
     unique: false
   },

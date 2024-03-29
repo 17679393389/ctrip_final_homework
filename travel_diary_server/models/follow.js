@@ -10,12 +10,12 @@ const Follow = sequelize.define("Follow", {
     primaryKey: true
   },
   up_id: {   //博主的用户id
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
     unique: false
   },
   fans_id: {   //粉丝的用户id
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
     unique: false
   }

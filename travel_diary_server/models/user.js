@@ -6,17 +6,11 @@ const User = sequelize.define(
   "User",
   {
     id: {
-      //用户id
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      unique: true,
-      primaryKey: true,
-    },
-    openid: {
       //微信用户唯一标识
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: true,
       unique: true,
+      primaryKey: true
     },
     avatarUrl: {
       //用户微信头像url

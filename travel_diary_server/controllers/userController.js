@@ -113,7 +113,7 @@ exports.loginWithWx = async (req, res) => {
   try {
     const user = await User.findOne({
       where: {
-        openid: req.body.openid,
+        id: req.body.openid,
       },
     });
     if (!user) {

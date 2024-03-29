@@ -2,7 +2,10 @@
 const express = require("express");
 const router = express.Router();
 const diaryController = require("../controllers/diaryController");
+const { authMiddleware } = require("../utils/authMiddleware");
+const checkTokenExpiration = require("../utils/checkJwtExpiration");
 
+router.get('/getUserDiaries',authMiddleware,checkTokenExpiration,diaryController.getUserDiaries)
 router.get("/", diaryController.getAllDiaries);
 router.get("/getDiariesList", diaryController.getDiariesList);
 router.post("/", diaryController.createDiary);

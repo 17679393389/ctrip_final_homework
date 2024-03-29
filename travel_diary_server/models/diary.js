@@ -34,7 +34,7 @@ const Diary = sequelize.define("Diary", {
     unique: false,
   },
   create_by: {   //创建人用户id
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
     unique: false,
   },
