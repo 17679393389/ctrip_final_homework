@@ -23,18 +23,18 @@ exports.getAllDiaries = async (req, res) => {
 //   }
 // };
 
-// exports.getDiaryById = async (req, res) => {
-//   try {
-//     const diary = await Diary.findByPk(req.params.id);
-//     if (!diary) {
-//       res.status(404).json({ message: "Diary not found" });
-//     } else {
-//       res.json(diary);
-//     }
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
+exports.getDiaryById = async (req, res) => {
+  try {
+    const diary = await Diary.findByPk(req.params.id);
+    if (!diary) {
+      res.status(404).json({ error: "游记丢失了！" });
+    } else {
+      res.json(diary);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 // exports.updateDiary = async (req, res) => {
 //   try {
@@ -212,7 +212,6 @@ exports.searchDiaries = async (req, res) => {
       delete diaryData.love_;
       return diaryData;
     });
-
     res.json({
       totalPages: Math.ceil(diaries.count / pageSize),
       diaries: diariesData,
@@ -226,7 +225,7 @@ exports.searchDiaries = async (req, res) => {
 exports.getUserDiaries = async (req, res) => {
   try {
     const { openid, page, pageSize } = req.query; // 获取客户端发送的openid、页码和每页数量参数
-    
+
     // 查询总的记录数
     const totalCount = await Diary.count({
       where: { create_by: openid }, // 添加查询条件，只查询指定用户的游记
@@ -243,7 +242,7 @@ exports.getUserDiaries = async (req, res) => {
       where: { create_by: openid }, // 添加查询条件，只查询指定用户的游记
       offset: offset,
       limit: parseInt(pageSize), // 将每页数量转换为整数
-      order: [['create_at', 'DESC']], // 按创建时间从晚到早排序
+      order: [["create_at", "DESC"]], // 按创建时间从晚到早排序
       include: [
         { model: User, attributes: ["username", "avatarUrl"], as: "author" },
         { model: Admin, attributes: ["name"], as: "checked" },
@@ -279,14 +278,16 @@ exports.getUserDiaries = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};//编辑游记内容
-const updateDiary = (diary) => {
+};
+
+//编辑游记内容
+const updateDiary = async (diary) => {
   try {
-    const [updated] = Diary.update(diary, {
+    const [updated] = await Diary.update(diary, {
       where: { id: diary.id },
     });
     if (updated) {
-      const newdDiary = Diary.findByPk(diary.id);
+      const newdDiary = await Diary.findByPk(diary.id);
       return { code: 200, data: newdDiary };
     } else {
       return { code: 404, data: "Diary not found" };
@@ -296,24 +297,24 @@ const updateDiary = (diary) => {
   }
 };
 
-const createDiary = (diary) => {
+const createDiary = async (diary) => {
   //默认创建时间为当前时间
   diary.create_at = new Date();
   //默认更新时间为当前时间
   diary.update_time = new Date();
   try {
-    const newdDiary = Diary.create(diary);
+    const newdDiary = await Diary.create(diary);
     return { code: 200, data: newdDiary };
   } catch (error) {
     return { code: 500, data: error.message };
   }
 };
 
-exports.newDiary = async (req, res) => {
+exports.newDiary = (req, res) => {
   try {
     if (req.body.status == 1) {
       //编辑状态
-      const result = await updateDiary(req.body.diary);
+      const result = updateDiary(req.body.diary);
       if (result.code == 200) {
         res.json(result.data);
       } else if (result.code == 404) {
@@ -322,7 +323,7 @@ exports.newDiary = async (req, res) => {
         res.status(500).json({ error: result.data });
       }
     } else {
-      const result = await createDiary(req.body.diary);
+      const result = createDiary(req.body.diary);
       if (result.code == 200) {
         res.json(result.data);
       } else {

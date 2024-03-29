@@ -6,29 +6,18 @@ Page({
     category: ["攻略", "美食", "风景", "交通", "住宿", "其他"],
     photoList: [],
     categoryItem: 5,
-    status: 0, //记录是新发布状态还是编辑状态 默认新发布
+    status: 0, //记录是新发布状态还是编辑状态 默认新发布,
+    diary: null, //记录编辑的游记信息
   },
   onLoad(options) {
-    // options.d_id = "14";
     //判断是新发布还是编辑
     if (options && "d_id" in options) {
       //拿到需要编辑的游记信息并渲染在本页面
       this.setData({
         status: 1, //记录是编辑状态
       });
-      const diaryId = options.d_id;
-      wx.request({
-        url: "",
-        method: "POST",
-        data: diaryId,
-        header: {
-          "Content-Type": "application/json",
-          Authorization: wx.getStorageSync("token"),
-        },
-        success: (res) => {},
-      });
+      this.getDiaryInfo(options.d_id);
     }
-    console.log("游记发布", options, this.data.status);
   },
 
   //图片选择
@@ -59,13 +48,6 @@ Page({
 
   //游记发布
   onDairyPublish() {
-    if (wx.getStorageSync("userInfo") == null) {
-      wx.showToast({
-        title: "请先登录再发表哦~",
-        icon: "none",
-      });
-      return;
-    }
     //校验
     if (
       !this.data.title ||
@@ -104,7 +86,7 @@ Page({
         },
         success: (res) => {
           //监听token状态
-          getApp().listenForNewToken(res);
+          app.listenForNewToken(res);
           if (res.statusCode == 200) {
             console.log(res.data);
             wx.showToast({
@@ -129,7 +111,6 @@ Page({
             app.globalData.token = "";
             app.globalData.userInfo = null;
           } else {
-            console.log(res.data);
             wx.showToast({
               title: res.data.error,
               icon: "none",
@@ -144,6 +125,51 @@ Page({
   onGoBack() {
     wx.navigateBack({
       delta: 1,
+    });
+  },
+  //获取编辑信息
+  getDiaryInfo(diaryId) {
+    let that = this;
+    wx.request({
+      url: app.globalData.baseUrl + "/diary/" + diaryId,
+      method: "GET",
+      header: {
+        "Content-Type": "application/json",
+        Authorization: wx.getStorageSync("token"),
+      },
+      success: (res) => {
+        if (res.statusCode == 200) {
+          //监听token状态
+          app.listenForNewToken(res);
+          let label = that.data.category.indexOf(res.data.label);
+          if (label == -1) {
+            label = 5;
+          }
+          that.setData({
+            title: res.data.title,
+            content: res.data.content,
+            categoryItem: label,
+            photoList: res.data.photo.split(","),
+            diary: res.data,
+          });
+        } else if (res.statusCode == 401) {
+          wx.showToast({
+            title: "请先登录再发表哦~",
+            icon: "none",
+          });
+          //用户状态过期或未登录清除缓存和全局变量
+          wx.removeStorageSync("token");
+          wx.removeStorageSync("userInfo");
+          app.globalData.token = "";
+          app.globalData.userInfo = null;
+        } else {
+          wx.showToast({
+            title: res.data.error,
+            icon: "none",
+            duration: 2000,
+          });
+        }
+      },
     });
   },
 });

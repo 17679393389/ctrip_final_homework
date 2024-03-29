@@ -9,7 +9,12 @@ router.get('/getUserDiaries',authMiddleware,checkTokenExpiration,diaryController
 router.get("/", diaryController.getAllDiaries);
 router.get("/getDiariesList", diaryController.getDiariesList);
 // router.post("/", diaryController.createDiary);
-// router.get('/:id', diaryController.getDiaryById);
+router.get(
+  "/:id",
+  authMiddleware,
+  checkTokenExpiration,
+  diaryController.getDiaryById
+);
 // router.put("/:id", diaryController.updateDiary);
 router.delete("/:id", diaryController.deleteDiary);
 router.get("/searchDiaries", diaryController.searchDiaries);
