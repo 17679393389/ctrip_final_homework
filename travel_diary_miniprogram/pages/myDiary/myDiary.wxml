@@ -1,0 +1,2 @@
+<!--pages/myDiary/myDiary.wxml-->
+<myDiaryCard myDiaryList="{{myDiaryList}}" />

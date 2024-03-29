@@ -1,0 +1,17 @@
+.content {
+  margin-top: 10px;
+  margin-bottom: 15px;
+  font-size: 13px;
+}
+.publish_date{
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+.checked_opinion{
+  color: rgb(238, 87, 87);
+  font-size: 12px;
+}
+
+.username{
+  font-size: 12px;
+}

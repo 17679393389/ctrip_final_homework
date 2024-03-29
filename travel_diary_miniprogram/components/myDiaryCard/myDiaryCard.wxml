@@ -1,0 +1,29 @@
+<view class="diary-list">
+  <block wx:for="{{ myDiaryList }}" wx:key="index">
+  
+    <l-card type="primary" image="{{ item.photoList[0] }}" title="{{ item.title }}" bindtap="onDiaryCardTap" data-index="{{ index }}">
+    <view wx:if="{{item.checked_status === 0}}">
+      <l-tag font-color="rgb(238, 87, 87)" plain="{{true}}">{{item.checked_opinion}}</l-tag>
+    </view>
+    <view wx:if="{{item.checked_status === -1}}">
+      <l-tag font-color="rgb(238, 87, 87)" plain="{{true}}">审核中l-card</l-tag>
+    </view>
+    <view wx:if="{{item.checked_status === 1}}">
+      <l-tag font-color="#93d2f5" plain="{{true}}">通过</l-tag>
+    </view>
+      
+      <!-- 此处为content -->
+      <view class="content">{{ item.content }}</view>
+      <view class="publish_date">{{ item.create_at }}</view>
+      <view style="display: flex; align-items: center; justify-content: space-around;">
+        <l-button size="mini" type="warning">编辑</l-button>
+        <l-button size="mini" type="warning">删除</l-button>
+      </view>
+      <view style="display: flex; align-items: center;">
+        <l-avatar l-text-class = "username" text="{{item.username}}" size="60" src="{{item.avatarUrl}}" />
+        <l-icon name="like" color="#34BFA3" style="margin-left: auto;" />
+        <view style="margin-right: 15rpx; font-family: sans-serif; font-size: 25rpx;">{{item.love_count}}</view>
+      </view>
+    </l-card>
+  </block>
+</view>
