@@ -13,14 +13,14 @@ exports.getAllDiaries = async (req, res) => {
   }
 };
 
-exports.createDiary = async (req, res) => {
-  try {
-    const diary = await Diary.create(req.body);
-    res.status(201).json(diary);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
+// exports.createDiary = async (req, res) => {
+//   try {
+//     const diary = await Diary.create(req.body);
+//     res.status(201).json(diary);
+//   } catch (error) {
+//     res.status(400).json({ error: error.message });
+//   }
+// };
 
 // exports.getDiaryById = async (req, res) => {
 //   try {
@@ -35,21 +35,21 @@ exports.createDiary = async (req, res) => {
 //   }
 // };
 
-exports.updateDiary = async (req, res) => {
-  try {
-    const [updated] = await Diary.update(req.body, {
-      where: { id: req.params.id },
-    });
-    if (updated) {
-      const updatedDiary = await Diary.findByPk(req.params.id);
-      res.json(updatedDiary);
-    } else {
-      res.status(404).json({ message: "Diary not found" });
-    }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+// exports.updateDiary = async (req, res) => {
+//   try {
+//     const [updated] = await Diary.update(req.body, {
+//       where: { id: req.params.id },
+//     });
+//     if (updated) {
+//       const updatedDiary = await Diary.findByPk(req.params.id);
+//       res.json(updatedDiary);
+//     } else {
+//       res.status(404).json({ message: "Diary not found" });
+//     }
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
 
 exports.deleteDiary = async (req, res) => {
   try {
@@ -72,31 +72,38 @@ exports.getDiariesList = async (req, res) => {
     const { page, pageSize, category } = req.query; // 获取客户端发送的页码和每页数量参数
     let whereClause = { checked_status: 1 }; // 初始化查询条件对象
 
-    if (category !== '1') {
-      switch (category) { // 将 category 转换为数字
-        case '2':
-          whereClause.label = { [Op.like]: '%攻略%' };
+    if (category !== "1") {
+      switch (
+        category // 将 category 转换为数字
+      ) {
+        case "2":
+          whereClause.label = { [Op.like]: "%攻略%" };
           break;
-        case '3':
-          whereClause.label = { [Op.like]: '%风景%' };
+        case "3":
+          whereClause.label = { [Op.like]: "%风景%" };
           break;
-        case '4':
-          whereClause.label = { [Op.like]: '%美食%' };
+        case "4":
+          whereClause.label = { [Op.like]: "%美食%" };
           break;
-        case '5':
-          whereClause.label = { [Op.like]: '%交通%' };
+        case "5":
+          whereClause.label = { [Op.like]: "%交通%" };
           break;
-        case '6':
-          whereClause.label = { [Op.like]: '%住宿%' };
+        case "6":
+          whereClause.label = { [Op.like]: "%住宿%" };
           break;
-        case '7':
-          whereClause.label = { [Op.notLike]: '%攻略%', [Op.notLike]: '%风景%', [Op.notLike]: '%美食%', [Op.notLike]: '%交通%', [Op.notLike]: '%住宿%' };
+        case "7":
+          whereClause.label = {
+            [Op.notLike]: "%攻略%",
+            [Op.notLike]: "%风景%",
+            [Op.notLike]: "%美食%",
+            [Op.notLike]: "%交通%",
+            [Op.notLike]: "%住宿%",
+          };
           break;
         default:
           break;
       }
     }
-    
 
     // 查询总的记录数
     const totalCount = await Diary.count({
@@ -111,7 +118,7 @@ exports.getDiariesList = async (req, res) => {
 
     // 查询符合条件的游记数据
     const diaries = await Diary.findAll({
-      where: { ...whereClause,checked_status: 1 }, // 添加查询条件，只查询 checked_status 字段为 1 （审核通过的） 的游记
+      where: { ...whereClause, checked_status: 1 }, // 添加查询条件，只查询 checked_status 字段为 1 （审核通过的） 的游记
       offset: offset,
       limit: parseInt(pageSize), // 将每页数量转换为整数
       include: [
@@ -151,7 +158,6 @@ exports.getDiariesList = async (req, res) => {
   }
 };
 
-
 // 按照标题和用户名模糊搜索游记
 exports.searchDiaries = async (req, res) => {
   try {
@@ -164,12 +170,12 @@ exports.searchDiaries = async (req, res) => {
           { title: { [Op.like]: `%${keyword}%` } }, // 标题包含关键字
           // 使用关联查询，根据用户名搜索游记
           {
-            '$author.username$': {
-              [Op.like]: `%${keyword}%`
-            }
-          }
+            "$author.username$": {
+              [Op.like]: `%${keyword}%`,
+            },
+          },
         ],
-        checked_status: 1 // 只查询审核通过的游记
+        checked_status: 1, // 只查询审核通过的游记
       },
       include: [
         { model: User, attributes: ["username", "avatarUrl"], as: "author" },
@@ -177,16 +183,16 @@ exports.searchDiaries = async (req, res) => {
         { model: Love_, attributes: ["like_count"], as: "love_" },
       ], // 关联查询用户表，并指定返回的字段
       offset,
-      limit: parseInt(pageSize)
+      limit: parseInt(pageSize),
     });
 
     // 将 Sequelize 模型对象转换成普通的 JavaScript 对象，并处理时间戳字段等
-    const diariesData = diaries.rows.map(diary => {
+    const diariesData = diaries.rows.map((diary) => {
       const diaryData = diary.toJSON();
       diaryData.create_at = new Date(diaryData.create_at).toLocaleString();
       diaryData.update_time = new Date(diaryData.update_time).toLocaleString();
       diaryData.checked_at = new Date(diaryData.checked_at).toLocaleString();
-      diaryData.photoList = diaryData.photo.split(',').map(url => url.trim());
+      diaryData.photoList = diaryData.photo.split(",").map((url) => url.trim());
       // 从关联的用户表中获取用户名和头像 URL
       diaryData.username = diaryData.author.username;
       diaryData.avatarUrl = diaryData.author.avatarUrl;
@@ -202,12 +208,64 @@ exports.searchDiaries = async (req, res) => {
 
     res.json({
       totalPages: Math.ceil(diaries.count / pageSize),
-      diaries: diariesData
+      diaries: diariesData,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
+//编辑游记内容
+const updateDiary = (diary) => {
+  try {
+    const [updated] = Diary.update(diary, {
+      where: { id: diary.id },
+    });
+    if (updated) {
+      const newdDiary = Diary.findByPk(diary.id);
+      return { code: 200, data: newdDiary };
+    } else {
+      return { code: 404, data: "Diary not found" };
+    }
+  } catch (error) {
+    return { code: 500, data: error.message };
+  }
+};
 
+const createDiary = (diary) => {
+  //默认创建时间为当前时间
+  diary.create_at = new Date();
+  //默认更新时间为当前时间
+  diary.update_time = new Date();
+  try {
+    const newdDiary = Diary.create(diary);
+    return { code: 200, data: newdDiary };
+  } catch (error) {
+    return { code: 500, data: error.message };
+  }
+};
 
+exports.newDiary = async (req, res) => {
+  try {
+    if (req.body.status == 1) {
+      //编辑状态
+      const result = await updateDiary(req.body.diary);
+      if (result.code == 200) {
+        res.json(result.data);
+      } else if (result.code == 404) {
+        res.status(404).json({ error: result.data });
+      } else {
+        res.status(500).json({ error: result.data });
+      }
+    } else {
+      const result = await createDiary(req.body.diary);
+      if (result.code == 200) {
+        res.json(result.data);
+      } else {
+        res.status(500).json({ error: result.data });
+      }
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

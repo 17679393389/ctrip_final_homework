@@ -17,8 +17,8 @@ Page({
     canIUseGetUserProfile: wx.canIUse("getUserProfile"),
     canIUseNicknameComp: wx.canIUse("input.type.nickname"),
   },
-  onLoad(){
-    this.getFollowFansLove()
+  onLoad() {
+    this.getFollowFansLove();
   },
   bindViewTap() {
     wx.navigateTo({
@@ -57,25 +57,32 @@ Page({
     });
   },
   //获取用户的点赞数、粉丝数 和 关注人数
-  getFollowFansLove(){
-    let that = this
+  getFollowFansLove() {
+    let that = this;
     wx.request({
-      url: baseUrl + '/user/getUserStats',
-      method:'GET',
-      data:{
-        author_id:1
+      url: baseUrl + "/user/getUserStats",
+      method: "GET",
+      data: {
+        author_id: 1,
       },
-      header:{
-        Authorization:getApp().globalData.token
+      header: {
+        Authorization: getApp().globalData.token,
       },
-      success(res){
-        getApp().listenForNewToken(res)
+      success(res) {
+        getApp().listenForNewToken(res);
         // console.log(res)
-        that.setData({love_count:res.data.likeCount,
-          follow_count:res.data.followingCount,
-          fans_count:res.data.followersCount
-        })
-      }
-    })
-  }
+        that.setData({
+          love_count: res.data.likeCount,
+          follow_count: res.data.followingCount,
+          fans_count: res.data.followersCount,
+        });
+      },
+    });
+  },
+  //发布游记
+  publishNewDiary() {
+    wx.navigateTo({
+      url: "/pages/diaryPublish/diaryPublish",
+    });
+  },
 });

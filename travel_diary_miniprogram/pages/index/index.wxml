@@ -21,6 +21,13 @@
         <text class="userinfo-nickname">{{userInfo.nickName}}</text>
       </block>
     </view>
+    <!-- 暂时放置发布按钮 -->
+    <l-button special="{{true}}" bind:lintap="publishNewDiary">
+      <view class="diary-publish-bt">
+        <l-icon size="80" name="add" color="#feae3f" />
+        <!-- <text class="describe">发布游记</text> -->
+      </view>
+    </l-button>
     <view class="usermotto">
       <text class="user-motto">{{motto}}</text>
     </view>
