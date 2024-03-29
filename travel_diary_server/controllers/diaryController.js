@@ -4,6 +4,7 @@ const User = require("../models/user");
 const Admin = require("../models/admin");
 const Love_ = require("../models/love_");
 const { Op } = require("sequelize");
+const sequelize = require("../utils/db_connection");
 exports.getAllDiaries = async (req, res) => {
   try {
     const diaries = await Diary.findAll();
@@ -74,7 +75,7 @@ exports.getDiariesList = async (req, res) => {
 
     if (category !== "1") {
       switch (
-        category // 将 category 转换为数字
+        category 
       ) {
         case "2":
           whereClause.label = { [Op.like]: "%攻略%" };
@@ -124,7 +125,12 @@ exports.getDiariesList = async (req, res) => {
       include: [
         { model: User, attributes: ["username", "avatarUrl"], as: "author" },
         { model: Admin, attributes: ["name"], as: "checked" },
-        { model: Love_, attributes: ["like_count"], as: "love_" },
+        {
+          model: Love_,
+          attributes: ["like_count"],
+          as: "love_",
+          where: sequelize.literal('diary.id = love_.diary_id'), // 添加条件，确保 Diary.id 与 Love.diary_id 相等
+        },
       ], // 关联查询用户表，并指定返回的字段
     });
 
@@ -157,6 +163,7 @@ exports.getDiariesList = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 // 按照标题和用户名模糊搜索游记
 exports.searchDiaries = async (req, res) => {
