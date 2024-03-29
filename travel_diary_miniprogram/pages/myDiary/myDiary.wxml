@@ -1,0 +1,48 @@
+<!--travel_diary_miniprogram/pages/myDiary/myDiary.wxml-->
+<!-- 游记列表 -->
+<view wx:if="{{islogged && noteList.length}}">
+  <view wx:for="{{noteList}}" wx:key="id" class="note-item">
+  <movable-area class="movable-area">
+     <view class="note-item-left">
+      <image class="note-image" src="{{item.photoList[0]}}"></image>
+    </view>   
+    <view class="note-detail">
+      <view class="note-title">{{item.title}}</view>
+      <view class="note-tag">
+          <image wx:if="{{item.label === '攻略'}}" class="note-tag-image" src="../../images/strategy.png"></image>
+          <image wx:elif="{{item.label === '风景'}}" class="note-tag-image" src="../../images/view.png"></image>
+          <image wx:elif="{{item.label === '美食'}}" class="note-tag-image" src="../../images/food.png"></image>
+          <image wx:elif="{{item.label === '交通'}}" class="note-tag-image" src="../../images/tran.png"></image>
+          <image wx:elif="{{item.label === '住宿'}}" class="note-tag-image" src="../../images/lodge.png"></image>
+          <image wx:elif="{{item.label === '其他'}}" class="note-tag-image" src="../../images/others.png"></image>
+          <view>{{ item.label }}</view>
+        </view>
+      <view class="note-time">
+        <l-icon size="24" name="time"/>
+        <view>{{item.create_at}}</view>
+      </view>
+    </view>     
+    <view class="note-item-right">
+        <view wx:if="{{item.checked_status === -1}}" class="note-status status1">待审核</view>
+        <view wx:elif="{{item.checked_status === 0}}" class="note-status status2">审核未通过</view>
+        <view wx:elif="{{item.checked_status === 1}}" class="note-status status3">审核通过</view> 
+    </view>  
+  </movable-area> 
+  </view>
+</view>
+
+<!-- 游记为空 -->
+<view  wx:else class="container">
+  <view class="empty-page">
+    <image wx:if="{{ !islogged }}" src="../../images/notlogin.png"></image>
+    <image wx:elif="{{ noteList.length === 0 }}" src="../../images/empty.png"></image>
+    <view class="empty-text">{{noteList.length === 0 ?emptyDes:''}}</view>
+        <view class="empty-actions">
+            <l-button wx:if="{{ !islogged }}" shape="semicircle" bg-color="#ffb034" bind:lintap="navigateToLogin" >登录</l-button>
+            <l-button wx:elif="{{ noteList.length === 0 }}"  open-type="openSetting" special="{{ true }}" bind:lintap="navigateToPostNote">
+                <l-icon name="add" color="#ffb034" size="60" />
+            </l-button>
+        </view>
+</view>
+</view>
+

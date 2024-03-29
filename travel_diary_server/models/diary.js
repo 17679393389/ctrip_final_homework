@@ -70,4 +70,6 @@ const Diary = sequelize.define("Diary", {
     timestamps: false, // 禁止自动生成 createdAt 和 updatedAt 字段
   });
 
+
+
 module.exports = Diary;

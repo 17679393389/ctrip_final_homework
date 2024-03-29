@@ -62,3 +62,42 @@ exports.deleteDiary = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.getMyNotesList = async (req, res) => {
+  try {
+    const { _page, _limit, user_id} = req.query; 
+    let whereClause = { create_by: user_id  };
+    
+    // 查询总的记录数
+    const totalCount = await Diary.count({
+      where: whereClause
+    });
+
+    // 计算数据库查询偏移量
+    const offset = (_page - 1) * _limit;
+
+    const notes = await Diary.findAll({
+      where: { ...whereClause, create_by: user_id },
+      offset: offset,
+      limit: parseInt(_limit),
+    });
+
+    const notesData = notes.map((diary) => {
+      const noteData = diary.toJSON(); 
+      noteData.create_at = new Date(noteData.create_at).toLocaleString(); 
+      noteData.update_time = new Date(noteData.update_time).toLocaleString(); 
+      noteData.checked_at = new Date(noteData.checked_at).toLocaleString(); 
+      noteData.photoList = noteData.photo.split(",").map((url) => url.trim()); 
+      
+      return noteData;
+    });
+
+    // 返回总页数和查询到的游记数据给前端
+    res.json({
+      totalPages: totalCount,
+      noteList: notesData,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

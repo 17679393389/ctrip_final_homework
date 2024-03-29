@@ -14,6 +14,7 @@ App({
     })
   },
   globalData: {
-    userInfo: null
+    userInfo: {"id":1},
+    baseUrl: "http://localhost:3000/"
   }
 })
