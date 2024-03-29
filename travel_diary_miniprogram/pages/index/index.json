@@ -1,6 +1,8 @@
 {
   "usingComponents": {
-    "followFansLove":"/components/followFansLove/followFansLove"
+    "followFansLove":"/components/followFansLove/followFansLove",
+    "l-button":"/miniprogram_npm/lin-ui/button/index",
+    "l-icon":"/miniprogram_npm/lin-ui/icon/index"
 
   }
 }

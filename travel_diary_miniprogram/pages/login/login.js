@@ -91,7 +91,6 @@ Page({
         //可以把openid保存到本地缓存，方便以后调用
         wx.setStorageSync("openid", res.data.openid);
         if (res.statusCode == 200) {
-          console.log(res.data);
           app.globalData.userInfo = res.data.user;
           app.globalData.token = res.data.token;
           wx.setStorageSync("userInfo", JSON.stringify(res.data.user));
@@ -116,6 +115,7 @@ Page({
       },
     });
   },
+  //注册界面
   toRegister() {
     wx.navigateTo({
       url: "/pages/register/register",
