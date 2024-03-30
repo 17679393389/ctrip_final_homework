@@ -74,9 +74,7 @@ exports.getDiariesList = async (req, res) => {
     let whereClause = { checked_status: 1 }; // 初始化查询条件对象
 
     if (category !== "1") {
-      switch (
-        category 
-      ) {
+      switch (category) {
         case "2":
           whereClause.label = { [Op.like]: "%攻略%" };
           break;
@@ -125,12 +123,7 @@ exports.getDiariesList = async (req, res) => {
       include: [
         { model: User, attributes: ["username", "avatarUrl"], as: "author" },
         { model: Admin, attributes: ["name"], as: "checked" },
-        {
-          model: Love_,
-          attributes: ["like_count"],
-          as: "love_",
-          where: sequelize.literal('diary.id = love_.diary_id'), // 添加条件，确保 Diary.id 与 Love.diary_id 相等
-        },
+        { model: Love_, attributes: ["like_count"], as: "love_" },
       ], // 关联查询用户表，并指定返回的字段
     });
 
@@ -163,7 +156,6 @@ exports.getDiariesList = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 
 // 按照标题和用户名模糊搜索游记
 exports.searchDiaries = async (req, res) => {
@@ -279,15 +271,14 @@ exports.getUserDiaries = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 //编辑游记内容
-const updateDiary = async (diary) => {
+const updateDiary = (diary) => {
   try {
-    const [updated] = await Diary.update(diary, {
+    const [updated] = Diary.update(diary, {
       where: { id: diary.id },
     });
     if (updated) {
-      const newdDiary = await Diary.findByPk(diary.id);
+      const newdDiary = Diary.findByPk(diary.id);
       return { code: 200, data: newdDiary };
     } else {
       return { code: 404, data: "Diary not found" };
@@ -297,24 +288,24 @@ const updateDiary = async (diary) => {
   }
 };
 
-const createDiary = async (diary) => {
+const createDiary = (diary) => {
   //默认创建时间为当前时间
   diary.create_at = new Date();
   //默认更新时间为当前时间
   diary.update_time = new Date();
   try {
-    const newdDiary = await Diary.create(diary);
+    const newdDiary = Diary.create(diary);
     return { code: 200, data: newdDiary };
   } catch (error) {
     return { code: 500, data: error.message };
   }
 };
 
-exports.newDiary = (req, res) => {
+exports.newDiary = async (req, res) => {
   try {
     if (req.body.status == 1) {
       //编辑状态
-      const result = updateDiary(req.body.diary);
+      const result = await updateDiary(req.body.diary);
       if (result.code == 200) {
         res.json(result.data);
       } else if (result.code == 404) {
@@ -323,7 +314,7 @@ exports.newDiary = (req, res) => {
         res.status(500).json({ error: result.data });
       }
     } else {
-      const result = createDiary(req.body.diary);
+      const result = await createDiary(req.body.diary);
       if (result.code == 200) {
         res.json(result.data);
       } else {

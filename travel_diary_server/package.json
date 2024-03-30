@@ -20,7 +20,9 @@
     "sequelize": "^6.37.1"
   },
   "devDependencies": {
+    "ali-oss": "^6.20.0",
     "axios": "^1.6.8",
+    "co": "^4.6.0",
     "crypto-js": "^4.2.0"
   }
 }

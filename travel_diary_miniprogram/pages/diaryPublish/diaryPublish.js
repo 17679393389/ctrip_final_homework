@@ -26,6 +26,31 @@ Page({
       photoList: e.detail.all,
     });
   },
+
+  //图片上传
+  onUploadImage() {
+    const aliyunURL = "https://it-recite.oss-cn-shenzhen.aliyuncs.com";
+    //遍历图片数组，上传图片
+    const validImage = this.data.photoList.map((item) => {
+      //提取图片名称
+      const file = item;
+      const fileName = file.match(/([^\/]+)(\?.*)?$/)[1];
+      wx.uploadFile({
+        url: aliyunURL,
+        filePath: item, //本地图片临时地址
+        name: "file", // 必须填file。
+        formData: {
+          key: "diary/" + fileName, //存储在阿里云的路径
+          policy: wx.getStorageSync("policy"),
+          OSSAccessKeyId: wx.getStorageSync("OSSAccessKeyId"),
+          signature: wx.getStorageSync("signature"),
+        },
+      });
+      return aliyunURL + "/diary/" + fileName;
+    });
+    return validImage;
+  },
+
   //游记标题输入获取
   titleInput(e) {
     this.setData({
@@ -60,9 +85,12 @@ Page({
       });
       return;
     } else {
+      //上传图片
+      const validUrls = this.onUploadImage();
+      console.log(validUrls);
+      let photo = validUrls.join(",");
       //游记信息
       //把图片数组转换为,分割的字符串
-      const photo = this.data.photoList.join(",");
       const diary = {
         title: this.data.title,
         content: this.data.content,
@@ -88,7 +116,6 @@ Page({
           //监听token状态
           app.listenForNewToken(res);
           if (res.statusCode == 200) {
-            console.log(res.data);
             wx.showToast({
               title: "上传成功，请等待审核",
               icon: "none",

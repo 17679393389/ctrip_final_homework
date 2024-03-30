@@ -41,6 +41,16 @@ App({
       },
     });
     // this.checkLogin();
+    //获取签名
+    wx.request({
+      url: baseUrl + "/oss/getPostObjectParams",
+      method: "GET",
+      success: function (res) {
+        wx.setStorageSync("signature", res.data.signature);
+        wx.setStorageSync("policy", res.data.policy);
+        wx.setStorageSync("OSSAccessKeyId", res.data.OSSAccessKeyId);
+      },
+    });
   },
   globalData: {
     userInfo: null,
@@ -55,7 +65,9 @@ App({
       token = wx.getStorageSync("token");
       if (token) {
         this.globalData.token = token;
-        this.globalData.userInfo = JSON.parse(wx.getStorageInfoSync("userInfo"))
+        this.globalData.userInfo = JSON.parse(
+          wx.getStorageInfoSync("userInfo")
+        );
       } else {
         wx.clearStorageSync();
         wx.showToast(
