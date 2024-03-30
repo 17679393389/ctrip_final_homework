@@ -5,7 +5,8 @@ Page({
     hello: "Hi, 给自己设置个形象吧~",
     username: "酸甜土豆丝",
     password: "",
-    avatarUrl: "/images/avatar.jpg",
+    avatarUrl:
+      "https://img2.baidu.com/it/u=1304049920,4025284449&fm=253&fmt=auto?w=800&h=800",
     gender: "1",
     male: "../../images/男已选中.png",
     female: "../../images/女未选中.png",
@@ -32,6 +33,29 @@ Page({
         console.log(res);
       },
     });
+  },
+  //头像上传
+  onUploadImage() {
+    const aliyunURL = "https://it-recite.oss-cn-shenzhen.aliyuncs.com";
+    //遍历图片数组，上传图片
+    const validImage = this.data.photoList.map((item) => {
+      //提取图片名称
+      const file = item;
+      const fileName = file.match(/([^\/]+)(\?.*)?$/)[1];
+      wx.uploadFile({
+        url: aliyunURL,
+        filePath: item, //本地图片临时地址
+        name: "file", // 必须填file。
+        formData: {
+          key: "diary/" + fileName, //存储在阿里云的路径
+          policy: wx.getStorageSync("policy"),
+          OSSAccessKeyId: wx.getStorageSync("OSSAccessKeyId"),
+          signature: wx.getStorageSync("signature"),
+        },
+      });
+      return aliyunURL + "/diary/" + fileName;
+    });
+    return validImage;
   },
 
   //性别选择
@@ -99,7 +123,11 @@ Page({
           //判断是否需要换头像
           if (that.data.uploadImg == 0) {
             userInfo.avatarUrl = res.userInfo.avatarUrl;
+          } else {
+            const validUrls = that.onUploadImage();
+            userInfo.avatarUrl = validUrls[0];
           }
+          console.log("用户头像", userInfo.avatarUrl);
           //判断是否需要换性别
           if (that.data.genderOp == 0) {
             userInfo.gender = res.userInfo.gender;

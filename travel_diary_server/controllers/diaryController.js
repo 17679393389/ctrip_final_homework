@@ -23,18 +23,18 @@ exports.getAllDiaries = async (req, res) => {
 //   }
 // };
 
-// exports.getDiaryById = async (req, res) => {
-//   try {
-//     const diary = await Diary.findByPk(req.params.id);
-//     if (!diary) {
-//       res.status(404).json({ message: "Diary not found" });
-//     } else {
-//       res.json(diary);
-//     }
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
+exports.getDiaryById = async (req, res) => {
+  try {
+    const diary = await Diary.findByPk(req.params.id);
+    if (!diary) {
+      res.status(404).json({ error: "游记丢失了！" });
+    } else {
+      res.json(diary);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 // exports.updateDiary = async (req, res) => {
 //   try {
@@ -204,7 +204,6 @@ exports.searchDiaries = async (req, res) => {
       delete diaryData.love_;
       return diaryData;
     });
-
     res.json({
       totalPages: Math.ceil(diaries.count / pageSize),
       diaries: diariesData,
@@ -271,7 +270,8 @@ exports.getUserDiaries = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}; //编辑游记内容
+};
+//编辑游记内容
 const updateDiary = (diary) => {
   try {
     const [updated] = Diary.update(diary, {
