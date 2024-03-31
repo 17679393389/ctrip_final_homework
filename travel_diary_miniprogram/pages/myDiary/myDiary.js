@@ -17,7 +17,7 @@ Page({
 
   // 生命周期函数--监听页面加载
   onLoad: function (options) {
-    console.log(options)
+    // console.log(options)
     
 
   },
@@ -115,7 +115,7 @@ Page({
         const { noteList, totalPages } = res.data;
         
         if(code == 200) {
-          console.log(noteList.length)
+          // console.log(noteList.length)
           that.setData({
             noteList: that.data.noteList.concat(noteList),
             total:totalPages
@@ -145,5 +145,84 @@ Page({
     wx.navigateTo({
       url: '/pages/login/login' // 替换为目标页面的路径
     });
-  }
+  },
+
+  navigateToEdit: function(e) {
+    let d_id = e.target.dataset.did;
+
+    wx.navigateTo({
+      url: '/pages/diaryPublish/diaryPubish?d_id='+d_id // 替换为目标页面的路径
+    });
+  },
+
+navigateToCheckedDetail: function(e) {
+  let d_id = e.target.dataset.did;
+
+    wx.navigateTo({
+      url: '/pages/checkedDetail/checkedDetail?d_id='+d_id 
+    });
+},
+
+navigateToDiaryDetail: function(e) {
+  let d_id = e.target.dataset.did;
+
+    wx.navigateTo({
+      url: '/pages/diaryDetail/diaryDetail?d_id='+d_id 
+    });
+},
+
+  /**
+     * 处理touchstart事件
+     */
+    handleTouchStart(e) {
+      this.startX = e.touches[0].pageX
+  },
+
+  /**
+   * 处理touchend事件
+   */
+  handleTouchEnd(e) {
+      if (e.changedTouches[0].pageX < this.startX && e.changedTouches[0].pageX - this.startX <= -30) {
+          this.showDeleteButton(e)
+      } else if (e.changedTouches[0].pageX > this.startX && e.changedTouches[0].pageX - this.startX < 30) {
+          this.showDeleteButton(e)
+      } else {
+          this.hideDeleteButton(e)
+      }
+  },
+  /**
+     * 显示删除按钮
+     */
+    showDeleteButton: function (e) {
+      let index = e.currentTarget.dataset.index;
+      this.data.xmove[index] = -65;
+  },
+
+  /**
+   * 隐藏删除按钮
+   */
+  hideDeleteButton: function (e) {
+      let index = e.currentTarget.dataset.index;
+      this.data.xmove[index] = 0;
+  },
+
+  /**
+   * 设置movable-view位移
+   */
+ 
+
+  /**
+   * 处理movable-view移动事件
+   */
+  handleMovableChange: function (e) {
+      if (e.detail.source === 'friction') {
+          if (e.detail.x < -30) {
+              this.showDeleteButton(e)
+          } else {
+              this.hideDeleteButton(e)
+          }
+      } else if (e.detail.source === 'out-of-bounds' && e.detail.x === 0) {
+          this.hideDeleteButton(e)
+      }
+  },
 })

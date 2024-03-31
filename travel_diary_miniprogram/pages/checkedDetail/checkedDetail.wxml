@@ -1,23 +1,15 @@
-<!--travel_diary_miniprogram/pages/diaryDetail/diaryDetail.wxml-->
+<!--pages/checkedDetail/checkedDetail.wxml-->
 <image class="ff" wx:if="{{ noteDetail.photoList.length === 1 }}" src="{{noteDetail.photoList[0]}}"></image>
 <swiper wx:else indicator-dots>
   <swiper-item wx:for="{{noteDetail.photoList}}" wx:key="id">
     <image src="{{item}}" />
   </swiper-item>
 </swiper>
-<!-- avatar -->
-<view class="user-avatar">
-  <view class="avatar-left">
-        <image mode="widthFix"  lazy-load src="{{avatarUrl}}"   ></image>
-        <text>{{username}}</text>
-  </view>
-  <l-tag wx:if="{{isNotMe  }}" shape="circle" bg-color="#fff"  font-color="#ffb034" l-class="follow" slot="more" size="large" bind:lintap="">+ 关注</l-tag>
-</view>
 
-<view class="note-detail">
-  <!-- 此处为content -->
+<view class="content-item">
+<view class="content-item-left">
   <view class="note-Title">{{noteDetail.title}}</view>
-  <view wx:if="{{noteDetail.label === '攻略'}}" class="note-tag note-tag-stratege">
+<view wx:if="{{noteDetail.label === '攻略'}}" class="note-tag note-tag-stratege">
   <image  class="note-tag-image" src="../../images/strategy.png"></image>
   <view>{{noteDetail.label}}</view>
 </view>
@@ -41,33 +33,38 @@
   <image  class="note-tag-image" src="../../images/others.png"></image>
   <view>{{noteDetail.label}}</view>
 </view>
-  <view class="avter-content">{{noteDetail.content}}</view>
-  <view class="note-time">
+<view class="note-time">
+        <l-icon size="24" name="time"/>
         <view>{{noteDetail.create_at}}</view>
-  </view>
+      </view>
+</view>
+ <view class="content-item-right">
+  <image class="pass-image" src="../../images/pass.png" />
+ </view> 
+</view>
+<view class="container-detail">
+  <view class="titBar">
+  <image class="tImg" mode="widthFix" src="../../images/titlebg.png"></image>
+        <text class="titName">游记描述</text>
 </view>
 
+<view class="info">
+  <text class="note-content">{{noteDetail.content}}</text>  
+</view>
+</view>
+
+<view class="container-detail">
+  <view class="titBar">
+  <image class="tImg" mode="widthFix" src="../../images/titlebg.png"></image>
+        <text class="titName">审核失败原因</text>
+</view>
+<view class="info">
+  <text class="note-checked-opinion">{{noteDetail.checked_opinion}}</text>  
+</view>
+</view>
+<view style="padding: 38rpx;" ></view>
+
+<view ></view>
 <view class="footer">
-<view class="comment-share">
-  <view class="like-container">
-    <l-icon name="comment" color="#666" size="48" />
-    <view class="number">评论</view>
-  </view>
-  <view class="like-container">
-    <l-icon name="share" color="#666" size="40" />
-    <view class="number">分享</view>
-  </view>
-</view>
-<view class="like-collect">
-  <view class="like-container">
-    <l-icon name="like" color="#666" size="48" bind:lintap=""/>
-    <view wx:if="{{noteDetail.love_count === 0}}" class="number">喜欢</view>
-    <view wx:else class="number">{{noteDetail.love_count}}</view>
-  </view>
-  <view class="like-container">
-    <l-icon name="favor" color="#666" size="48" />
-    <view class="number">收藏</view>
-  </view>
-</view>
-  
+  <l-button shape="semicircle" size="large" bg-color="#ffb034" height="80" bind:lintap="navigateToEdit">重新编辑</l-button>
 </view>

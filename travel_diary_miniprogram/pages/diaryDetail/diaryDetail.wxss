@@ -1,1 +1,162 @@
 /* travel_diary_miniprogram/pages/diaryDetail/diaryDetail.wxss */
+.ff{
+  width: 100%;
+  height: 680rpx;
+}
+
+swiper {
+  height: 680rpx;
+}
+
+swiper image {
+  width: 100%;
+  height: 100%;
+}
+
+.note-Title {
+  font-size: 34rpx;
+  font-weight: bold;
+  margin-bottom: 12rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  letter-spacing:2rpx;
+}
+.note-time {
+  width: 220rpx;
+  display: flex;
+  font-size: 20rpx;
+  align-items: center;
+  padding-top: 30rpx;
+  color: #bfbfbf;
+}
+
+.user-avatar {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10rpx;
+}
+
+.avatar-left {
+  width: 70%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 15rpx;
+}
+.avatar-left image {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50rpx; 
+}
+
+.avatar-left text {
+  padding-left: 15rpx;
+  font-size: 28rpx;
+}
+
+.user-avatar l-tag {
+  width: 20%;
+  margin-right: 15rpx;
+}
+
+.follow {
+  border:1rpx solid #ffb034
+}
+
+.note-detail {
+  padding-left: 15rpx;
+  margin: 15rpx;
+
+}
+
+.avter-content {
+  font-size: 26rpx;
+  letter-spacing: 2rpx;
+
+}
+
+.note-tag {
+  display: flex;
+  height:42rpx;
+  width: 130rpx;
+  background-color:#f5f2f2;
+  letter-spacing:2rpx;
+  border-radius:25rpx;
+  font-size:28rpx;
+  padding: 2rpx 2rpx;
+  justify-content:space-evenly;
+  align-items:center;
+  margin: 20rpx 0rpx;
+}
+
+
+.note-tag-food {
+  background-color: rgb(252, 144, 74);
+}
+
+.note-tag-stratege{
+  background-color: #1296db;
+}
+
+.note-tag-view {
+  background-color: rgb(16, 161, 131);
+}
+
+.note-tag-tran {
+  background-color: rgb(41, 204, 164);
+}
+
+.note-tag-lodge {
+  background-color: rgb(191, 164, 115);
+  /* color: rgb(190, 216, 254); */
+}
+
+.note-tag-others {
+  background-color: #bfbfbf;
+}
+.note-tag-image {
+  height:32rpx;
+  width: 32rpx;
+  display: block;
+}
+
+.footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  border-top: 1rpx solid #eee;
+  height: 80rpx;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #fff;
+}
+
+.comment-share {
+  width: 45%;
+  display: flex;
+  align-items: center;
+}
+
+.like-collect {
+  width: 45%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.like-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-right: 6rpx;
+}
+
+.number {
+  font-size: 26rpx;
+  padding-left: 6rpx;
+  padding-right: 6rpx;
+}

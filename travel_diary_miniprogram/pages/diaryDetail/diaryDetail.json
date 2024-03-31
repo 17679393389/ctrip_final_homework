@@ -1,3 +1,11 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "l-icon":"/miniprogram_npm/lin-ui/icon/index",
+    "l-card":"/miniprogram_npm/lin-ui/card/index",
+    "l-tag":"/miniprogram_npm/lin-ui/tag/index"
+
+  },
+  "navigationBarTitleText": "游记详情",
+  "navigationBarTextStyle": "black",
+  "navigationStyle": "default"
 }

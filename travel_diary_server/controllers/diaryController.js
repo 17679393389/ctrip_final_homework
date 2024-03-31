@@ -1,5 +1,7 @@
 // controllers/diaryController.js
 const Diary = require('../models/diary');
+const User = require('../models/user');
+const Love = require('../models/love');
 
 exports.getAllDiaries = async (req, res) => {
   try {
@@ -85,8 +87,6 @@ exports.getMyNotesList = async (req, res) => {
     const notesData = notes.map((diary) => {
       const noteData = diary.toJSON(); 
       noteData.create_at = new Date(noteData.create_at).toLocaleString(); 
-      noteData.update_time = new Date(noteData.update_time).toLocaleString(); 
-      noteData.checked_at = new Date(noteData.checked_at).toLocaleString(); 
       noteData.photoList = noteData.photo.split(",").map((url) => url.trim()); 
       
       return noteData;
@@ -96,6 +96,58 @@ exports.getMyNotesList = async (req, res) => {
     res.json({
       totalPages: totalCount,
       noteList: notesData,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getMyNoteDetail = async (req, res) => {
+  try {
+    const {d_id} = req.query; 
+    
+    const note = await Diary.findByPk(d_id);
+
+    const noteData = note.toJSON(); 
+    noteData.create_at = new Date(noteData.create_at).toLocaleString(); 
+    noteData.update_time = new Date(noteData.update_time).toLocaleString(); 
+    noteData.checked_at = new Date(noteData.checked_at).toLocaleString(); 
+    noteData.photoList = noteData.photo.split(",").map((url) => url.trim()); 
+
+    res.json({
+      noteDetail:noteData
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getNoteDetail = async (req, res) => {
+  try {
+    const {d_id} = req.query; 
+    
+    // 查询符合条件的游记数据
+    const note = await Diary.findAll({
+      where: {id: d_id}, 
+      include: [
+        { model: User, attributes: ["username", "avatarUrl"], as: "author" },
+        { model: Love, attributes: ["like_count"], as: "love" },
+      ], 
+    });
+
+    const noteData = note[0].toJSON(); 
+    noteData.create_at = new Date(noteData.create_at).toLocaleString(); 
+    noteData.update_time = new Date(noteData.update_time).toLocaleString(); 
+    noteData.checked_at = new Date(noteData.checked_at).toLocaleString(); 
+    noteData.photoList = noteData.photo.split(",").map((url) => url.trim());
+    noteData.username = noteData.author.username;
+    noteData.avatarUrl = noteData.author.avatarUrl;
+    noteData.love_count = noteData.love.like_count;
+    delete noteData.author;
+    delete noteData.love;
+
+    res.json({
+      noteDetail:noteData
     });
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -2,8 +2,9 @@
 <!-- 游记列表 -->
 <view wx:if="{{islogged && noteList.length}}">
   <view wx:for="{{noteList}}" wx:key="id" class="note-item">
-  <movable-area class="movable-area">
-     <view class="note-item-left">
+  <!-- <movable-area> -->
+    <!-- <movable-view out-of-bounds="true" direction="horizontal" x="-65" inertia="true" data-index="{{ index }}" bind:touchend="handleTouchEnd" bindchange="handleMovableChange" bind:touchstart="handleTouchStart"> -->
+      <view class="note-item-left">
       <image class="note-image" src="{{item.photoList[0]}}"></image>
     </view>   
     <view class="note-detail">
@@ -25,11 +26,17 @@
     <view class="note-item-right">
         <view wx:if="{{item.checked_status === -1}}" class="note-status status1">待审核</view>
         <view wx:elif="{{item.checked_status === 0}}" class="note-status status2">审核未通过</view>
-        <view wx:elif="{{item.checked_status === 1}}" class="note-status status3">审核通过</view> 
-    </view>  
-  </movable-area> 
+        <view wx:elif="{{item.checked_status === 1}}" class="note-status status3">审核通过</view>
+        <l-button wx:if="{{item.checked_status === -1}}" type="warning" height="50" shape="semicircle" size="mini" plain="true" bind:lintap="navigateToEdit" data-did="{{item.id}}">重新编辑</l-button> 
+        <l-button wx:elif="{{item.checked_status === 0}}" shape="semicircle" height="50"  size="mini" bg-color="rgb(97, 159, 255)" bind:lintap="navigateToCheckedDetail" data-did="{{item.id}}">查看详情</l-button> 
+        <l-button wx:elif="{{item.checked_status === 1}}" shape="semicircle" height="50"  size="mini" bg-color="rgb(97, 159, 255)" bind:lintap="navigateToDiaryDetail" data-did="{{item.id}}">查看笔记</l-button> 
+    </view> 
+    <!-- </movable-view> -->
+    <!-- <view class="movable_delete_btn" data-id="{{item.id}}" bind:tap="handleDelete"> 删除</view>  -->
+  <!-- </movable-area> -->
   </view>
 </view>
+
 
 <!-- 游记为空 -->
 <view  wx:else class="container">
