@@ -6,7 +6,7 @@ Page({
   // 页面的初始数据
   data: {
     islogged:true,
-    user_id: userInfo.id,
+    user_id: !userInfo ? '':userInfo.id,
     noteList: [] ,// 游记列表数据
     emptyDes:"还未添加游记，快去发布吧~",
     page:1,
@@ -18,7 +18,7 @@ Page({
   // 生命周期函数--监听页面加载
   onLoad: function (options) {
     // console.log(options)
-    
+   
 
   },
 
@@ -135,6 +135,43 @@ Page({
 
   },
 
+  //删除游记
+  deleteNoteItem(e){
+    const d_id = e.target.dataset.did;
+    let that = this;
+
+    wx.showModal({
+      title: '提示',
+      content: '确定删除该游记吗？',
+      confirmColor: "#f16765",
+      success(res) {
+        if (res.confirm) {
+          wx.request({
+            url: baseUrl + 'diary/delete',
+            method:'POST',
+            data:{
+              d_id: d_id
+            },
+            success(res){
+              // console.log('删除成功！')
+              let notes = that.data.noteList;
+              notes = notes.filter(x => x.id !== d_id)
+              that.setData({
+                noteList:notes
+              })
+            }
+          })
+        } 
+      },
+      complete(){
+        
+      }
+    })
+
+    
+
+  },
+
   navigateToPostNote: function() {
     wx.navigateTo({
       url: '/pages/diaryPost/diaryPost' // 替换为目标页面的路径
@@ -171,58 +208,6 @@ navigateToDiaryDetail: function(e) {
     });
 },
 
-  /**
-     * 处理touchstart事件
-     */
-    handleTouchStart(e) {
-      this.startX = e.touches[0].pageX
-  },
 
-  /**
-   * 处理touchend事件
-   */
-  handleTouchEnd(e) {
-      if (e.changedTouches[0].pageX < this.startX && e.changedTouches[0].pageX - this.startX <= -30) {
-          this.showDeleteButton(e)
-      } else if (e.changedTouches[0].pageX > this.startX && e.changedTouches[0].pageX - this.startX < 30) {
-          this.showDeleteButton(e)
-      } else {
-          this.hideDeleteButton(e)
-      }
-  },
-  /**
-     * 显示删除按钮
-     */
-    showDeleteButton: function (e) {
-      let index = e.currentTarget.dataset.index;
-      this.data.xmove[index] = -65;
-  },
 
-  /**
-   * 隐藏删除按钮
-   */
-  hideDeleteButton: function (e) {
-      let index = e.currentTarget.dataset.index;
-      this.data.xmove[index] = 0;
-  },
-
-  /**
-   * 设置movable-view位移
-   */
- 
-
-  /**
-   * 处理movable-view移动事件
-   */
-  handleMovableChange: function (e) {
-      if (e.detail.source === 'friction') {
-          if (e.detail.x < -30) {
-              this.showDeleteButton(e)
-          } else {
-              this.hideDeleteButton(e)
-          }
-      } else if (e.detail.source === 'out-of-bounds' && e.detail.x === 0) {
-          this.hideDeleteButton(e)
-      }
-  },
 })

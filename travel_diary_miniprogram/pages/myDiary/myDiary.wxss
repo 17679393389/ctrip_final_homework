@@ -115,24 +115,32 @@
   font-size:24rpx;
   margin-left: auto;
   padding: 2rpx 4rpx;
+  margin-right: 6rpx;
 }
 
-.note-item-right l-button{
-  margin-top: 86rpx;
-  margin-right: 12rpx;
+.dlt-dt-btn {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 88rpx;
+  
+}
+
+.dlt-dt-btn l-icon {
+  margin-right: 18rpx;
 }
 
 
 .note-status {
   display: flex;
   height:42rpx;
-  width: auto;
+  width: fit-content;
+  padding: 0 16rpx;
   letter-spacing:2rpx;
   background-color: #f5f2f2;
   border-radius:25rpx;
-  
+  margin-left: auto;
   margin-top: 10rpx;
-  margin-right: 12rpx;
   justify-content:center;
   align-items:center;
   font-weight: bolder;

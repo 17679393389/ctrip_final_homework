@@ -2,6 +2,7 @@
 const Diary = require('../models/diary');
 const User = require('../models/user');
 const Love = require('../models/love');
+const Follow = require('../models/follow');
 
 exports.getAllDiaries = async (req, res) => {
   try {
@@ -53,7 +54,7 @@ exports.updateDiary = async (req, res) => {
 exports.deleteDiary = async (req, res) => {
   try {
     const deleted = await Diary.destroy({
-      where: { id: req.params.id }
+      where: { id: req.body.d_id }
     });
     if (deleted) {
       res.status(204).send();
@@ -77,9 +78,9 @@ exports.getMyNotesList = async (req, res) => {
 
     // 计算数据库查询偏移量
     const offset = (_page - 1) * _limit;
-
+    // ...whereClause, create_by: user_id 
     const notes = await Diary.findAll({
-      where: { ...whereClause, create_by: user_id },
+      where: { },
       offset: offset,
       limit: parseInt(_limit),
     });
@@ -131,7 +132,7 @@ exports.getNoteDetail = async (req, res) => {
       where: {id: d_id}, 
       include: [
         { model: User, attributes: ["username", "avatarUrl"], as: "author" },
-        { model: Love, attributes: ["like_count"], as: "love" },
+        { model: Love, attributes: ["like_count"], as: "love"},
       ], 
     });
 
@@ -146,10 +147,24 @@ exports.getNoteDetail = async (req, res) => {
     delete noteData.author;
     delete noteData.love;
 
+    const fans =  await Follow.findAll({
+      attributes:['fans_id'] ,
+      where:{up_id : noteData.create_by}
+    });  
+
+    const fansData = fans.map((fan) => {
+        const fanData = fan.toJSON();
+        return fanData
+    });
+
+    const fanList = fansData.map(item => item.fans_id);
+  
     res.json({
-      noteDetail:noteData
+      noteDetail:noteData,
+      fansData: fanList
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+

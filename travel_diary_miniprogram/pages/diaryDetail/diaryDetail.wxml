@@ -11,8 +11,11 @@
         <image mode="widthFix"  lazy-load src="{{avatarUrl}}"   ></image>
         <text>{{username}}</text>
   </view>
-  <l-tag wx:if="{{isNotMe  }}" shape="circle" bg-color="#fff"  font-color="#ffb034" l-class="follow" slot="more" size="large" bind:lintap="">+ 关注</l-tag>
-</view>
+  <view wx:if="{{ !hasLog || isNotMe }}" class="avatar-right">
+    <l-tag wx:if="{{!hasFollowed}}" shape="circle" bg-color="#fff"  font-color="#ffb034" l-class="follow" slot="more" size="large" bind:lintap="followMe">+ 关注</l-tag>
+    <l-tag wx:else shape="circle" bg-color="#fff"  font-color="#bfbfbf" l-class="follow" slot="more" size="large" bind:lintap="followMe">已关注</l-tag>
+  </view>
+  </view>
 
 <view class="note-detail">
   <!-- 此处为content -->
@@ -47,22 +50,25 @@
   </view>
 </view>
 
-<view class="footer">
+<view class="footer" >
 <view class="comment-share">
-  <view class="like-container">
+  <view class="like-container" bind:tap="commentOn">
     <l-icon name="comment" color="#666" size="48" />
     <view class="number">评论</view>
   </view>
-  <view class="like-container">
+  <l-button special="{{true}}" open-type="share">
+    <view class="like-container" >
     <l-icon name="share" color="#666" size="40" />
     <view class="number">分享</view>
   </view>
+</l-button>
 </view>
 <view class="like-collect">
-  <view class="like-container">
-    <l-icon name="like" color="#666" size="48" bind:lintap=""/>
-    <view wx:if="{{noteDetail.love_count === 0}}" class="number">喜欢</view>
-    <view wx:else class="number">{{noteDetail.love_count}}</view>
+  <view class="like-container" bindtap="likeInfo">
+    <l-icon wx:if="{{!liked}}" name="like" color="#666" size="48" />
+    <l-icon wx:else name="like" color="#f4516C" size="48" bind:lintap="LikeInfo"/>
+    <view wx:if="{{like === 0}}" class="number">喜欢</view>
+    <view wx:else class="number">{{like}}</view>
   </view>
   <view class="like-container">
     <l-icon name="favor" color="#666" size="48" />

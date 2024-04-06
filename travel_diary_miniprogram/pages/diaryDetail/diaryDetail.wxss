@@ -57,10 +57,13 @@ swiper image {
   font-size: 28rpx;
 }
 
-.user-avatar l-tag {
+.avatar-right {
   width: 20%;
   margin-right: 15rpx;
+  display: flex;
+  justify-content: center;
 }
+
 
 .follow {
   border:1rpx solid #ffb034

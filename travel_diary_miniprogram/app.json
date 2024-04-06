@@ -4,7 +4,8 @@
     "pages/index/index",
     "pages/logs/logs",
     "pages/diaryDetail/diaryDetail",
-    "pages/checkedDetail/checkedDetail"
+    "pages/checkedDetail/checkedDetail",
+    "pages/comment/comment"
   ],
   "window": {
     "navigationBarTextStyle": "black",

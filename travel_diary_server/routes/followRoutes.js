@@ -5,6 +5,7 @@ const followController = require('../controllers/followController');
 
 router.get('/', followController.getAllFollows);
 router.post('/', followController.createFollow);
+router.post('/unfollow', followController.unfollow);
 router.get('/:id', followController.getFollowById);
 router.delete('/:id', followController.deleteFollow);
 
