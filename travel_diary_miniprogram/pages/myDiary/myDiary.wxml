@@ -1,6 +1,23 @@
 <!--travel_diary_miniprogram/pages/myDiary/myDiary.wxml-->
+<view class="tabs">
+  <l-tabs equal-width="{{true}}" scrollable="{{true}}" bind:linchange="changeTabs">
+        <l-tabpanel tab="全部" key="1" slot="1">
+        </l-tabpanel>
+        <l-tabpanel tab="待审核" key="2" slot="2">
+        </l-tabpanel>
+        <l-tabpanel tab="审核未通过" key="3" slot="3">
+        </l-tabpanel>
+        <l-tabpanel tab="审核通过" key="4" slot="4">
+        </l-tabpanel>
+</l-tabs>
+<l-button special="{{true}}" bind:lintap="onNavButtonTap" >
+  <l-icon name="add" color="#ffb034"  size="40" />
+</l-button>
+</view>
+
+
 <!-- 游记列表 -->
-<view wx:if="{{islogged && noteList.length}}">
+<view wx:if="{{islogged && noteList.length}}" class="noteList">
   <view wx:for="{{noteList}}" wx:key="id" class="note-item">
   <!-- <movable-area> -->
     <!-- <movable-view out-of-bounds="true" direction="horizontal" x="-65" inertia="true" data-index="{{ index }}" bind:touchend="handleTouchEnd" bindchange="handleMovableChange" bind:touchstart="handleTouchStart"> -->

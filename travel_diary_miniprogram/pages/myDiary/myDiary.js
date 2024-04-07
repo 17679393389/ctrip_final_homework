@@ -15,11 +15,16 @@ Page({
     isLoading:false
   },
 
+  onNavButtonTap:function(){
+    wx.navigateTo({
+      url: '/pages/diaryPublish/diaryPublish' // 替换为目标页面的路径
+    });
+  },
+
   // 生命周期函数--监听页面加载
   onLoad: function (options) {
     // console.log(options)
-   
-
+    this.showNotesList()
   },
 
   // 生命周期函数--监听页面初次渲染完成
@@ -29,7 +34,7 @@ Page({
 
   // 生命周期函数--监听页面显示
   onShow: function () {
-    this.showNotesList()
+  
 
   },
 
@@ -105,9 +110,10 @@ Page({
       url: baseUrl + 'diary/getMyNotesList',
       method: 'GET',
       data:{
-        _page:that.data.page,
-        _limit:that.data.pageSize,
-        user_id:that.data.user_id
+        _page: that.data.page,
+        _limit: that.data.pageSize,
+        user_id: that.data.user_id,
+        status: that.data.tab
       },
       success(res) {
         // console.log(res)
@@ -133,6 +139,18 @@ Page({
       })
 
 
+  },
+
+  changeTabs:function(res){
+    this.setData({
+      page: 1,
+      pageSize:6,
+      tab: res.detail.activeKey,
+      noteList:[],
+      total:0,
+      isLoading:false
+    })
+    this.showNotesList()
   },
 
   //删除游记

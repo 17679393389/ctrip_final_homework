@@ -53,13 +53,18 @@ exports.updateDiary = async (req, res) => {
 
 exports.deleteDiary = async (req, res) => {
   try {
-    const deleted = await Diary.destroy({
+    const deleted_d = await Diary.destroy({
       where: { id: req.body.d_id }
     });
-    if (deleted) {
+
+    const deleted_l = await Love.destroy({
+      where: { diary_id: req.body.d_id }
+    });
+ 
+    if (deleted_d && deleted_l) {
       res.status(204).send();
     } else {
-      res.status(404).json({ message: 'Diary not found' });
+      res.status(404).json({ message: 'Diary details do not found' });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -68,8 +73,24 @@ exports.deleteDiary = async (req, res) => {
 
 exports.getMyNotesList = async (req, res) => {
   try {
-    const { _page, _limit, user_id} = req.query; 
+    const { _page, _limit, user_id, status} = req.query; 
     let whereClause = { create_by: user_id  };
+
+    if (status !== '1') {
+      switch (status) { 
+        case '2':
+          whereClause.checked_status = -1;
+          break;
+        case '3':
+          whereClause.checked_status = 0;
+          break;
+        case '4':
+          whereClause.checked_status = 1;
+          break;
+        default:
+          break;
+      }
+    }
     
     // 查询总的记录数
     const totalCount = await Diary.count({
@@ -78,9 +99,9 @@ exports.getMyNotesList = async (req, res) => {
 
     // 计算数据库查询偏移量
     const offset = (_page - 1) * _limit;
-    // ...whereClause, create_by: user_id 
+  
     const notes = await Diary.findAll({
-      where: { },
+      where: { ...whereClause, create_by: user_id  },
       offset: offset,
       limit: parseInt(_limit),
     });
