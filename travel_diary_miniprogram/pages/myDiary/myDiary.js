@@ -12,7 +12,8 @@ Page({
     page:1,
     pageSize:6,
     total:0,
-    isLoading:false
+    isLoading:false,
+    tab:'1'
   },
 
   onNavButtonTap:function(){
@@ -25,6 +26,7 @@ Page({
   onLoad: function (options) {
     // console.log(options)
     this.showNotesList()
+    
   },
 
   // 生命周期函数--监听页面初次渲染完成
@@ -34,7 +36,7 @@ Page({
 
   // 生命周期函数--监听页面显示
   onShow: function () {
-  
+    
 
   },
 
@@ -122,6 +124,22 @@ Page({
         
         if(code == 200) {
           // console.log(noteList.length)
+          if(that.data.noteList.length === 0){
+            if(that.data.tab === '2'){
+                that.setData({
+                  emptyDes:'没有游记需要待审核~'
+                })
+              }else if(that.data.tab === '3'){
+                that.setData({
+                  emptyDes:'没有游记审核未通过~'
+                })
+              }else{
+                that.setData({
+                emptyDes:"还未添加游记，快去发布吧~"
+                })
+              }
+          }
+          
           that.setData({
             noteList: that.data.noteList.concat(noteList),
             total:totalPages

@@ -10,7 +10,7 @@
         <l-tabpanel tab="审核通过" key="4" slot="4">
         </l-tabpanel>
 </l-tabs>
-<l-button special="{{true}}" bind:lintap="onNavButtonTap" >
+<l-button wx:if="{{ noteList.length !== 0 }}" special="{{true}}" bind:lintap="onNavButtonTap" >
   <l-icon name="add" color="#ffb034"  size="40" />
 </l-button>
 </view>
@@ -68,7 +68,7 @@
     <view class="empty-text">{{noteList.length === 0 ?emptyDes:''}}</view>
         <view class="empty-actions">
             <l-button wx:if="{{ !islogged }}" shape="semicircle" bg-color="#ffb034" bind:lintap="navigateToLogin" >登录</l-button>
-            <l-button wx:elif="{{ noteList.length === 0 }}"  open-type="openSetting" special="{{ true }}" bind:lintap="navigateToPostNote">
+            <l-button wx:elif="{{ noteList.length === 0 && (tab === '1' || tab === '4')}}"  open-type="openSetting" special="{{ true }}" bind:lintap="navigateToPostNote">
                 <l-icon name="add" color="#ffb034" size="60" />
             </l-button>
         </view>
