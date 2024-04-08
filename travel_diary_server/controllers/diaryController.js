@@ -70,30 +70,31 @@ exports.deleteDiary = async (req, res) => {
 //按照分页获取游记
 exports.getDiariesList = async (req, res) => {
   try {
-    const { page, pageSize, category, user_id } = req.query; // 获取客户端发送的页码和每页数量参数
-    let whereClause;
+    let { page, pageSize, category, user_id } = req.query; // 获取客户端发送的页码和每页数量参数
+    let whereClause = {};
     if(!user_id){ // user_id为空，说明发送请求的是小程序用户
       whereClause = { checked_status: 1 }; // 初始化查询条件对象
     }
-
-    if (category !== "1") {
+    category = parseInt(category);
+    console.log(category)
+    if (category !== 1) {
       switch (category) {
-        case "2":
+        case 2:
           whereClause.label = { [Op.like]: "%攻略%" };
           break;
-        case "3":
+        case 3:
           whereClause.label = { [Op.like]: "%风景%" };
           break;
-        case "4":
+        case 4:
           whereClause.label = { [Op.like]: "%美食%" };
           break;
-        case "5":
+        case 5:
           whereClause.label = { [Op.like]: "%交通%" };
           break;
-        case "6":
+        case 6:
           whereClause.label = { [Op.like]: "%住宿%" };
           break;
-        case "7":
+        case 7:
           whereClause.label = {
             [Op.notLike]: "%攻略%",
             [Op.notLike]: "%风景%",
