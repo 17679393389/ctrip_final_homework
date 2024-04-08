@@ -70,8 +70,11 @@ exports.deleteDiary = async (req, res) => {
 //按照分页获取游记
 exports.getDiariesList = async (req, res) => {
   try {
-    const { page, pageSize, category } = req.query; // 获取客户端发送的页码和每页数量参数
-    let whereClause = { checked_status: 1 }; // 初始化查询条件对象
+    const { page, pageSize, category, user_id } = req.query; // 获取客户端发送的页码和每页数量参数
+    let whereClause;
+    if(!user_id){ // user_id为空，说明发送请求的是小程序用户
+      whereClause = { checked_status: 1 }; // 初始化查询条件对象
+    }
 
     if (category !== "1") {
       switch (category) {
@@ -106,7 +109,7 @@ exports.getDiariesList = async (req, res) => {
 
     // 查询总的记录数
     const totalCount = await Diary.count({
-      where: whereClause, // 添加查询条件，只查询 checked_status 字段为 1 （审核通过的） 的游记
+      where: whereClause, // 添加查询条件，查询符合条件的游记数量
     });
 
     // 计算总页数
@@ -149,6 +152,7 @@ exports.getDiariesList = async (req, res) => {
 
     // 返回总页数和查询到的游记数据给前端
     res.json({
+      totalCount: totalCount,
       totalPages: totalPages,
       diaries: diariesData,
     });
@@ -160,8 +164,12 @@ exports.getDiariesList = async (req, res) => {
 // 按照标题和用户名模糊搜索游记
 exports.searchDiaries = async (req, res) => {
   try {
-    const { page, pageSize, keyword } = req.query;
+    const { page, pageSize, keyword, user_id } = req.query;
     const offset = (page - 1) * pageSize;
+    let whereClause;
+    if(!user_id){  //user_id为空 说明请求方是微信小程序用户，只查询审核通过的游记
+      whereClause = {checked_status: 1}
+    }
 
     const diaries = await Diary.findAndCountAll({
       where: {
@@ -174,7 +182,7 @@ exports.searchDiaries = async (req, res) => {
             },
           },
         ],
-        checked_status: 1, // 只查询审核通过的游记
+        ...whereClause, 
       },
       include: [
         { model: User, attributes: ["username", "avatarUrl"], as: "author" },
@@ -205,6 +213,7 @@ exports.searchDiaries = async (req, res) => {
       return diaryData;
     });
     res.json({
+      totalCount: diaries.count,
       totalPages: Math.ceil(diaries.count / pageSize),
       diaries: diariesData,
     });
