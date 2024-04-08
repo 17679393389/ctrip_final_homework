@@ -16,8 +16,8 @@ const client = new OSS({
 const getSignature = (req, res) => {
   const mpHelper = new MpUploadOssHelper({
     // 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。
-    accessKeyId: process.env.OSS_ACCESS_KEY_ID,
-    accessKeySecret: process.env.OSS_ACCESS_KEY_SECRET,
+    accessKeyId: "LTAI4G5xAX6SzvEfafyBvyKe",
+    accessKeySecret: "H42Ll5TnTLDpQVlKq9bI9c9ENshJyb",
     // 限制参数的生效时间，单位为小时，默认值为1。
     timeout: 1,
     // 限制上传文件大小，单位为MB，默认值为10。

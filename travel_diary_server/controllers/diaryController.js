@@ -120,7 +120,7 @@ exports.getDiariesList = async (req, res) => {
 
     // 查询符合条件的游记数据
     const diaries = await Diary.findAll({
-      where: { ...whereClause, checked_status: 1 }, // 添加查询条件，只查询 checked_status 字段为 1 （审核通过的） 的游记
+      where: { ...whereClause}, // 添加查询条件，只查询 checked_status 字段为 1 （审核通过的） 的游记
       offset: offset,
       limit: parseInt(pageSize), // 将每页数量转换为整数
       include: [
