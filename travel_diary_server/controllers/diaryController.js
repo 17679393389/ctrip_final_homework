@@ -67,7 +67,7 @@ exports.deleteDiary = async (req, res) => {
   }
 };
 
-///按照分页获取游记
+//按照分页获取游记
 exports.getDiariesList = async (req, res) => {
   try {
     let { page, pageSize, category, user_id } = req.query; // 获取客户端发送的页码和每页数量参数
