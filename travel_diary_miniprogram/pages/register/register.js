@@ -118,7 +118,7 @@ Page({
             password: that.data.password,
             avatarUrl: that.data.avatarUrl,
             gender: that.data.gender,
-            openid: wx.getStorageSync("openid"),
+            id: wx.getStorageSync("openid"),
           };
           //判断是否需要换头像
           if (that.data.uploadImg == 0) {

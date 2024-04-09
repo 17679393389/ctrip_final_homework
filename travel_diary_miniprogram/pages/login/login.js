@@ -89,7 +89,7 @@ Page({
       method: "POST",
       success: function (res) {
         //可以把openid保存到本地缓存，方便以后调用
-        wx.setStorageSync("openid", res.data.openid);
+        wx.setStorageSync("openid", res.data.id);
         if (res.statusCode == 200) {
           app.globalData.userInfo = res.data.user;
           app.globalData.token = res.data.token;

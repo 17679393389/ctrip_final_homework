@@ -29,14 +29,14 @@ export default function Page404() {
         <MotionContainer className="flex flex-col items-center justify-center px-2">
           <m.div variants={varBounce().in}>
             <Typography.Title level={3} className="text-center">
-              Sorry, Page Not Found!
+              404 页面丢失啦~
             </Typography.Title>
           </m.div>
 
           <m.div variants={varBounce().in}>
             <Typography.Paragraph type="secondary" className="text-center">
-              Sorry, we couldn’t find the page you’re looking for. Perhaps you’ve mistyped the URL?
-              Be sure to check your spelling.
+            很抱歉，我们找不到您要查找的页面。也许你打错了网址？<br/>
+            请检查是否输入错误。
             </Typography.Paragraph>
           </m.div>
 
@@ -111,7 +111,7 @@ export default function Page404() {
             style={{ background: colorTextBase, color: colorBgBase }}
             className="rounded-md p-4"
           >
-            Go to Home
+           回到首页
           </NavLink>
         </MotionContainer>
       </div>

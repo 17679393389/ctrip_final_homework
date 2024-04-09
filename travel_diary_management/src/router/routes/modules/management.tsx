@@ -13,6 +13,7 @@ const OrganizationPage = lazy(() => import('@/pages/management/system/organizati
 const PermissioPage = lazy(() => import('@/pages/management/system/permission'));
 
 const Blog = lazy(() => import('@/pages/management/blog'));
+const Diary = lazy(() => import('@/pages/management/diary'));
 
 const management: AppRouteObject = {
   order: 2,
@@ -30,7 +31,12 @@ const management: AppRouteObject = {
   children: [
     {
       index: true,
-      element: <Navigate to="user" replace />,
+      element: <Navigate to="diary" replace />,
+    },
+    {
+      path: 'diary',
+      element: <Diary />,
+      meta: { label: 'sys.menu.diary', key: '/management/diary' },
     },
     {
       path: 'user',
@@ -71,7 +77,7 @@ const management: AppRouteObject = {
     {
       path: 'blog',
       element: <Blog />,
-      meta: { label: 'sys.menu.blog', key: '/management/blog' },
+      meta: { label: 'sys.menu.blog.index', key: '/management/blog' },
     },
   ],
 };

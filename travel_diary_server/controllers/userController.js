@@ -31,7 +31,7 @@ exports.createUser = async (req, res) => {
     req.body.password = pwd;
     const newUser = await User.create(req.body);
     //生成token
-    const token = signToken({ id: newUser.openid });
+    const token = signToken({ id: newUser.id });
     res.json({ newUser, token });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -119,10 +119,10 @@ exports.loginWithWx = async (req, res) => {
     if (!user) {
       res
         .status(403)
-        .json({ message: "用户不存在，请注册哦", openid: req.body.openid });
+        .json({ message: "用户不存在，请注册哦", id: req.body.openid });
     } else {
-       // 保存用户ID到会话中
-       req.session.userId = user.id;
+      // 保存用户ID到会话中
+      req.session.userId = user.id;
       //生成token
       const token = signToken({ id: req.body.openid });
       // res.json(user);

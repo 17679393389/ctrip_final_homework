@@ -87,34 +87,34 @@ const MANAGEMENT_PERMISSION = {
   route: 'management',
   order: 2,
   children: [
-    {
-      id: '2781684678535711',
-      parentId: '0901673425580518',
-      label: 'sys.menu.user.index',
-      name: 'User',
-      type: PermissionType.CATALOGUE,
-      route: 'user',
-      children: [
-        {
-          id: '4754063958766648',
-          parentId: '2781684678535711',
-          label: 'sys.menu.user.profile',
-          name: 'Profile',
-          type: PermissionType.MENU,
-          route: 'profile',
-          component: '/management/user/profile/index.tsx',
-        },
-        {
-          id: '2516598794787938',
-          parentId: '2781684678535711',
-          label: 'sys.menu.user.account',
-          name: 'Account',
-          type: PermissionType.MENU,
-          route: 'account',
-          component: '/management/user/account/index.tsx',
-        },
-      ],
-    },
+    // {
+    //   id: '2781684678535711',
+    //   parentId: '0901673425580518',
+    //   label: 'sys.menu.user.index',
+    //   name: 'User',
+    //   type: PermissionType.MENU,
+    //   route: 'user',
+    //   children: [
+    //     {
+    //       id: '4754063958766648',
+    //       parentId: '2781684678535711',
+    //       label: 'sys.menu.user.profile',
+    //       name: 'Profile',
+    //       type: PermissionType.MENU,
+    //       route: 'profile',
+    //       component: '/management/user/profile/index.tsx',
+    //     },
+    //     {
+    //       id: '2516598794787938',
+    //       parentId: '2781684678535711',
+    //       label: 'sys.menu.user.account',
+    //       name: 'Account',
+    //       type: PermissionType.MENU,
+    //       route: 'account',
+    //       component: '/management/user/account/index.tsx',
+    //     },
+    //   ],
+    // },
     {
       id: '0249937641030250',
       parentId: '0901673425580518',
@@ -160,6 +160,15 @@ const MANAGEMENT_PERMISSION = {
           component: '/management/system/user/index.tsx',
         },
       ],
+    },
+    {
+      id: '2781684678535711',
+      parentId: '0901673425580518',
+      label: 'sys.menu.diary',
+      name: 'Diary',
+      type: PermissionType.MENU,
+      route: 'diary',
+      component: '/management/diary/index.tsx',
     },
   ],
 };
@@ -474,7 +483,7 @@ export const PERMISSION_LIST = [
 /**
  * User role mock
  */
-const ADMIN_ROLE = {
+export const ADMIN_ROLE = {
   id: '4281707933534332',
   name: 'Admin',
   label: 'admin',
@@ -501,7 +510,7 @@ export const DEFAULT_USER = {
   id: faker.string.uuid(),
   username: 'admin@gmail.com',
   email: faker.internet.email(),
-  avatar: faker.image.avatarLegacy(),
+  avatar: 'http://img-blog.csdnimg.cn/direct/b8a65f8b767f4791865dad1985e6a473.png',
   createdAt: faker.date.anytime(),
   updatedAt: faker.date.recent(),
   password: 'demo1234',
@@ -513,7 +522,7 @@ export const TEST_USER = {
   username: 'test@gmail.com',
   password: 'demo1234',
   email: faker.internet.email(),
-  avatar: faker.image.avatarLegacy(),
+  avatar: 'https://img-blog.csdnimg.cn/direct/b8a65f8b767f4791865dad1985e6a473.png',
   createdAt: faker.date.anytime(),
   updatedAt: faker.date.recent(),
   role: TEST_ROLE,

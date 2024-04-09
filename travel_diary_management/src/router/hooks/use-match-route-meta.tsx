@@ -27,7 +27,7 @@ export function useMatchRouteMeta() {
 
   useEffect(() => {
     // 获取当前匹配的路由
-    console.log('matchs1', matchs, flattenedRoutes);
+    // console.log('matchs1', matchs, flattenedRoutes);
     const lastRoute = matchs.at(-1);
 
     const currentRouteMeta = flattenedRoutes.find(
