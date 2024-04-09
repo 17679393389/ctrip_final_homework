@@ -125,7 +125,7 @@ export default function SettingButton() {
       </div>
       <Drawer
         placement="right"
-        title="Settings"
+        title="皮肤设置"
         onClose={() => setDrawerOpen(false)}
         open={drawerOpen}
         closable={false}
@@ -148,12 +148,12 @@ export default function SettingButton() {
                     color={colorPrimary}
                     className="!m-0"
                   />
-                  <span className="ml-2">Exit FullScreen</span>
+                  <span className="ml-2">退出全屏</span>
                 </>
               ) : (
                 <>
                   <SvgIcon icon="ic-settings-fullscreen" className="!m-0" />
-                  <span className="ml-2 text-gray">FullScreen</span>
+                  <span className="ml-2 text-gray">全屏模式</span>
                 </>
               )}
             </div>
@@ -164,7 +164,7 @@ export default function SettingButton() {
           {/* theme mode */}
           <div>
             <div className="mb-3 text-base font-semibold" style={{ color: colorTextSecondary }}>
-              Mode
+              模式
             </div>
             <div className="flex flex-row gap-4">
               <Card
@@ -193,7 +193,7 @@ export default function SettingButton() {
           {/* theme layout */}
           <div>
             <div className="mb-3 text-base font-semibold" style={{ color: colorTextSecondary }}>
-              Layout
+              布局
             </div>
             <div className="grid grid-cols-3 gap-4">
               <Card
@@ -302,7 +302,7 @@ export default function SettingButton() {
           {/* theme stretch */}
           <div>
             <div className=" mb-3 text-base font-semibold" style={{ color: colorTextSecondary }}>
-              <span className="mr-2">Stretch</span>
+              <span className="mr-2">拉伸</span>
               <Tooltip title="Only available at large resolutions > 1600px (xl)">
                 <QuestionCircleOutlined />
               </Tooltip>
@@ -349,7 +349,7 @@ export default function SettingButton() {
           {/* theme presets */}
           <div>
             <div className="mb-3 text-base font-semibold" style={{ color: colorTextSecondary }}>
-              Presets
+              预设
             </div>
             <div className="grid grid-cols-3 gap-x-4 gap-y-3">
               {Object.entries(colorPrimarys).map(([preset, color]) => (
@@ -370,14 +370,14 @@ export default function SettingButton() {
           {/* Page config */}
           <div>
             <div className="mb-3 text-base font-semibold" style={{ color: colorTextSecondary }}>
-              Page
+              导航栏配置
             </div>
             <div className="flex flex-col gap-2">
               <div
                 className="flex items-center justify-between"
                 style={{ color: colorTextTertiary }}
               >
-                <div>BreadCrumb</div>
+                <div>面包屑导航栏</div>
                 <Switch
                   size="small"
                   checked={breadCrumb}
@@ -388,7 +388,7 @@ export default function SettingButton() {
                 className="flex items-center justify-between"
                 style={{ color: colorTextTertiary }}
               >
-                <div>Multi Tab</div>
+                <div>多标签菜单</div>
                 <Switch
                   size="small"
                   checked={multiTab}

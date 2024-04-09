@@ -72,11 +72,11 @@ exports.getDiariesList = async (req, res) => {
   try {
     let { page, pageSize, category, user_id } = req.query; // 获取客户端发送的页码和每页数量参数
     let whereClause = {};
-    if(!user_id){ // user_id为空，说明发送请求的是小程序用户
+    if (!user_id) {
+      // user_id为空，说明发送请求的是小程序用户
       whereClause = { checked_status: 1 }; // 初始化查询条件对象
     }
     category = parseInt(category);
-    console.log(category)
     if (category !== 1) {
       switch (category) {
         case 2:
@@ -119,16 +119,27 @@ exports.getDiariesList = async (req, res) => {
     // 计算数据库查询偏移量
     const offset = (page - 1) * pageSize;
 
-    // 查询符合条件的游记数据
-    const diaries = await Diary.findAll({
-      where: { ...whereClause}, // 添加查询条件，只查询 checked_status 字段为 1 （审核通过的） 的游记
-      offset: offset,
-      limit: parseInt(pageSize), // 将每页数量转换为整数
-      include: [
+    let include = [];
+    if (user_id) {
+      include = [
+        { model: User, attributes: ["username", "avatarUrl"], as: "author" },
+        { model: Love_, attributes: ["like_count"], as: "love_" },
+      ];
+    } else {
+      include = [
         { model: User, attributes: ["username", "avatarUrl"], as: "author" },
         { model: Admin, attributes: ["name"], as: "checked" },
         { model: Love_, attributes: ["like_count"], as: "love_" },
-      ], // 关联查询用户表，并指定返回的字段
+      ];
+    }
+
+    // 查询符合条件的游记数据
+    const diaries = await Diary.findAll({
+      where: { ...whereClause }, // 添加查询条件，只查询 checked_status 字段为 1 （审核通过的） 的游记
+      offset: offset,
+      limit: parseInt(pageSize), // 将每页数量转换为整数
+
+      include: include, // 关联查询用户表，并指定返回的字段
     });
 
     // 将 Sequelize 模型对象转换成普通的 JavaScript 对象，并处理时间戳字段
@@ -142,7 +153,11 @@ exports.getDiariesList = async (req, res) => {
       diaryData.username = diaryData.author.username;
       diaryData.avatarUrl = diaryData.author.avatarUrl;
       //从关联的管理员表中获取审核员的姓名
-      diaryData.checked_person = diaryData.checked.name;
+      if (!diaryData.checked) {
+        diaryData.checked_person = "未审核";
+      } else {
+        diaryData.checked_person = diaryData.checked.name;
+      }
       //从关联的点赞表中获取该条游记的点赞数
       diaryData.love_count = diaryData.love_.like_count;
       // 删除原始的 author 字段，如果不需要保留的话
@@ -161,15 +176,15 @@ exports.getDiariesList = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 // 按照标题和用户名模糊搜索游记
 exports.searchDiaries = async (req, res) => {
   try {
     const { page, pageSize, keyword, user_id } = req.query;
     const offset = (page - 1) * pageSize;
     let whereClause;
-    if(!user_id){  //user_id为空 说明请求方是微信小程序用户，只查询审核通过的游记
-      whereClause = {checked_status: 1}
+    if (!user_id) {
+      //user_id为空 说明请求方是微信小程序用户，只查询审核通过的游记
+      whereClause = { checked_status: 1 };
     }
 
     const diaries = await Diary.findAndCountAll({
@@ -183,7 +198,7 @@ exports.searchDiaries = async (req, res) => {
             },
           },
         ],
-        ...whereClause, 
+        ...whereClause,
       },
       include: [
         { model: User, attributes: ["username", "avatarUrl"], as: "author" },
@@ -284,6 +299,8 @@ exports.getUserDiaries = async (req, res) => {
 //编辑游记内容
 const updateDiary = (diary) => {
   try {
+    //默认更新时间为当前时间
+    diary.update_time = new Date();
     const [updated] = Diary.update(diary, {
       where: { id: diary.id },
     });
@@ -331,6 +348,80 @@ exports.newDiary = async (req, res) => {
         res.status(500).json({ error: result.data });
       }
     }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+//更新游记状态
+exports.updateDiaryStatus = async (req, res) => {
+  try {
+    const newDiaryList = req.body;
+    const updateDiaryList = newDiaryList.map((diary) => {
+      //设置审核时间为当前时间
+      diary.checked_at = new Date();
+      Diary.update(diary, {
+        where: { id: diary.id },
+      });
+    });
+    res.json({ status: 200 });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+//筛选游记
+exports.getDiaryByStatus = async (req, res) => {
+  try {
+    const { page, pageSize } = req.query;
+    // 计算数据库查询偏移量
+    const offset = (page - 1) * pageSize;
+    let statusList = req.query.status.split(",").map((status) => ({
+      checked_status: Number(status),
+    }));
+    const diaries = await Diary.findAll({
+      where: {
+        [Op.or]: statusList,
+        is_deleted: 0,
+      },
+      include: [
+        { model: User, attributes: ["username", "avatarUrl"], as: "author" },
+        { model: Admin, attributes: ["name"], as: "checked" },
+      ], // 关联查询用户表，并指定返回的字段
+      offset,
+      limit: parseInt(pageSize),
+    });
+    // 查询总的记录数
+    const totalCount = diaries.length;
+
+    // 计算总页数
+    const totalPages = Math.ceil(totalCount / pageSize);
+    // 将 Sequelize 模型对象转换成普通的 JavaScript 对象，并处理时间戳字段等
+    const diariesData = diaries.map((diary) => {
+      const diaryData = diary.toJSON();
+      diaryData.create_at = new Date(diaryData.create_at).toLocaleString();
+      diaryData.update_time = new Date(diaryData.update_time).toLocaleString();
+      diaryData.checked_at = new Date(diaryData.checked_at).toLocaleString();
+      diaryData.photoList = diaryData.photo.split(",").map((url) => url.trim());
+      // 从关联的用户表中获取用户名和头像 URL
+      diaryData.username = diaryData.author.username;
+      diaryData.avatarUrl = diaryData.author.avatarUrl;
+      //从关联的管理员表中获取审核员的姓名
+      if (diaryData.checked.name) {
+        diaryData.checked_person = diaryData.checked.name;
+      } else {
+        diaryData.checked_person = "";
+      }
+      // 删除原始的 author 字段，如果不需要保留的话
+      delete diaryData.author;
+      delete diaryData.love_;
+      return diaryData;
+    });
+    res.json({
+      totalCount: totalCount,
+      totalPages: totalPages,
+      diaries: diariesData,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

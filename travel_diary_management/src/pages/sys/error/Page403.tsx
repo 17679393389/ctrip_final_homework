@@ -29,14 +29,13 @@ export default function Page403() {
         <MotionContainer className="flex flex-col items-center justify-center px-2">
           <m.div variants={varBounce().in}>
             <Typography.Title level={3} className="text-center">
-              No permission
+              403  没有权限
             </Typography.Title>
           </m.div>
 
           <m.div variants={varBounce().in}>
             <Typography.Paragraph type="secondary" className="text-center">
-              The page you are trying access has restricted access. Please refer to your system
-              administrator
+            您尝试访问的页面的访问权限受到限制。<br/>请联系您的系统管理员
             </Typography.Paragraph>
           </m.div>
 
@@ -120,7 +119,7 @@ export default function Page403() {
             style={{ background: colorTextBase, color: colorBgBase }}
             className="rounded-md p-4"
           >
-            Go to Home
+            回到首页
           </NavLink>
         </MotionContainer>
       </div>

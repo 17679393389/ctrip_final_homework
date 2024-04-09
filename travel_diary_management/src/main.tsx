@@ -18,15 +18,15 @@ import './locales/i18n';
 // tailwind css
 import './theme/index.css';
 
-const charAt = `
-    ███████╗██╗      █████╗ ███████╗██╗  ██╗ 
-    ██╔════╝██║     ██╔══██╗██╔════╝██║  ██║
-    ███████╗██║     ███████║███████╗███████║
-    ╚════██║██║     ██╔══██║╚════██║██╔══██║
-    ███████║███████╗██║  ██║███████║██║  ██║
-    ╚══════╝╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
-  `;
-console.info(`%c${charAt}`, 'color: #5BE49B');
+// const charAt = `
+//     ███████╗██╗      █████╗ ███████╗██╗  ██╗ 
+//     ██╔════╝██║     ██╔══██╗██╔════╝██║  ██║
+//     ███████╗██║     ███████║███████╗███████║
+//     ╚════██║██║     ██╔══██║╚════██║██╔══██║
+//     ███████║███████╗██║  ██║███████║██║  ██║
+//     ╚══════╝╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
+//   `;
+// console.info(`%c${charAt}`, 'color: #5BE49B');
 
 // 创建一个 client
 const queryClient = new QueryClient({
@@ -47,7 +47,7 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       <Suspense>
         <Analytics />
         <App />

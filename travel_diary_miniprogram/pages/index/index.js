@@ -82,7 +82,7 @@ Page({
   //发布游记
   publishNewDiary() {
     wx.navigateTo({
-      url: "/pages/diaryPublish/diaryPublish?d_id=15",
+      url: "/pages/diaryPublish/diaryPublish",
     });
   },
 });
