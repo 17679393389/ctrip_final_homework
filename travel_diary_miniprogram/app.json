@@ -9,7 +9,6 @@
     "pages/diaryPublish/diaryPublish",
     "pages/user/user",
     "pages/myDiary/myDiary",
-    "pages/diaryDetail/diaryDetail",
     "pages/checkedDetail/checkedDetail",
     "pages/comment/comment"
   ],
@@ -17,7 +16,7 @@
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "旅行日记",
     "navigationBarBackgroundColor": "#f4ea2a",
-    "navigationStyle": "custom"
+    "navigationStyle": "default"
   },
   "tabBar": {
     "color": "#B0B0B0",
@@ -32,7 +31,7 @@
         "selectedIconPath": "/images/首页已选中.png"
       },
       {
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/myDiary/myDiary",
         "text": "我的",
         "iconPath": "/images/我的未选中.png",
         "selectedIconPath": "/images/我的已选中.png"

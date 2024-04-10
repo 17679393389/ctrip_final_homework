@@ -8,13 +8,15 @@ Page({
     categoryItem: 5,
     status: 0, //记录是新发布状态还是编辑状态 默认新发布,
     diary: null, //记录编辑的游记信息
+    d_id: 0,
   },
   onLoad(options) {
     //判断是新发布还是编辑
-    if (options && "d_id" in options) {
+    if (options) {
       //拿到需要编辑的游记信息并渲染在本页面
       this.setData({
         status: 1, //记录是编辑状态
+        d_id: options.d_id
       });
       this.getDiaryInfo(options.d_id);
     }
@@ -29,7 +31,7 @@ Page({
 
   //图片上传
   onUploadImage() {
-    const aliyunURL = "https://it-recite.oss-cn-shenzhen.aliyuncs.com";
+    const aliyunURL = "https://it-recite.oss-cn-shenzhen.aliyuncs.com/";
     //遍历图片数组，上传图片
     const validImage = this.data.photoList.map((item) => {
       //提取图片名称
@@ -40,13 +42,13 @@ Page({
         filePath: item, //本地图片临时地址
         name: "file", // 必须填file。
         formData: {
-          key: "diary/" + fileName, //存储在阿里云的路径
+          key: fileName, //存储在阿里云的路径
           policy: wx.getStorageSync("policy"),
           OSSAccessKeyId: wx.getStorageSync("OSSAccessKeyId"),
           signature: wx.getStorageSync("signature"),
         },
       });
-      return aliyunURL + "/diary/" + fileName;
+      return aliyunURL + fileName;
     });
     return validImage;
   },
@@ -101,7 +103,7 @@ Page({
       //发布游记
       const status = this.data.status;
       if (status == 1) {
-        diary.id = options.d_id;
+        diary.id = parseInt(this.data.d_id);
       }
       wx.request({
         url: app.globalData.baseUrl + "/diary/newDiary",

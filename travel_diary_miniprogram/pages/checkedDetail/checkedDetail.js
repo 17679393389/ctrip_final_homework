@@ -37,7 +37,7 @@ Page({
     let that = this;
 
     wx.request({
-      url: baseUrl + 'diary/getMyNoteDetail',
+      url: baseUrl + '/diary/getMyNoteDetail',
       method: 'GET',
       data:{
         d_id: that.data.query.d_id
@@ -95,7 +95,7 @@ Page({
   navigateToEdit: function() {
     
     wx.navigateTo({
-      url: '/pages/diaryPublish/diaryPubish?d_id='+this.data.query.d_id // 替换为目标页面的路径
+      url: '/pages/diaryPublish/diaryPublish?d_id='+this.data.query.d_id // 替换为目标页面的路径
     });
     
   }

@@ -1,6 +1,6 @@
 // travel_diary_miniprogram/pages/myDiary/myDiary.js
 const baseUrl = getApp().globalData.baseUrl
-const userInfo = getApp().globalData.userInfo
+let userInfo = getApp().globalData.userInfo
 Page({
 
   // 页面的初始数据
@@ -25,8 +25,12 @@ Page({
   // 生命周期函数--监听页面加载
   onLoad: function (options) {
     // console.log(options)
-    this.showNotesList()
+    // this.showNotesList()
     
+    if(!userInfo){ //未登录
+      this.navigateToLogin()
+    }
+    // this.setData({user_id:userInfo.id})
   },
 
   // 生命周期函数--监听页面初次渲染完成
@@ -36,8 +40,13 @@ Page({
 
   // 生命周期函数--监听页面显示
   onShow: function () {
-    
-
+    userInfo = getApp().globalData.userInfo
+    if(userInfo){
+      this.setData({user_id:userInfo.id})
+    }
+    if(userInfo){
+      this.showNotesList()
+    }
   },
 
   // 生命周期函数--监听页面隐藏
@@ -90,15 +99,15 @@ Page({
     let that = this;
 
     //未登录
-    if(!userInfo) {
-      this.setData({
-        islogged:false,
-        emptyDes:'您尚未登录，点击登录获取更多权益',
-        noteList:[]
-      })
+    // if(!userInfo) {
+    //   this.setData({
+    //     islogged:false,
+    //     emptyDes:'您尚未登录，点击登录获取更多权益',
+    //     noteList:[]
+    //   })
 
-      return
-    }
+    //   return
+    // }
     
     this.setData({
       isLoading:true
@@ -109,7 +118,7 @@ Page({
 
     //登录后
     wx.request({
-      url: baseUrl + 'diary/getMyNotesList',
+      url: baseUrl + '/diary/getMyNotesList',
       method: 'GET',
       data:{
         _page: that.data.page,
@@ -183,7 +192,7 @@ Page({
       success(res) {
         if (res.confirm) {
           wx.request({
-            url: baseUrl + 'diary/delete',
+            url: baseUrl + '/diary/delete',
             method:'POST',
             data:{
               d_id: d_id

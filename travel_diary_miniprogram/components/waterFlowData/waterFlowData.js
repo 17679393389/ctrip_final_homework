@@ -19,10 +19,10 @@ Component({
   methods: {
     //跳转到游记详情页面
     onDiary(e){
-      // console.log(e.currentTarget.dataset.diary)
+      console.log(e.currentTarget.dataset.diary.id)
       // const data = JSON.stringify(data)
       wx.navigateTo({
-        url: '/pages/diaryDetail/diaryDetail?data='+JSON.stringify(e.currentTarget.dataset.diary)
+        url: '/pages/diaryDetail/diaryDetail?d_id='+e.currentTarget.dataset.diary.id
       })
     }
   }
