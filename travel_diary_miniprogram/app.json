@@ -7,6 +7,7 @@
     "pages/logs/logs",
     "pages/diaryDetail/diaryDetail",
     "pages/diaryPublish/diaryPublish",
+    "pages/user/user",
     "pages/myDiary/myDiary",
     "pages/diaryDetail/diaryDetail",
     "pages/checkedDetail/checkedDetail",
