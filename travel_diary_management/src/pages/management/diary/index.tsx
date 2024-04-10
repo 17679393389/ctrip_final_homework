@@ -135,7 +135,6 @@ export default function Diary() {
     if(!filterFlag){  //页面重新加载都要把筛选状态重置
       getDiaryList({page:pageParams.page,pageSize:pageParams.pageSize,category:pageParams.category,user_id:userInfo.id});
     }
-    console.log("状态",filterFlag)
     setUserInfo({'role_index':1,'name':'admin',id:1});
   }, [JSON.stringify(tableParams)]);
 
@@ -164,12 +163,11 @@ export default function Diary() {
         setLoading(true);
       const searchRes = await searchDiary(DiarySearchList);
       setLoading(false);
-      setDiaryData(searchRes.data.diaries);
+      setDiaryData(searchRes.data.diaries.map((item:DiaryType)=>({...item,diaryInfo:item})));
       setTableParams({
         ...tableParams,
         pagination: {
           ...tableParams.pagination,
-          current: 1,
         },
       })
       }catch(error){
@@ -242,6 +240,7 @@ export default function Diary() {
           title:"审核意见",
           dataIndex: 'checked_opinion',
           align: 'center',
+          width:100,
           ellipsis: {
             showTitle: false,
           },
@@ -326,28 +325,21 @@ export default function Diary() {
     };
     //获取筛选结果
     const onFilterDiaryTable = async (filters: TableParams['filters']) => {
-      // const filtersDairy = diaryData.filter((item) => {
-      //  if(filters.filters!.includes(item.checked_status)){
-      //    return item
-      //  }
-      // });
       //调接口获取筛选结果
-      // setDiaryData(filtersDairy);
       setLoading(true);
       const searchStatusReq = {
         pageSize: tableParams.pagination?.pageSize || 8,
-        page: tableParams.pagination?.current || 1,
+        page: 1,
         status: filters.status?.join(','),
       }
       const searchStatusRes = await getDiaryByStatus(searchStatusReq);
-      console.log(searchStatusRes)
       setLoading(false);
-      setDiaryData(searchStatusRes.data.diaries);
+      setDiaryData(searchStatusRes.data.diaries.map((item:DiaryType) => ({...item,diaryInfo:item})));
       setTableParams({
         ...tableParams,
         pagination: {
           ...tableParams.pagination,
-          current: 1,
+          current:1,
           total: searchStatusRes.data.totalCount,
         },
       });
@@ -373,6 +365,7 @@ export default function Diary() {
       if (formValue.checked_status === 1) {
         message.warning('这篇游记已经审核通过啦');
       }else{
+        setDiaryData((prev) => prev.map((item) => item['id'] === formValue['id'] ? {...item, checked_status: 1, checked_opinion: '通过', checked_person: userInfo.name,checked_by: userInfo.id} : item));
         const newStatusForm = {...formValue, checked_status: 1, checked_opinion: '通过', checked_person: userInfo.name,checked_by: userInfo.id};
         onDiarypUpdate([newStatusForm])
         message.success('审核通过');
@@ -391,6 +384,7 @@ export default function Diary() {
         // 返回一个新的对象，其中不包含 diaryinfo  
         return { ...rest,checked_status: 1,checked_opinion: '通过', checked_person: userInfo.name,checked_by: userInfo.id}
       });
+      setDiaryData((prev) => prev.map((item) => item['id'] === formValue['id'] ? {...item, checked_status: 1, checked_opinion: '通过', checked_person: userInfo.name,checked_by: userInfo.id} : item));
       onDiarypUpdate(newStatusForm)
       message.success('审核通过');
     }
@@ -415,6 +409,7 @@ export default function Diary() {
       show: false,
       onOk: (formValue:DiaryType|DiaryType[],reject:string) => {
         setDiaryRejectReasonModalProps((prev) => ({ ...prev, show: false }));
+        setDiaryData((prev) => prev.map((item) => item['id'] === formValue['id'] ? {...item, checked_status: 1, checked_opinion: '通过', checked_person: userInfo.name,checked_by: userInfo.id} : item));
         //修改审核状态
         if (formValue instanceof Array) {
           let newStatusForm = formValue.map((item) => {  
@@ -463,7 +458,6 @@ export default function Diary() {
     //单个删除游记 更新游记is_deleted
     const onDelete = (formValue: DiaryType) => {
       setDiaryData((prev) => prev.filter((item) => item['id'] !== formValue['id']));
-      //  TODO 更改删除标识
       const newStatusForm = {...formValue, checked_person: userInfo.name,is_deleted: 1,checked_by: userInfo.id};
       onDiarypUpdate([newStatusForm])
       message.success('删除成功');
@@ -496,7 +490,6 @@ export default function Diary() {
           ...tableParams,
           pagination: {
             ...tableParams.pagination,
-            current: 1,
           },
         })
       }catch(error){
@@ -536,7 +529,6 @@ export default function Diary() {
       show: false,
       onOk: (data: any) => {
         setDiaryInfoModalProps((prev) => ({ ...prev, show: false }));
-        console.log(data)
 
       },
       onCancel: () => {
