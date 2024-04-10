@@ -1,6 +1,7 @@
 import path from 'path';
 
 import react from '@vitejs/plugin-react';
+import styleImport, {AntdResolve} from 'vite-plugin-style-import';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
@@ -18,6 +19,11 @@ export default defineConfig({
   },
   plugins: [
     react(),
+    // styleImport({
+    //   resolves:[
+    //     AntdResolve()
+    //   ],
+    // }),
     // 同步tsconfig.json的path设置alias
     tsconfigPaths(),
     createSvgIconsPlugin({

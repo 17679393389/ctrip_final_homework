@@ -1,2 +1,79 @@
-<!--pages/diaryDetail/diaryDetail.wxml-->
-<text>游记详情页面</text>
+<!--travel_diary_miniprogram/pages/diaryDetail/diaryDetail.wxml-->
+<image class="ff" wx:if="{{ noteDetail.photoList.length === 1 }}" src="{{noteDetail.photoList[0]}}"></image>
+<swiper wx:else indicator-dots>
+  <swiper-item wx:for="{{noteDetail.photoList}}" wx:key="id">
+    <image src="{{item}}" />
+  </swiper-item>
+</swiper>
+<!-- avatar -->
+<view class="user-avatar">
+  <view class="avatar-left">
+        <image mode="widthFix"  lazy-load src="{{avatarUrl}}"   ></image>
+        <text>{{username}}</text>
+  </view>
+  <view wx:if="{{ !hasLog || isNotMe }}" class="avatar-right">
+    <l-tag wx:if="{{!hasFollowed}}" shape="circle" bg-color="#fff"  font-color="#ffb034" l-class="follow" slot="more" size="large" bind:lintap="followMe">+ 关注</l-tag>
+    <l-tag wx:else shape="circle" bg-color="#fff"  font-color="#bfbfbf" l-class="follow" slot="more" size="large" bind:lintap="followMe">已关注</l-tag>
+  </view>
+  </view>
+
+<view class="note-detail">
+  <!-- 此处为content -->
+  <view class="note-Title">{{noteDetail.title}}</view>
+  <view wx:if="{{noteDetail.label === '攻略'}}" class="note-tag note-tag-stratege">
+  <image  class="note-tag-image" src="../../images/strategy.png"></image>
+  <view>{{noteDetail.label}}</view>
+</view>
+<view wx:elif="{{noteDetail.label === '风景'}}" class="note-tag note-tag-view">
+  <image  class="note-tag-image" src="../../images/view.png"></image>
+  <view>{{noteDetail.label}}</view>
+</view>
+<view wx:elif="{{noteDetail.label === '美食'}}" class="note-tag note-tag-food">
+  <image  class="note-tag-image" src="../../images/food.png"></image>
+  <view>{{noteDetail.label}}</view>
+</view>
+<view wx:elif="{{noteDetail.label === '交通'}}" class="note-tag note-tag-tran">
+  <image  class="note-tag-image" src="../../images/tran.png"></image>
+  <view>{{noteDetail.label}}</view>
+</view>
+<view wx:elif="{{noteDetail.label === '住宿'}}" class="note-tag note-tag-lodge">
+  <image  class="note-tag-image" src="../../images/lodge.png"></image>
+  <view>{{noteDetail.label}}</view>
+</view>
+<view wx:elif="{{noteDetail.label === '其他'}}" class="note-tag note-tag-others">
+  <image  class="note-tag-image" src="../../images/others.png"></image>
+  <view>{{noteDetail.label}}</view>
+</view>
+  <view class="avter-content">{{noteDetail.content}}</view>
+  <view class="note-time">
+        <view>{{noteDetail.create_at}}</view>
+  </view>
+</view>
+
+<view class="footer" >
+<view class="comment-share">
+  <view class="like-container" bind:tap="commentOn">
+    <l-icon name="comment" color="#666" size="48" />
+    <view class="number">评论</view>
+  </view>
+  <l-button special="{{true}}" open-type="share">
+    <view class="like-container" >
+    <l-icon name="share" color="#666" size="40" />
+    <view class="number">分享</view>
+  </view>
+</l-button>
+</view>
+<view class="like-collect">
+  <view class="like-container" bindtap="likeInfo">
+    <l-icon wx:if="{{!liked}}" name="like" color="#666" size="48" />
+    <l-icon wx:else name="like" color="#f4516C" size="48" bind:lintap="LikeInfo"/>
+    <view wx:if="{{like === 0}}" class="number">喜欢</view>
+    <view wx:else class="number">{{like}}</view>
+  </view>
+  <view class="like-container">
+    <l-icon name="favor" color="#666" size="48" />
+    <view class="number">收藏</view>
+  </view>
+</view>
+  
+</view>
