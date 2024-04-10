@@ -8,7 +8,7 @@ export default function useChart(options: ApexOptions) {
 
   const LABEL_TOTAL = {
     show: true,
-    label: 'Total',
+    label: '总数',
     color: theme.colorTextSecondary,
     fontSize: theme.fontSizeHeading2,
     lineHeight: theme.lineHeightHeading2,
@@ -92,6 +92,7 @@ export default function useChart(options: ApexOptions) {
           show: false,
         },
       },
+      seriesName:false,
     },
 
     // Xaxis

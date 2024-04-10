@@ -25,21 +25,20 @@ export default function BannerCard() {
           className="mt-4 text-lg font-semibold md:text-xl"
           style={{ color: themeToken.colorPrimaryActive }}
         >
-          <h4>Welcome back 👋 </h4>
+          <h4>欢迎回归 👋 </h4>
           <h4>{username}</h4>
         </div>
         <p
           style={{ color: themeToken.colorPrimaryTextActive }}
           className="mx-auto mb-6 mt-4 max-w-sm text-sm opacity-80 md:mx-0"
         >
-          If you are going to use a passage of Lorem Ipsum, you need to be sure there is not
-          anything.
+          发现世界的美，感谢您的审核工作，让旅行者获得有价值的信息，开始探索，留下你的足迹！
         </p>
         <button
           className="font-mediumtext-black m-auto flex items-center justify-center rounded-md px-2 py-1 shadow-none md:m-0"
           style={{ backgroundColor: themeToken.colorPrimary }}
         >
-          Go Now
+          开 始 审 核
         </button>
       </Col>
 

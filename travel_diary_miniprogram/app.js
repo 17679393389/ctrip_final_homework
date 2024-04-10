@@ -14,7 +14,7 @@ App({
     })
   },
   globalData: {
-    userInfo: null,
+    userInfo: {"id":1, "avatarUrl":'https://it-recite.oss-cn-shenzhen.aliyuncs.com/2b56fa24d81742f48531e00079e41101.jpg',"username":'哆啦A梦'},
     baseUrl: "http://localhost:3000/"
   }
 })

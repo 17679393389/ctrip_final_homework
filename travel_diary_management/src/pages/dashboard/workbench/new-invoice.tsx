@@ -17,24 +17,24 @@ interface DataType {
 export default function NewInvoice() {
   const columns: ColumnsType<DataType> = [
     {
-      title: 'InvoiceId',
+      title: '笔记标题',
       dataIndex: 'id',
       key: 'id',
       render: (text) => <span>{text}</span>,
     },
     {
-      title: 'Category',
+      title: '分类',
       dataIndex: 'category',
       key: 'category',
     },
     {
-      title: 'Price',
+      title: '博主',
       dataIndex: 'price',
       key: 'price',
       render: (text) => <span>{text}</span>,
     },
     {
-      title: 'Status',
+      title: '热度',
       key: 'status',
       dataIndex: 'status',
       render: (_status) => {
@@ -45,17 +45,29 @@ export default function NewInvoice() {
         return <ProTag color={color}>{status}</ProTag>;
       },
     },
-    {
-      title: 'Action',
-      key: 'action',
-      render: () => (
-        <Space size="middle">
-          <IconButton>
-            <Iconify icon="fontisto:more-v-a" />
-          </IconButton>
-        </Space>
-      ),
-    },
+    // {
+    //   title: 'Status',
+    //   key: 'status',
+    //   dataIndex: 'status',
+    //   render: (_status) => {
+    //     const status = _status as string;
+    //     let color = 'success';
+    //     if (status === 'Progress') color = 'gold';
+    //     if (status === 'Out of Date') color = 'red';
+    //     return <ProTag color={color}>{status}</ProTag>;
+    //   },
+    // },
+    // {
+    //   title: 'Action',
+    //   key: 'action',
+    //   render: () => (
+    //     <Space size="middle">
+    //       <IconButton>
+    //         <Iconify icon="fontisto:more-v-a" />
+    //       </IconButton>
+    //     </Space>
+    //   ),
+    // },
   ];
 
   const data: DataType[] = [

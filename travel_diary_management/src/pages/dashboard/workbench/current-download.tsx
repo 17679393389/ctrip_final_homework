@@ -8,7 +8,7 @@ export default function CurrentDownload() {
   return (
     <Card className="flex-col">
       <header className="self-start">
-        <Typography.Title level={5}>Current Download</Typography.Title>
+        <Typography.Title level={5}>适用人群 性别 占比%</Typography.Title>
       </header>
       <main>
         <ChartDonut />
@@ -17,10 +17,10 @@ export default function CurrentDownload() {
   );
 }
 
-const series = [44, 55, 13, 43];
+const series = [44, 55];
 function ChartDonut() {
   const chartOptions = useChart({
-    labels: ['Mac', 'Window', 'IOS', 'Android'],
+    labels: ['男', '女'],
     stroke: {
       show: false,
     },
