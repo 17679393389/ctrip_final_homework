@@ -310,13 +310,17 @@ const updateDiary = (diary) => {
   }
 };
 
-const createDiary = (diary) => {
+const createDiary = async (diary) => {
   //默认创建时间为当前时间
   diary.create_at = new Date();
   //默认更新时间为当前时间
   diary.update_time = new Date();
   try {
-    const newdDiary = Diary.create(diary);
+    const newdDiary = await Diary.create(diary);
+    const newLove = await Love_.create({
+      diary_id: newdDiary.id,
+      author_id: diary.create_by,
+    });
     return { code: 200, data: newdDiary };
   } catch (error) {
     return { code: 500, data: error.message };
@@ -382,6 +386,7 @@ exports.getDiaryByStatus = async (req, res) => {
       include: [
         { model: User, attributes: ["username", "avatarUrl"], as: "author" },
         { model: Admin, attributes: ["name"], as: "checked" },
+        { model: Love_, attributes: ["like_count"], as: "love_" },
       ], // 关联查询用户表，并指定返回的字段
       offset,
       limit: parseInt(pageSize),

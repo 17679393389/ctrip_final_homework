@@ -16,6 +16,7 @@ const Diary = sequelize.define(
       allowNull: true,
       unique: true,
       primaryKey: true,
+      autoIncrement: true, //解决create后id为null情况
     },
     title: {
       //游记标题
@@ -102,8 +103,10 @@ Diary.belongsTo(User, { foreignKey: "create_by", as: "author" });
 // 设置 Diary 与 Admin 的关联关系
 Diary.belongsTo(Admin, { foreignKey: "checked_by", as: "checked" });
 // 设置 Diary 与 Love 的关联关系
-Diary.belongsTo(Love_, { foreignKey: "id",targetKey:"diary_id", as: "love_" });
-
-
+Diary.belongsTo(Love_, {
+  foreignKey: "id",
+  targetKey: "diary_id",
+  as: "love_",
+});
 
 module.exports = Diary;

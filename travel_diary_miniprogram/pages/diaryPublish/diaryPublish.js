@@ -87,7 +87,6 @@ Page({
     } else {
       //上传图片
       const validUrls = this.onUploadImage();
-      console.log(validUrls);
       let photo = validUrls.join(",");
       //游记信息
       //把图片数组转换为,分割的字符串
