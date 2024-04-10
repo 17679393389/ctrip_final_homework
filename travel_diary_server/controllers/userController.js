@@ -67,3 +67,16 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.getTotalUsers = async (req, res) => {
+  try {
+    // 查询总的记录数
+    const totalCount = await User.count();
+    res.json({
+      totalUsers: totalCount
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+

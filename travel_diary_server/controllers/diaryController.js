@@ -189,3 +189,27 @@ exports.getNoteDetail = async (req, res) => {
   }
 };
 
+exports.getTotalDiary = async (req, res) => {
+  try {
+    // 查询总的记录数
+    const totalCount = await Diary.count();
+    res.json({
+      totalDiaries: totalCount
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getToBeCheckedDiary = async (req, res) => {
+  try {
+    // 查询总的记录数
+    const totalCount = await Diary.count({where:{checked_status:-1}});
+    res.json({
+      totalCheckingDiaries: totalCount
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
