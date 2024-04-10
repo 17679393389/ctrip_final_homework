@@ -386,8 +386,14 @@ exports.getDiaryByStatus = async (req, res) => {
       offset,
       limit: parseInt(pageSize),
     });
-    // 查询总的记录数
-    const totalCount = diaries.length;
+
+     // 查询总的记录数
+     const totalCount = await Diary.count({
+      where: {
+        [Op.or]: statusList,
+        is_deleted: 0,
+      }, // 添加查询条件，查询符合条件的游记数量
+    });
 
     // 计算总页数
     const totalPages = Math.ceil(totalCount / pageSize);
@@ -402,10 +408,10 @@ exports.getDiaryByStatus = async (req, res) => {
       diaryData.username = diaryData.author.username;
       diaryData.avatarUrl = diaryData.author.avatarUrl;
       //从关联的管理员表中获取审核员的姓名
-      if (diaryData.checked.name) {
+      if (diaryData.checked) {
         diaryData.checked_person = diaryData.checked.name;
       } else {
-        diaryData.checked_person = "";
+        diaryData.checked_person = "未审核";
       }
       // 删除原始的 author 字段，如果不需要保留的话
       delete diaryData.author;
