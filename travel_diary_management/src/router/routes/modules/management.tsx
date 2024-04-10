@@ -82,4 +82,4 @@ const management: AppRouteObject = {
   ],
 };
 
-export default management;
+// export default management;

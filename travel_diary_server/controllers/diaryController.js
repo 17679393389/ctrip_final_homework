@@ -72,8 +72,7 @@ exports.getDiariesList = async (req, res) => {
   try {
     let { page, pageSize, category, user_id } = req.query; // 获取客户端发送的页码和每页数量参数
     let whereClause = {};
-    if (!user_id) {
-      // user_id为空，说明发送请求的是小程序用户
+    if(!user_id){ // user_id为空，说明发送请求的是小程序用户
       whereClause = { checked_status: 1 }; // 初始化查询条件对象
     }
     category = parseInt(category);
@@ -118,27 +117,23 @@ exports.getDiariesList = async (req, res) => {
 
     // 计算数据库查询偏移量
     const offset = (page - 1) * pageSize;
-
+    
     let include = [];
-    if (user_id) {
-      include = [
-        { model: User, attributes: ["username", "avatarUrl"], as: "author" },
-        { model: Love_, attributes: ["like_count"], as: "love_" },
-      ];
-    } else {
-      include = [
-        { model: User, attributes: ["username", "avatarUrl"], as: "author" },
+    if(user_id){
+        include = [{ model: User, attributes: ["username", "avatarUrl"], as: "author" },
+        { model: Love_, attributes: ["like_count"], as: "love_" },]
+    }else{
+        include = [{ model: User, attributes: ["username", "avatarUrl"], as: "author" },
         { model: Admin, attributes: ["name"], as: "checked" },
-        { model: Love_, attributes: ["like_count"], as: "love_" },
-      ];
+        { model: Love_, attributes: ["like_count"], as: "love_" },]
     }
 
     // 查询符合条件的游记数据
     const diaries = await Diary.findAll({
-      where: { ...whereClause }, // 添加查询条件，只查询 checked_status 字段为 1 （审核通过的） 的游记
+      where: { ...whereClause}, // 添加查询条件，只查询 checked_status 字段为 1 （审核通过的） 的游记
       offset: offset,
       limit: parseInt(pageSize), // 将每页数量转换为整数
-
+      
       include: include, // 关联查询用户表，并指定返回的字段
     });
 
@@ -153,9 +148,9 @@ exports.getDiariesList = async (req, res) => {
       diaryData.username = diaryData.author.username;
       diaryData.avatarUrl = diaryData.author.avatarUrl;
       //从关联的管理员表中获取审核员的姓名
-      if (!diaryData.checked) {
-        diaryData.checked_person = "未审核";
-      } else {
+      if(!diaryData.checked){
+        diaryData.checked_person = '未审核';
+      }else{
         diaryData.checked_person = diaryData.checked.name;
       }
       //从关联的点赞表中获取该条游记的点赞数
@@ -396,8 +391,14 @@ exports.getDiaryByStatus = async (req, res) => {
       offset,
       limit: parseInt(pageSize),
     });
-    // 查询总的记录数
-    const totalCount = diaries.length;
+
+     // 查询总的记录数
+     const totalCount = await Diary.count({
+      where: {
+        [Op.or]: statusList,
+        is_deleted: 0,
+      }, // 添加查询条件，查询符合条件的游记数量
+    });
 
     // 计算总页数
     const totalPages = Math.ceil(totalCount / pageSize);
@@ -415,7 +416,7 @@ exports.getDiaryByStatus = async (req, res) => {
       if (diaryData.checked) {
         diaryData.checked_person = diaryData.checked.name;
       } else {
-        diaryData.checked_person = "";
+        diaryData.checked_person = "未审核";
       }
       // 删除原始的 author 字段，如果不需要保留的话
       delete diaryData.author;

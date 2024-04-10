@@ -480,6 +480,17 @@ export const PERMISSION_LIST = [
   ...OTHERS_PERMISSION,
 ];
 
+export const TEST_PERMISSION_LIST = [
+  DASHBOARD_PERMISSION,
+  MANAGEMENT_PERMISSION,
+  COMPONENTS_PERMISSION,
+  FUNCTIONS_PERMISSION,
+  MENU_LEVEL_PERMISSION,
+  ERRORS_PERMISSION,
+  ...OTHERS_PERMISSION,
+];
+
+
 /**
  * User role mock
  */
@@ -490,7 +501,7 @@ export const ADMIN_ROLE = {
   status: BasicStatus.ENABLE,
   order: 1,
   desc: 'Super Admin',
-  permission: PERMISSION_LIST,
+  permission: [DASHBOARD_PERMISSION, COMPONENTS_PERMISSION, FUNCTIONS_PERMISSION,MANAGEMENT_PERMISSION]
 };
 const TEST_ROLE = {
   id: '9931665660771476',
@@ -499,7 +510,7 @@ const TEST_ROLE = {
   status: BasicStatus.ENABLE,
   order: 2,
   desc: 'test',
-  permission: [DASHBOARD_PERMISSION, COMPONENTS_PERMISSION, FUNCTIONS_PERMISSION],
+  permission: [DASHBOARD_PERMISSION],
 };
 export const ROLE_LIST = [ADMIN_ROLE, TEST_ROLE];
 
