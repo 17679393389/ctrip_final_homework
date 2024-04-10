@@ -6,7 +6,8 @@
     "pages/index/index",
     "pages/logs/logs",
     "pages/diaryDetail/diaryDetail",
-    "pages/diaryPublish/diaryPublish"
+    "pages/diaryPublish/diaryPublish",
+    "pages/user/user"
   ],
   "window": {
     "navigationBarTextStyle": "black",
