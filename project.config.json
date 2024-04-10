@@ -1,4 +1,5 @@
 {
+  "appid": "touristappid",
   "compileType": "miniprogram",
   "libVersion": "2.25.3",
   "packOptions": {
@@ -17,13 +18,11 @@
       "ignore": [],
       "disablePlugins": [],
       "outputPath": ""
-    },
-    "condition": false
+    }
   },
   "condition": {},
   "editorSetting": {
-    "tabIndent": "auto",
+    "tabIndent": "insertSpaces",
     "tabSize": 2
-  },
-  "appid": "wx82317ad92bd318ba"
+  }
 }

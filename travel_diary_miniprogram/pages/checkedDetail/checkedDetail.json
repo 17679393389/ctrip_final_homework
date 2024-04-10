@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "l-icon":"/miniprogram_npm/lin-ui/icon/index",
+    "l-button":"/miniprogram_npm/lin-ui/button/index",
+    "l-tab-bar":"/miniprogram_npm/lin-ui/tab-bar/index"
+  },
+  "navigationBarTextStyle": "black",
+  "navigationStyle": "default",
+  "navigationBarTitleText": "游记审核"
+}

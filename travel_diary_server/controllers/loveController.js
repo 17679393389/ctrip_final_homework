@@ -46,3 +46,23 @@ exports.deleteLove = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.updateNoteLikes = async (req, res) => {
+  try {
+
+      const [updated] = await Like.update({like_count: req.body.like_count}, {
+      where: { diary_id: req.body.d_id }
+    });
+    if (updated) {
+      const updatedLike = await Like.findByPk(req.body.d_id);
+      res.json(updatedLike);
+    } else {
+      res.status(404).json({ message: 'Like_count not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+
+};
+
+

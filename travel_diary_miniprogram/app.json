@@ -7,12 +7,17 @@
     "pages/logs/logs",
     "pages/diaryDetail/diaryDetail",
     "pages/diaryPublish/diaryPublish",
-    "pages/user/user"
+    "pages/user/user",
+    "pages/myDiary/myDiary",
+    "pages/diaryDetail/diaryDetail",
+    "pages/checkedDetail/checkedDetail",
+    "pages/comment/comment"
   ],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "旅行日记",
-    "navigationBarBackgroundColor": "#f4ea2a"
+    "navigationBarBackgroundColor": "#f4ea2a",
+    "navigationStyle": "custom"
   },
   "tabBar": {
     "color": "#B0B0B0",

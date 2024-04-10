@@ -1,6 +1,17 @@
 {
-  "navigationBarTitleText": "我的发布",
   "usingComponents": {
-    "myDiaryCard": "/components/myDiaryCard/myDiaryCard"
-  }
+    "l-icon":"/miniprogram_npm/lin-ui/icon/index",
+    "l-button":"/miniprogram_npm/lin-ui/button/index",
+    "l-tabs":"/miniprogram_npm/lin-ui/tabs/index",
+    "l-tabpanel":"/miniprogram_npm/lin-ui/tabpanel/index",
+    "l-tag":"/miniprogram_npm/lin-ui/tag/index"
+  },
+  "navigationBarTextStyle": "black",
+  "navigationStyle": "default",
+  "navigationBarTitleText": "我的游记",
+  "onReachBottomDistance": 200,
+  "enablePullDownRefresh": true,
+  "backgroundColor": "#efefef",
+  "backgroundTextStyle": "dark"
+  
 }
