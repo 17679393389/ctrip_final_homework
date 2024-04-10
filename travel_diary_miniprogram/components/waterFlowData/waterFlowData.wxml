@@ -4,7 +4,7 @@
 <!-- 短视频显示 -->
 	<!-- <video poster="https://it-recite.oss-cn-shenzhen.aliyuncs.com/5f4b90ad37b844f8a04402d6ad76d2fa.png" src="{{data.video}}" controls="controls" style="width: 100%; height: 400rpx;"></video> -->
 	<view style="display: flex; align-items: center;">
-		<l-avatar text="{{data.username}}" size="60" src="{{data.avatarUrl}}" />
+		<l-avatar bindtap="goToUserHome" text="{{data.username}}" size="60" src="{{data.avatarUrl}}" />
 		<l-icon name="like" color="#34BFA3" style="margin-left: auto;" />
 		<view style="margin-right: 15rpx; font-family: sans-serif; font-size: 25rpx;">{{data.love_count}}</view>
 	</view>
