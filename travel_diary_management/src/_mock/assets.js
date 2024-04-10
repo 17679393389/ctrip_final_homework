@@ -87,34 +87,6 @@ const MANAGEMENT_PERMISSION = {
   route: 'management',
   order: 2,
   children: [
-    // {
-    //   id: '2781684678535711',
-    //   parentId: '0901673425580518',
-    //   label: 'sys.menu.user.index',
-    //   name: 'User',
-    //   type: PermissionType.MENU,
-    //   route: 'user',
-    //   children: [
-    //     {
-    //       id: '4754063958766648',
-    //       parentId: '2781684678535711',
-    //       label: 'sys.menu.user.profile',
-    //       name: 'Profile',
-    //       type: PermissionType.MENU,
-    //       route: 'profile',
-    //       component: '/management/user/profile/index.tsx',
-    //     },
-    //     {
-    //       id: '2516598794787938',
-    //       parentId: '2781684678535711',
-    //       label: 'sys.menu.user.account',
-    //       name: 'Account',
-    //       type: PermissionType.MENU,
-    //       route: 'account',
-    //       component: '/management/user/account/index.tsx',
-    //     },
-    //   ],
-    // },
     {
       id: '0249937641030250',
       parentId: '0901673425580518',
@@ -170,6 +142,24 @@ const MANAGEMENT_PERMISSION = {
       route: 'diary',
       component: '/management/diary/index.tsx',
     },
+    // {
+    //   id: '2781684678535711',
+    //   parentId: '0901673425580518',
+    //   label: 'sys.menu.diary',
+    //   name: 'Diary',
+    //   type: PermissionType.MENU,
+    //   route: 'diary',
+    //   component: '/management/diary/components/vaildDiary/index.tsx',
+    // },
+    // {
+    //   id: '2781684678535555',
+    //   parentId: '0901673425580518',
+    //   label: '游记回收站',
+    //   name: 'DiaryRecycle',
+    //   type: PermissionType.MENU,
+    //   route: 'diaryRecycle',
+    //   component: '/management/diary/components/recycleDiary/index.tsx',
+    // },
   ],
 };
 const COMPONENTS_PERMISSION = {
@@ -490,7 +480,6 @@ export const TEST_PERMISSION_LIST = [
   ...OTHERS_PERMISSION,
 ];
 
-
 /**
  * User role mock
  */
@@ -501,7 +490,12 @@ export const ADMIN_ROLE = {
   status: BasicStatus.ENABLE,
   order: 1,
   desc: 'Super Admin',
-  permission: [DASHBOARD_PERMISSION, COMPONENTS_PERMISSION, FUNCTIONS_PERMISSION,MANAGEMENT_PERMISSION]
+  permission: [
+    DASHBOARD_PERMISSION,
+    COMPONENTS_PERMISSION,
+    FUNCTIONS_PERMISSION,
+    MANAGEMENT_PERMISSION,
+  ],
 };
 const TEST_ROLE = {
   id: '9931665660771476',
