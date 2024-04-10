@@ -21,6 +21,8 @@ import type { TableProps,GetProp } from 'antd';
 import { TableRowSelection } from 'antd/es/table/interface';
 import type { SearchProps } from 'antd/es/input/Search';
 import { IconButton, Iconify } from '@/components/icon';
+import { StorageEnum } from '#/enum';
+import { getItem, removeItem, setItem } from '@/utils/storage';
 import {
   CheckCircleOutlined,
   CloseCircleOutlined,
@@ -74,7 +76,7 @@ const getRandomuserParams = (params: TableParams) => ({
 });
 
 export default function Diary() {
-  const [userInfo,setUserInfo] = useState({'role_index':0,'name':'admin',id:1});
+  const [userInfo,setUserInfo] = useState(getItem(StorageEnum.User));
   const [loading, setLoading] = useState(false);
   const [layout,setLayout] = useState("full");
   const [diaryData,setDiaryData] = useState([]);
@@ -135,7 +137,7 @@ export default function Diary() {
     if(!filterFlag){  //页面重新加载都要把筛选状态重置
       getDiaryList({page:pageParams.page,pageSize:pageParams.pageSize,category:pageParams.category,user_id:userInfo.id});
     }
-    setUserInfo({'role_index':1,'name':'admin',id:1});
+    console.log(getItem(StorageEnum.User));
   }, [JSON.stringify(tableParams)]);
 
 
@@ -409,7 +411,6 @@ export default function Diary() {
       show: false,
       onOk: (formValue:DiaryType|DiaryType[],reject:string) => {
         setDiaryRejectReasonModalProps((prev) => ({ ...prev, show: false }));
-        setDiaryData((prev) => prev.map((item) => item['id'] === formValue['id'] ? {...item, checked_status: 1, checked_opinion: '通过', checked_person: userInfo.name,checked_by: userInfo.id} : item));
         //修改审核状态
         if (formValue instanceof Array) {
           let newStatusForm = formValue.map((item) => {  
@@ -424,6 +425,7 @@ export default function Diary() {
           delete newStatusForm['diaryInfo']
           onDiarypUpdate([newStatusForm])
         }
+        setDiaryData((prev) => prev.map((item) => item['id'] === formValue['id'] ? {...item, checked_status: 0, checked_opinion: reject, checked_person: userInfo.name,checked_by: userInfo.id} : item));
       },
       onCancel: () => {
         setDiaryRejectReasonModalProps((prev) => ({ ...prev, show: false }));
@@ -486,12 +488,6 @@ export default function Diary() {
      const onDiarypUpdate = async (formValueList: DiaryType[]) => {
       try{
         const updateRes = await updateDiary(formValueList);
-        setTableParams({
-          ...tableParams,
-          pagination: {
-            ...tableParams.pagination,
-          },
-        })
       }catch(error){
         console.log(error)
       }
