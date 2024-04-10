@@ -62,3 +62,18 @@ exports.deleteFollow = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.unfollow = async (req, res) => {
+  try {
+    const deleted = await Follow.destroy({
+      where: req.body
+    });
+    if (deleted) {
+      res.status(204).send();
+    } else {
+      res.status(404).json({ message: 'Follow not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

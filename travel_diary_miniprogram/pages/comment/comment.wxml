@@ -1,0 +1,9 @@
+<!--pages/comment/comment.wxml-->
+<!-- 空评论 -->
+<view class="container">
+  <image src="../../images/nocomments.png" mode="widthFix"/>
+  <view class="text">
+    <text>暂无评论~</text>
+    <text style="color: blue;">点击去评论</text>
+  </view> 
+</view>

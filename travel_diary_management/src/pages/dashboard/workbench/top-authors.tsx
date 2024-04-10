@@ -21,6 +21,18 @@ export default function TopAuthor() {
           bg: themeToken.colorErrorBgHover,
         };
       }
+      case 3: {
+        return {
+          color: themeToken.colorError,
+          bg: themeToken.colorErrorBgHover,
+        };
+      }
+      case 4: {
+        return {
+          color: themeToken.colorError,
+          bg: themeToken.colorErrorBgHover,
+        };
+      }
       default:
         return {
           color: themeToken.colorPrimary,
@@ -31,10 +43,10 @@ export default function TopAuthor() {
   return (
     <Card className="flex-col">
       <header className="self-start">
-        <Typography.Title level={5}>Top Authors</Typography.Title>
+        <Typography.Title level={5}>Top Up主</Typography.Title>
       </header>
       <main className="w-full">
-        {new Array(3).fill('').map((_, index) => (
+        {new Array(5).fill('').map((_, index) => (
           <div key={index} className="mb-4 flex">
             <img src={faker.image.avatar()} alt="" className="h-10 w-10 rounded-full" />
             <div className="ml-2 flex flex-col">
