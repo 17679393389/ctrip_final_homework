@@ -6,6 +6,7 @@ import { CircleLoading } from '@/components/loading';
 
 import { AppRouteObject } from '#/router';
 
+
 const ProfilePage = lazy(() => import('@/pages/management/user/profile'));
 const AccountPage = lazy(() => import('@/pages/management/user/account'));
 
@@ -14,6 +15,7 @@ const PermissioPage = lazy(() => import('@/pages/management/system/permission'))
 
 const Blog = lazy(() => import('@/pages/management/blog'));
 const Diary = lazy(() => import('@/pages/management/diary'));
+const DiaryRecycle = lazy(() => import('@/pages/management/diary/components/recycleDiary'));
 
 const management: AppRouteObject = {
   order: 2,
@@ -38,6 +40,11 @@ const management: AppRouteObject = {
       element: <Diary />,
       meta: { label: 'sys.menu.diary', key: '/management/diary' },
     },
+    // {
+    //   path: 'diaryRecycle',
+    //   element: <DiaryRecycle/>,
+    //   meta: { label: '回收站', key: '/management/diary/components/recycleDiary' },
+    // },
     {
       path: 'user',
       meta: { label: 'sys.menu.user.index', key: '/management/user' },

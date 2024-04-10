@@ -17,6 +17,8 @@ router.get(
 router.get("/", diaryController.getAllDiaries);
 router.get("/getDiariesList", diaryController.getDiariesList);
 router.get("/searchDiaries", diaryController.searchDiaries);
+router.get("/getDeletedDiaries", diaryController.getDeletedDiaries);
+router.get("/searchDeletedDiaries", diaryController.searchDeletedDiaries);
 // router.post("/", diaryController.createDiary);
 router.get(
   "/:id",
