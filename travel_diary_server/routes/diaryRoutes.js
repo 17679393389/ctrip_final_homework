@@ -4,6 +4,9 @@ const router = express.Router();
 const diaryController = require("../controllers/diaryController");
 const { authMiddleware } = require("../utils/authMiddleware");
 const checkTokenExpiration = require("../utils/checkJwtExpiration");
+router.get('/getMyNotesList', diaryController.getMyNotesList);
+router.get('/getMyNoteDetail', diaryController.getMyNoteDetail);
+router.get('/getNoteDetail', diaryController.getNoteDetail);
 router.get("/getDiaryByStatus", diaryController.getDiaryByStatus);
 router.get(
   "/getUserDiaries",
@@ -30,16 +33,6 @@ router.post(
   diaryController.newDiary
 );
 router.post("/updateDiaryStatus", diaryController.updateDiaryStatus);
-const diaryController = require('../controllers/diaryController');
-
-
-router.get('/', diaryController.getAllDiaries);
-router.get('/getMyNotesList', diaryController.getMyNotesList);
-router.get('/getMyNoteDetail', diaryController.getMyNoteDetail);
-router.get('/getNoteDetail', diaryController.getNoteDetail);
-router.post('/', diaryController.createDiary);
-router.get('/:id', diaryController.getDiaryById);
-router.put('/:id', diaryController.updateDiary);
 router.post('/delete', diaryController.deleteDiary);
 
 

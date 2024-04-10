@@ -3,6 +3,7 @@ const Diary = require("../models/diary");
 const User = require("../models/user");
 const Admin = require("../models/admin");
 const Love_ = require("../models/love_");
+const Follow = require("../models/follow");
 const { Op } = require("sequelize");
 const sequelize = require("../utils/db_connection");
 exports.getAllDiaries = async (req, res) => {
@@ -296,9 +297,11 @@ const updateDiary = (diary) => {
   try {
     //默认更新时间为当前时间
     diary.update_time = new Date();
-    const [updated] = Diary.update(diary, {
+    diary.checked_status = -1;
+    const updated = Diary.update(diary, {
       where: { id: diary.id },
     });
+    console.log(updated)
     if (updated) {
       const newdDiary = Diary.findByPk(diary.id);
       return { code: 200, data: newdDiary };
@@ -330,6 +333,7 @@ const createDiary = async (diary) => {
 exports.newDiary = async (req, res) => {
   try {
     if (req.body.status == 1) {
+      console.log(req.body.diary)
       //编辑状态
       const result = await updateDiary(req.body.diary);
       if (result.code == 200) {
@@ -514,7 +518,7 @@ exports.getNoteDetail = async (req, res) => {
       where: {id: d_id}, 
       include: [
         { model: User, attributes: ["username", "avatarUrl"], as: "author" },
-        { model: Love, attributes: ["like_count"], as: "love"},
+        { model: Love_, attributes: ["like_count"], as: "love_"},
       ], 
     });
 
@@ -525,9 +529,9 @@ exports.getNoteDetail = async (req, res) => {
     noteData.photoList = noteData.photo.split(",").map((url) => url.trim());
     noteData.username = noteData.author.username;
     noteData.avatarUrl = noteData.author.avatarUrl;
-    noteData.love_count = noteData.love.like_count;
+    noteData.love_count = noteData.love_.like_count;
     delete noteData.author;
-    delete noteData.love;
+    delete noteData.love_;
 
     const fans =  await Follow.findAll({
       attributes:['fans_id'] ,
