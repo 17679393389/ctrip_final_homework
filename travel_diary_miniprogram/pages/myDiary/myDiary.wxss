@@ -72,6 +72,10 @@
 .note-title {
   font-size: 34rpx;
   font-weight: bold;
+  overflow: hidden;
+  width: 8em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .note-tag {

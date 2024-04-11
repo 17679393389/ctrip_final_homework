@@ -31,7 +31,7 @@ Page({
       //关注
       if(!this.data.hasFollowed){
         wx.request({
-          url: baseUrl + 'follow',
+          url: baseUrl + '/follow',
           method:'POST',
           data:{
             id:0,
@@ -48,7 +48,7 @@ Page({
         })
       }else{
         wx.request({
-          url: baseUrl + 'follow/unfollow',
+          url: baseUrl + '/follow/unfollow',
           method:'POST',
           data:{
             up_id: this.data.noteDetail.create_by,
@@ -89,7 +89,7 @@ Page({
     }
 
     wx.request({
-      url: baseUrl + 'love/updateNoteLikes',
+      url: baseUrl + '/love/updateNoteLikes',
       method: 'POST',
       data:{
         d_id: that.data.query.d_id,
@@ -130,7 +130,7 @@ Page({
     let that = this;
 
     wx.request({
-      url: baseUrl + 'diary/getNoteDetail',
+      url: baseUrl + '/diary/getNoteDetail',
       method: 'GET',
       data:{
         d_id: that.data.query.d_id

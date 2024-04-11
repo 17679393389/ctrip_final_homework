@@ -25,11 +25,12 @@ Page({
   // 生命周期函数--监听页面加载
   onLoad: function (options) {
     // console.log(options)
-    // this.showNotesList()
+    
     
     if(!userInfo){ //未登录
       this.navigateToLogin()
     }
+       
     // this.setData({user_id:userInfo.id})
   },
 
@@ -45,6 +46,7 @@ Page({
       this.setData({user_id:userInfo.id})
     }
     if(userInfo){
+      
       this.showNotesList()
     }
   },
@@ -219,7 +221,7 @@ Page({
 
   navigateToPostNote: function() {
     wx.navigateTo({
-      url: '/pages/diaryPost/diaryPost' // 替换为目标页面的路径
+      url: '/pages/diaryPublish/diaryPublish' // 替换为目标页面的路径
     });
   },
 
@@ -231,9 +233,9 @@ Page({
 
   navigateToEdit: function(e) {
     let d_id = e.target.dataset.did;
-
+    console.log(d_id)
     wx.navigateTo({
-      url: '/pages/diaryPublish/diaryPubish?d_id='+d_id // 替换为目标页面的路径
+      url: '/pages/diaryPublish/diaryPublish?d_id='+d_id // 替换为目标页面的路径
     });
   },
 
