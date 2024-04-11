@@ -53,7 +53,7 @@ App({
     });
   },
   globalData: {
-    userInfo: {"id":'o4VqY5sJfSWnl92Btl0YXphUdafQ', "avatarUrl":'https://it-recite.oss-cn-shenzhen.aliyuncs.com/2b56fa24d81742f48531e00079e41101.jpg', "gender":1, "username":'哆啦A梦', "nickname":'sl', "phone":'1765454545', "tips":'少说多做', "passwrod":'15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225'},
+    userInfo: null,
     baseUrl: "http://localhost:3000",
     token: "",
   },

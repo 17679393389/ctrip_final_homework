@@ -125,7 +125,7 @@ Page({
             setTimeout(function () {
               //发布成功后返回我的界面;
               wx.switchTab({
-                url: "/pages/index/index",
+                url: "/pages/myDiary/myDiary",
               });
             }, 2000);
           } else if (res.statusCode == 401) {

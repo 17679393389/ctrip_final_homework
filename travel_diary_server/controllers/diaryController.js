@@ -55,8 +55,9 @@ exports.getDiaryById = async (req, res) => {
 
 exports.deleteDiary = async (req, res) => {
   try {
+
     const deleted = await Diary.destroy({
-      where: { id: req.params.id },
+      where: { id: req.body.d_id },
     });
     if (deleted) {
       res.status(204).send();

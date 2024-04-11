@@ -30,6 +30,8 @@ Page({
     if(!userInfo){ //未登录
       this.navigateToLogin()
     }
+    
+    
        
     // this.setData({user_id:userInfo.id})
   },
