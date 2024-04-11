@@ -170,12 +170,13 @@
   margin-left: auto;
   padding: 2rpx 4rpx;
   margin-right: 6rpx;
+  width:200rpx;
 }
 
 .dlt-dt-btn {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  justify-content: center;
+  align-self:flex-end;
   margin-top: 88rpx;
 }
 

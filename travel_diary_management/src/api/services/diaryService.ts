@@ -42,6 +42,7 @@ export enum DairyApi {
     getDeleted = '/diary/getDeletedDiaries',
     searchDeleted = '/diary/searchDeletedDiaries',
     getDiaryById = '/diary/:id',
+    getDiaryVerify = "/diary/getDiaryVerify"
 }
 
 interface StatusReq{
@@ -60,3 +61,4 @@ export const updateDiary = (data: DiaryReq[]) => apiClient.post({ url: DairyApi.
 export const getDiaryByStatus = (status:StatusReq) => apiClient.get({ url: `${DairyApi.getDiaryByStatus}?status=${status.status}&page=${status.page}&pageSize=${status.pageSize}&recycle=${status.recycle}`});
 export const getDeletedDiary = (data: DiaryList) => apiClient.get({ url: `${DairyApi.getDeleted}?page=${data.page}&pageSize=${data.pageSize}`});
 export const searchDeletedDiary = (data: DiarySearchList) => apiClient.get({ url: `${DairyApi.searchDeleted}?page=${data.page}&pageSize=${data.pageSize}&keyword=${data.keyword}`});
+export const getDiaryVerify = () => apiClient.get({ url: `${DairyApi.getDiaryVerify}`});

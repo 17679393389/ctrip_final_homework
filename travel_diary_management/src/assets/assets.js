@@ -23,15 +23,6 @@ const DASHBOARD_PERMISSION = {
       route: 'workbench',
       component: '/dashboard/workbench/index.tsx',
     },
-    {
-      id: '9710971640510357',
-      parentId: '9100714781927703',
-      label: 'sys.menu.analysis',
-      name: 'Analysis',
-      type: PermissionType.MENU,
-      route: 'analysis',
-      component: '/dashboard/analysis/index.tsx',
-    },
   ],
 };
 const MANAGEMENT_PERMISSION = {

@@ -1,18 +1,21 @@
 import { faker } from '@faker-js/faker';
 import { Badge, Button, Drawer, Space, Tabs, TabsProps } from 'antd';
 import Color from 'color';
-import { CSSProperties, ReactNode, useState } from 'react';
+import { CSSProperties, ReactNode, useEffect, useState } from 'react';
 
 import CyanBlur from '@/assets/images/background/cyan-blur.png';
 import RedBlur from '@/assets/images/background/red-blur.png';
 import { IconButton, Iconify, SvgIcon } from '@/components/icon';
 import ProTag from '@/theme/antd/components/tag';
 import { useThemeToken } from '@/theme/hooks';
+import { getDiaryVerify } from '@/api/services/diaryService';
+import {LoadingOutlined} from '@ant-design/icons';
 
 export default function NoticeButton() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const themeToken = useThemeToken();
-  const [count, setCount] = useState(4);
+  const [count, setCount] = useState(0);
+  const [diaryCount, setDiaryCount] = useState(0);
 
   const style: CSSProperties = {
     backdropFilter: 'blur(20px)',
@@ -25,6 +28,22 @@ export default function NoticeButton() {
   const bodyStyle: CSSProperties = {
     padding: 0,
   };
+  useEffect(() => {
+    getDiaryList()
+    
+  }, []);
+  const getDiaryList = async () => {
+    try{
+      const res = await getDiaryVerify();
+      if(res.data.diaryCount > 0){
+        setDiaryCount(res.data.diaryCount)
+        setCount(1)
+      }
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
 
   return (
     <div>
@@ -55,36 +74,38 @@ export default function NoticeButton() {
             onClick={() => {
               setCount(0);
               setDrawerOpen(false);
+              setDiaryCount(0)
             }}
           >
             <Iconify icon="solar:check-read-broken" size={20} />
           </IconButton>
         }
       >
-        <NoticeTab />
+        <NoticeTab diaryCount = {diaryCount}/>
       </Drawer>
     </div>
   );
 }
 
-function NoticeTab() {
+function NoticeTab({diaryCount}) {
   const tabChildren: ReactNode = (
     <div className="text-sm">
       <div className="flex">
-        <img className="h-10 w-10 rounded-full" src={faker.image.avatar()} alt="" />
+      <IconButton>
+          <SvgIcon icon="ic_mail" size={30} />
+        </IconButton>
         <div className="ml-2">
           <div>
-            <span className="font-medium">{faker.person.fullName()}</span>
-            <span className="text-xs font-light"> sent you a frind request</span>
+          <span className="font-medium">您还有{diaryCount}条游记未审核</span>
           </div>
-          <span className="text-xs font-light opacity-60">about 1 hour ago</span>
+          <span className="text-xs font-light opacity-60">请尽快审核</span>
         </div>
       </div>
     </div>
   );
   return (
     <div className="flex flex-col px-6 m-4">
-      {tabChildren}
+      {diaryCount > 0 && tabChildren}
     </div>
   );
 }
