@@ -76,7 +76,7 @@ const getRandomuserParams = (params: TableParams) => ({
 });
 
 export default function DiaryRecycle({onTabSwitch}) {
-  const userInfo = useState(getItem(StorageEnum.User));
+  const [userInfo,setUserInfo] = useState(getItem(StorageEnum.User));
   const [loading, setLoading] = useState(false);
   const [layout,setLayout] = useState("full");
   const [diaryData,setDiaryData] = useState([]);
@@ -133,7 +133,7 @@ export default function DiaryRecycle({onTabSwitch}) {
     if(!filterFlag){  //页面重新加载都要把筛选状态重置
       getDiaryList({page:pageParams.page,pageSize:pageParams.pageSize});
     }
-    console.log(diaryData)
+    setUserInfo(getItem(StorageEnum.User));
   }, [JSON.stringify(tableParams)]);
 
 
@@ -194,28 +194,32 @@ export default function DiaryRecycle({onTabSwitch}) {
           title:"游记标题",
           dataIndex: 'title',
           align: 'center',
+          width:200,
           render:(_,record)=>(<div onClick={() => onDetail(record)}>{record.title}</div>)
         },
         {
           title:"发布人",
           dataIndex: 'username',
           align: 'center',
+          width:120,
         },
         {
           title:"审核人",
           dataIndex: 'checked_person',
           align: 'center',
+          width:120,
         },
         {
           title:"审核时间",
           dataIndex: 'checked_at',
           align: 'center',
+          width:150,
         },
         {
           title:"审核意见",
           dataIndex: 'checked_opinion',
           align: 'center',
-          width:100,
+          width:150,
           ellipsis: {
             showTitle: false,
           },
@@ -229,7 +233,7 @@ export default function DiaryRecycle({onTabSwitch}) {
           title: '审核状态',
           dataIndex: 'checked_status',
           align: 'center',
-          
+          width:100,
           filters: [
             {
               text: '待审核',

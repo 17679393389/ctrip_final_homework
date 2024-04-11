@@ -109,12 +109,12 @@ swiper image {
   position: fixed;
   bottom: 0;
   left: 0;
-  border-top: 1rpx solid #eee;
   height: 120rpx;
   display: flex;
   justify-content: center;
   align-items: center;
- background-color: #fff;
+  background-color: #fff;
+  padding-bottom: 50rpx;
 }
 
 .info {

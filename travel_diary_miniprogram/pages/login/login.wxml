@@ -1,12 +1,12 @@
 <view class="login">
-    <l-button special="{{true}}" l-class="back">
+    <l-button special="{{true}}" l-class="back" bind:lintap="back">
        <l-icon name="left" color="#707070"/>
     </l-button>
     <image src="../../images/login.png"></image>
     <view class="login-container">
         <view class="login-text">
             <text>你好~</text>
-            <text>开始记录你的旅行日记吧~</text>
+            <text>开始留下你的精彩旅行动态吧~</text>
         </view>
         <l-input width="650" label-width="90" placeholder="请输入用户名" l-class="input" bind:lininput="usernameInput">
             <view class="nickname" slot="left">

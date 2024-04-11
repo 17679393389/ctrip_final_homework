@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "发布游记",
+  "navigationBarBackgroundColor": "#fff",
   "usingComponents": {
     "l-button":"/miniprogram_npm/lin-ui/button/index",
     "l-input":"/miniprogram_npm/lin-ui/input/index",

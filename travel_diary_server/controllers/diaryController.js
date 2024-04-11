@@ -4,7 +4,7 @@ const User = require("../models/user");
 const Admin = require("../models/admin");
 const Love_ = require("../models/love_");
 const Follow = require("../models/follow");
-const { Op } = require("sequelize");
+const { Op, where } = require("sequelize");
 const sequelize = require("../utils/db_connection");
 exports.getAllDiaries = async (req, res) => {
   try {
@@ -56,7 +56,7 @@ exports.getDiaryById = async (req, res) => {
 exports.deleteDiary = async (req, res) => {
   try {
     const deleted = await Diary.destroy({
-      where: { id: req.params.id },
+      where: { id: req.body.d_id },
     });
     if (deleted) {
       res.status(204).send();
@@ -120,19 +120,11 @@ exports.getDiariesList = async (req, res) => {
     // 计算数据库查询偏移量
     const offset = (page - 1) * pageSize;
 
-    let include = [];
-    if (user_id) {
-      include = [
-        { model: User, attributes: ["username", "avatarUrl"], as: "author" },
-        { model: Love_, attributes: ["like_count"], as: "love_" },
-      ];
-    } else {
-      include = [
-        { model: User, attributes: ["username", "avatarUrl"], as: "author" },
-        { model: Admin, attributes: ["name"], as: "checked" },
-        { model: Love_, attributes: ["like_count"], as: "love_" },
-      ];
-    }
+    let include = [
+      { model: User, attributes: ["username", "avatarUrl"], as: "author" },
+      { model: Admin, attributes: ["name"], as: "checked" },
+      { model: Love_, attributes: ["like_count"], as: "love_" },
+    ];
 
     // 查询符合条件的游记数据
     const diaries = await Diary.findAll({
@@ -148,7 +140,11 @@ exports.getDiariesList = async (req, res) => {
       const diaryData = diary.toJSON(); // 转换成普通的 JavaScript 对象
       diaryData.create_at = new Date(diaryData.create_at).toLocaleString(); // 转换创建时间
       diaryData.update_time = new Date(diaryData.update_time).toLocaleString(); // 转换更新时间
-      diaryData.checked_at = new Date(diaryData.checked_at).toLocaleString(); // 转换审核时间
+      if (diaryData.checked_at) {
+        diaryData.checked_at = new Date(diaryData.checked_at).toLocaleString(); // 转换审核时间
+      } else {
+        diaryData.checked_at = "未审核";
+      }
       diaryData.photoList = diaryData.photo.split(",").map((url) => url.trim()); //分割图片
       // 从关联的用户表中获取用户名和头像 URL
       diaryData.username = diaryData.author.username;
@@ -215,7 +211,11 @@ exports.searchDiaries = async (req, res) => {
       const diaryData = diary.toJSON();
       diaryData.create_at = new Date(diaryData.create_at).toLocaleString();
       diaryData.update_time = new Date(diaryData.update_time).toLocaleString();
-      diaryData.checked_at = new Date(diaryData.checked_at).toLocaleString();
+      if (diaryData.checked_at) {
+        diaryData.checked_at = new Date(diaryData.checked_at).toLocaleString(); // 转换审核时间
+      } else {
+        diaryData.checked_at = "未审核";
+      }
       diaryData.photoList = diaryData.photo.split(",").map((url) => url.trim());
       // 从关联的用户表中获取用户名和头像 URL
       diaryData.username = diaryData.author.username;
@@ -306,7 +306,7 @@ const updateDiary = (diary) => {
     const updated = Diary.update(diary, {
       where: { id: diary.id },
     });
-    console.log(updated)
+    console.log(updated);
     if (updated) {
       const newdDiary = Diary.findByPk(diary.id);
       return { code: 200, data: newdDiary };
@@ -338,7 +338,7 @@ const createDiary = async (diary) => {
 exports.newDiary = async (req, res) => {
   try {
     if (req.body.status == 1) {
-      console.log(req.body.diary)
+      console.log(req.body.diary);
       //编辑状态
       const result = await updateDiary(req.body.diary);
       if (result.code == 200) {
@@ -421,7 +421,11 @@ exports.getDiaryByStatus = async (req, res) => {
       const diaryData = diary.toJSON();
       diaryData.create_at = new Date(diaryData.create_at).toLocaleString();
       diaryData.update_time = new Date(diaryData.update_time).toLocaleString();
-      diaryData.checked_at = new Date(diaryData.checked_at).toLocaleString();
+      if (diaryData.checked_at) {
+        diaryData.checked_at = new Date(diaryData.checked_at).toLocaleString(); // 转换审核时间
+      } else {
+        diaryData.checked_at = "未审核";
+      }
       diaryData.photoList = diaryData.photo.split(",").map((url) => url.trim());
       // 从关联的用户表中获取用户名和头像 URL
       diaryData.username = diaryData.author.username;
@@ -481,7 +485,11 @@ exports.getDeletedDiaries = async (req, res) => {
       const diaryData = diary.toJSON(); // 转换成普通的 JavaScript 对象
       diaryData.create_at = new Date(diaryData.create_at).toLocaleString(); // 转换创建时间
       diaryData.update_time = new Date(diaryData.update_time).toLocaleString(); // 转换更新时间
-      diaryData.checked_at = new Date(diaryData.checked_at).toLocaleString(); // 转换审核时间
+      if (diariesData.checked_at) {
+        diaryData.checked_at = new Date(diaryData.checked_at).toLocaleString(); // 转换审核时间
+      } else {
+        diaryData.checked_at = "未审核";
+      }
       diaryData.photoList = diaryData.photo.split(",").map((url) => url.trim()); //分割图片
       // 从关联的用户表中获取用户名和头像 URL
       diaryData.username = diaryData.author.username;
@@ -647,8 +655,8 @@ exports.getNoteDetail = async (req, res) => {
       where: { id: d_id },
       include: [
         { model: User, attributes: ["username", "avatarUrl"], as: "author" },
-        { model: Love_, attributes: ["like_count"], as: "love_"},
-      ], 
+        { model: Love_, attributes: ["like_count"], as: "love_" },
+      ],
     });
 
     const noteData = note[0].toJSON();
@@ -678,6 +686,43 @@ exports.getNoteDetail = async (req, res) => {
       noteDetail: noteData,
       fansData: fanList,
     });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+exports.getTotalDiary = async (req, res) => {
+  try {
+    // 查询总的记录数
+    const totalCount = await Diary.count();
+    res.json({
+      totalDiaries: totalCount,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getToBeCheckedDiary = async (req, res) => {
+  try {
+    // 查询总的记录数
+    const totalCount = await Diary.count({ where: { checked_status: -1 } });
+    res.json({
+      totalCheckingDiaries: totalCount,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+exports.getDiaryVerify = async (req, res) => {
+  try {
+    const diaryCount = await Diary.count({ where: { checked_status: -1 } });
+    if (!diaryCount) {
+      res.status(404).json({ error: "游记丢失了！" });
+    } else {
+      res.json({
+        diaryCount: diaryCount,
+      });
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

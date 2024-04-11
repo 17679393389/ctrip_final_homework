@@ -12,11 +12,11 @@ Page({
   },
   onLoad(options) {
     //判断是新发布还是编辑
-    if (options) {
+    if (options && options.d_id) {
       //拿到需要编辑的游记信息并渲染在本页面
       this.setData({
         status: 1, //记录是编辑状态
-        d_id: options.d_id
+        d_id: options.d_id,
       });
       this.getDiaryInfo(options.d_id);
     }
@@ -125,7 +125,7 @@ Page({
             setTimeout(function () {
               //发布成功后返回我的界面;
               wx.switchTab({
-                url: "/pages/index/index",
+                url: "/pages/myDiary/myDiary",
               });
             }, 2000);
           } else if (res.statusCode == 401) {

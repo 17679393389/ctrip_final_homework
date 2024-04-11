@@ -1,5 +1,5 @@
 <view class="register">
-    <l-button special="{{true}}" l-class="back">
+    <l-button special="{{true}}" l-class="back" bind:lintap="back">
         <l-icon name="left" color="#707070"/>
      </l-button>
      <view class="register-hello">

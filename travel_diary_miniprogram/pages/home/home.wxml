@@ -1,6 +1,6 @@
 <!--pages/home.wxml-->
 <view>
-<view style="margin-top: 10px;">
+<view>
 	<l-search-bar show-cancel="{{false}}" placeholder="搜索" bind:linblur="searchDiaries"/>
 	<l-tabs equal-width="{{true}}" scrollable="{{true}}" bind:linchange="changeTabs">
         <l-tabpanel tab="全部" key="1" slot="1">
@@ -19,6 +19,6 @@
         </l-tabpanel>
       </l-tabs>
 </view>
-<l-water-flow column-gap="-5px" generic:l-water-flow-item="waterFlowData"/>
+<l-water-flow column-gap="-10px" generic:l-water-flow-item="waterFlowData"/>
 </view>
 
