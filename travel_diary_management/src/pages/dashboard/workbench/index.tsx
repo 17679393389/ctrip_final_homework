@@ -12,8 +12,12 @@ import TopAuthor from './top-authors';
 import TopInstalled from './top-installed';
 import TopRelated from './top-related';
 import TotalCard from './total-card';
+import { useEffect, useState } from 'react';
+import { getTotalDiary, getToBeCheckedDiary } from '@/api/services/diaryService' 
 
 function Workbench() {
+
+
   return (
     <>
       <Row gutter={[16, 16]} justify="center">
@@ -43,7 +47,7 @@ function Workbench() {
           <TotalCard
             title="游记总数量"
             increase
-            count="4,876"
+            count='2882'
             percent="0.2%"
             chartData={[45, 52, 38, 24, 33, 26, 21, 20, 6]}
           />
@@ -53,7 +57,7 @@ function Workbench() {
           <TotalCard
             title="待审核笔记总数"
             increase={false}
-            count="678"
+            count='89990'
             percent="0.1%"
             chartData={[35, 41, 62, 42, 13, 18, 29, 37, 36]}
           />
