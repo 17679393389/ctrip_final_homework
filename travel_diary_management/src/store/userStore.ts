@@ -9,7 +9,7 @@ import { getItem, removeItem, setItem } from '@/utils/storage';
 
 import { UserInfo, UserToken } from '#/entity';
 import { StorageEnum } from '#/enum';
-import {PERMISSION_LIST,ADMIN_ROLE} from '@/_mock/assets';
+import {PERMISSION_LIST,ADMIN_ROLE} from '@/assets/assets';
 
 const { VITE_APP_HOMEPAGE: HOMEPAGE } = import.meta.env;
 

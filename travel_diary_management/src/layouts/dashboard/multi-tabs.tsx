@@ -7,7 +7,7 @@ import { useToggle, useFullscreen } from 'react-use';
 import styled from 'styled-components';
 
 import { Iconify } from '@/components/icon';
-import useKeepAlive, { KeepAliveTab } from '@/hooks/web/use-keepalive';
+import useKeepAlive, { KeepAliveTab } from '../hook/use-keepalive';
 import { useRouter } from '@/router/hooks';
 import { useSettings } from '@/store/settingStore';
 import { useResponsive, useThemeToken } from '@/theme/hooks';

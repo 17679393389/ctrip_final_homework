@@ -15,15 +15,6 @@ export interface UserInfo {
   permissions?:Permission[]
 }
 
-export interface Organization {
-  id: string;
-  name: string;
-  status: 'enable' | 'disable';
-  desc?: string;
-  order?: number;
-  children?: Organization[];
-}
-
 export interface Permission {
   id: string;
   parentId: string;

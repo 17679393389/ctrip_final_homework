@@ -273,7 +273,7 @@ export default function DiaryRecycle({onTabSwitch}) {
       //判断是否需要筛选
       if (filters.checked_status && filters.checked_status.length > 0) {
         setFilterFlag(true);
-        onFilterDiaryTable({ status: filters.checked_status});
+        onFilterDiaryTable({ status: filters.checked_status, pageSize:pagination.pageSize });
       }else{
         setFilterFlag(false);
       }
@@ -282,14 +282,13 @@ export default function DiaryRecycle({onTabSwitch}) {
       }
     };
     //获取筛选结果
-    const onFilterDiaryTable = async (filters: TableParams['filters']) => {
+    const onFilterDiaryTable = async (filters:any) => {
       //调接口获取筛选结果
       setLoading(true);
       const searchStatusReq = {
-        pageSize: tableParams.pagination?.pageSize,
+        pageSize: filters.pageSize,
         page: 1,
         status: filters.status?.join(','),
-        recycle: 1,
       }
       const searchStatusRes = await getDiaryByStatus(searchStatusReq);
       setLoading(false);
@@ -298,8 +297,9 @@ export default function DiaryRecycle({onTabSwitch}) {
         ...tableParams,
         pagination: {
           ...tableParams.pagination,
+          pageSize: filters.pageSize,
           current:1,
-          total: searchStatusRes.data.totalCount,
+          total: 200,
         },
       });
       
