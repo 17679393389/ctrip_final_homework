@@ -18,6 +18,13 @@ Component({
    * 组件的方法列表
    */
   methods: {
-
+    //跳转到游记详情页面
+    onDiaryDetail(e){
+      // console.log(e)
+      const { id } = e.currentTarget.dataset
+      wx.navigateTo({
+        url: '/pages/diaryDetail/diaryDetail?d_id='+id
+      })
+    }
   }
 })

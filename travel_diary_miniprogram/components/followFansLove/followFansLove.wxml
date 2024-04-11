@@ -1,10 +1,10 @@
 <!--components/followFansLove/followFansLove.wxml-->
 <l-grid show-border="true">
-    <l-grid-item key="1" slot="1">
+    <l-grid-item key="1" slot="1" bindtap="getFollowList">
         <view class="num">{{follow_count}}</view>
         <view class="text">关注</view>
      </l-grid-item>
-    <l-grid-item key="2" slot="2">
+    <l-grid-item key="2" slot="2" bindtap="getFansList">
         <view class="num">{{fans_count}}</view>
         <view class="text">粉丝</view>
     </l-grid-item>

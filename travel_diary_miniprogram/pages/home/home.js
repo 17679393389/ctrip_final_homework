@@ -62,8 +62,8 @@ Page({
         wx.lin.renderWaterFlow(that.data.diaries, that.data.isRefresh, () => {
           console.log("渲染成功");
           // console.log("隐藏加载动画")
-          console.log(that.data.diaries);
-          console.log(that.data.isRefresh);
+          // console.log(that.data.diaries[0]);
+          // console.log(that.data.isRefresh);
           wx.hideNavigationBarLoading(); // 隐藏加载动画
           that.setData({ isRefresh: false });
         });
@@ -73,7 +73,7 @@ Page({
   },
   //按照分类查看游记
   changeTabs(res) {
-    console.log(this.data.isRefresh);
+    // console.log(this.data.isRefresh);
     //新分类页面数重置为1、列表为空、是否触底false、是否刷新页面true
     this.setData({
       isRefresh: true,
@@ -82,7 +82,7 @@ Page({
       diaries: [],
       curClass: res.detail.activeKey,
     });
-    console.log(this.data.isRefresh);
+    // console.log(this.data.isRefresh);
     this.getDiaryList();
     // this.setData({isRefresh:false})
   },
@@ -108,8 +108,8 @@ Page({
           totalPage: res.data.totalPages,
         });
         wx.lin.renderWaterFlow(res.data.diaries, that.data.isRefresh, () => {
-          console.log("渲染成功");
-          console.log("隐藏加载动画");
+          // console.log("渲染成功");
+          // console.log("隐藏加载动画");
           wx.hideNavigationBarLoading(); // 隐藏加载动画
           that.setData({ isRefresh: false });
         });

@@ -1,2 +1,7 @@
 <!--pages/user/user.wxml-->
-<text>pages/user/user.wxml</text>
+<l-card type="avatar" image="{{avatarUrl}}" title="{{username + ' ' +gender}}">
+	<view class="content">
+		{{tips}}
+	</view>
+</l-card>
+<myDiaryCard myDiaryList="{{myDiaryList}}"/>

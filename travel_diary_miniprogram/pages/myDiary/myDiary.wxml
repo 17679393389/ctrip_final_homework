@@ -1,5 +1,7 @@
 <!--travel_diary_miniprogram/pages/myDiary/myDiary.wxml-->
-<view class="tabs">
+<view>
+  <followFansLove follow_count="{{follow_count}}" fans_count="{{fans_count}}" love_count="{{love_count}}"/>
+  <view class="tabs">
   <l-tabs equal-width="{{true}}" scrollable="{{true}}" bind:linchange="changeTabs">
         <l-tabpanel tab="全部" key="1" slot="1">
         </l-tabpanel>
@@ -74,4 +76,6 @@
         </view>
 </view>
 </view>
+</view>
+
 

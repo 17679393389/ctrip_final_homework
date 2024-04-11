@@ -1,3 +1,9 @@
 {
-  "usingComponents": {}
+  "navigationBarTitleText": "个人主页",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 100,
+  "usingComponents": {
+    "l-card": "/miniprogram_npm/lin-ui/card/index",
+    "myDiaryCard":"/components/myDiaryCard/myDiaryCard"
+  }
 }

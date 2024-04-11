@@ -3,7 +3,7 @@
   left: 0;
   top: 0;
   width: 100%;
-  position: fixed;
+  position: relative;
   display: flex;
   justify-content:space-around;
   align-items: center;
@@ -42,7 +42,7 @@
 }
 
 .noteList {
-  margin-top: 90rpx;
+  margin-top: 10rpx;
 }
 
 .note-item {
