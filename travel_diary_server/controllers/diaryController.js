@@ -243,10 +243,10 @@ exports.searchDiaries = async (req, res) => {
 exports.getUserDiaries = async (req, res) => {
   try {
     const { openid, page, pageSize } = req.query; // 获取客户端发送的openid、页码和每页数量参数
-
+    const whereClause = { create_by: openid, checked_status:1}
     // 查询总的记录数
     const totalCount = await Diary.count({
-      where: { create_by: openid }, // 添加查询条件，只查询指定用户的游记
+      where: whereClause, // 添加查询条件，只查询指定用户的游记
     });
 
     // 计算总页数
@@ -257,7 +257,7 @@ exports.getUserDiaries = async (req, res) => {
 
     // 查询符合条件的游记数据，并按创建时间从晚到早排序
     const diaries = await Diary.findAll({
-      where: { create_by: openid }, // 添加查询条件，只查询指定用户的游记
+      where: whereClause, // 添加查询条件，只查询指定用户的游记
       offset: offset,
       limit: parseInt(pageSize), // 将每页数量转换为整数
       order: [["create_at", "DESC"]], // 按创建时间从晚到早排序
@@ -290,7 +290,7 @@ exports.getUserDiaries = async (req, res) => {
 
     // 返回总页数和查询到的游记数据给前端
     res.json({
-      totalPages: totalPages,
+      totalCount: totalCount,
       diaries: diariesData,
     });
   } catch (error) {
@@ -607,7 +607,11 @@ exports.getMyNotesList = async (req, res) => {
       where: { ...whereClause, create_by: user_id },
       offset: offset,
       limit: parseInt(_limit),
+<<<<<<< HEAD
       order:[["update_time","desc"]]
+=======
+      order: [['update_time','DESC']]
+>>>>>>> 0032790bd54e3f6006b6c1437fb4638e68ba5901
     });
 
     const notesData = notes.map((diary) => {
@@ -691,6 +695,53 @@ exports.getNoteDetail = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+
+
+
+exports.searchStrategy = async (req, res) => {
+  try {
+    const { destination } = req.query;
+    const labels = ['美食', '住宿', '交通', '风景'];
+
+    // 执行原始 SQL 查询
+    const diaries = await sequelize.query(`
+      SELECT d.*
+      FROM (
+        SELECT *,
+          ROW_NUMBER() OVER (PARTITION BY label ORDER BY RAND()) AS rn
+        FROM diary
+        WHERE label IN (:labels) AND checked_status = 1
+          AND (title LIKE :keyword OR content LIKE :keyword)
+      ) AS d
+      WHERE d.rn = 1;
+    `, {
+      replacements: {
+        labels,
+        keyword: `%${destination}%`,
+      },
+      type: sequelize.QueryTypes.SELECT,
+    });
+
+    res.json({
+      diaries,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
 exports.getTotalDiary = async (req, res) => {
   try {
     // 查询总的记录数

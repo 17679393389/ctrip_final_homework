@@ -1,26 +1,7 @@
 <!--travel_diary_miniprogram/pages/myDiary/myDiary.wxml-->
-<view class="my-diary-container">
-<!-- <view class="my-info-bg">
-    <l-card type="avatar" l-class="my-info" image="{{userInfo.avatarUrl}}" l-img-class="my-info-image"
-  title="{{userInfo.username}}" l-title-class="my-info-title"> 
-  <view class="avter-share-container">
-    <view class="like-container">
-      <view class="label">粉丝</view>
-      <view class="number">{{fans_count}}</view>
-    </view>
-    <view class="like-container">
-      <view class="label">关注</view>
-      <view class="number">{{follow_count}}</view>
-    </view>
-    <view class="like-container">
-      <view class="label">获赞</view>
-      <view class="number">{{love_count}}</view>
-  </view>
-    </view>
-</l-card>
-</view> -->
 <view>
-<view class="tabs">
+  <followFansLove follow_count="{{follow_count}}" fans_count="{{fans_count}}" love_count="{{love_count}}"/>
+  <view class="tabs">
   <l-tabs equal-width="{{true}}" scrollable="{{true}}" bind:linchange="changeTabs">
         <l-tabpanel tab="全部" key="1" slot="1">
         </l-tabpanel>
@@ -106,4 +87,6 @@
 </view>
 </view>
 </view>
+</view>
+
 

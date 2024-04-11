@@ -4,6 +4,7 @@ const router = express.Router();
 const diaryController = require("../controllers/diaryController");
 const { authMiddleware } = require("../utils/authMiddleware");
 const checkTokenExpiration = require("../utils/checkJwtExpiration");
+router.get('/searchStrategy',diaryController.searchStrategy);
 router.post("/delete", diaryController.deleteDiary);
 router.get("/getMyNotesList", diaryController.getMyNotesList);
 router.get("/getMyNoteDetail", diaryController.getMyNoteDetail);
@@ -13,8 +14,8 @@ router.get("/getToBeCheckedDiary", diaryController.getToBeCheckedDiary);
 router.get("/getDiaryByStatus", diaryController.getDiaryByStatus);
 router.get(
   "/getUserDiaries",
-  authMiddleware,
-  checkTokenExpiration,
+  // authMiddleware,
+  // checkTokenExpiration,
   diaryController.getUserDiaries
 );
 router.get("/", diaryController.getAllDiaries);

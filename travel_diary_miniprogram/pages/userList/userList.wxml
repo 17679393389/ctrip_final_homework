@@ -1,0 +1,5 @@
+<view class="diary-list">
+  <block wx:for="{{ user_list }}" wx:key="index">
+      <l-list bindtap="goToUserHomePage" data-id = "{{item.user_id}}" data-username = "{{item.username}}" data-gender="{{item.gender}}" data-tips="{{item.tips}}" data-avatarUrl="{{item.avatarUrl}}" title="{{item.username+' '+item.gender}}" tag-color="pink" tag-content="{{item.tips}}" tagShape="circle" image="{{item.avatarUrl}}" />
+  </block>
+</view>

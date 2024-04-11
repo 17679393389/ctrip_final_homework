@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "一键推荐",
+  "usingComponents": {
+    "l-steps":"/miniprogram_npm/lin-ui/steps/index",
+    "l-step":"/miniprogram_npm/lin-ui/step/index",
+    "l-card":"/miniprogram_npm/lin-ui/card/index",
+    "l-avatar":"/miniprogram_npm/lin-ui/avatar/index",
+    "l-icon":"/miniprogram_npm/lin-ui/icon/index",
+    "l-search-bar":"/miniprogram_npm/lin-ui/search-bar/index"
+  }
+}

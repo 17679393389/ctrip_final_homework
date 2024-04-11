@@ -1,0 +1,13 @@
+/* pages/recommend/recommend.wxss */
+.describe-container{
+	width: 300px;
+	height: 200px; 
+}
+.icon{
+	width: 40rpx;
+	height: 40rpx; 
+}
+.search{
+	margin-top: 10rpx;
+	margin-bottom: 10rpx;
+}

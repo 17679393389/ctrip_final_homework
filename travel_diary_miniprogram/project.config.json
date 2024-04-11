@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "compileType": "miniprogram",
   "libVersion": "2.25.3",
@@ -27,4 +28,35 @@
   },
   "appid": "touristappid",
   "projectname": "travel_diary_miniprogram"
+=======
+{
+  "compileType": "miniprogram",
+  "libVersion": "2.25.3",
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "setting": {
+    "coverView": true,
+    "es6": true,
+    "postcss": true,
+    "minified": true,
+    "enhance": true,
+    "showShadowRootInWxmlPanel": true,
+    "packNpmRelationList": [],
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "condition": false
+  },
+  "condition": {},
+  "editorSetting": {
+    "tabIndent": "auto",
+    "tabSize": 2
+  },
+  "appid": "wx82317ad92bd318ba",
+  "projectname": "travel_diary_miniprogram"
+>>>>>>> 0032790bd54e3f6006b6c1437fb4638e68ba5901
 }

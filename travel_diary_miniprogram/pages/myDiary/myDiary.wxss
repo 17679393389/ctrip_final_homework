@@ -1,5 +1,9 @@
 /* travel_diary_miniprogram/pages/myDiary/myDiary.wxss */
 .tabs {
+  left: 0;
+  top: 0;
+  width: 100%;
+  position: relative;
   display: flex;
   justify-content:space-around;
   align-items: center;
