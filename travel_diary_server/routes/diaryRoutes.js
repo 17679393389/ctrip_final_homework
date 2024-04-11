@@ -4,6 +4,7 @@ const router = express.Router();
 const diaryController = require("../controllers/diaryController");
 const { authMiddleware } = require("../utils/authMiddleware");
 const checkTokenExpiration = require("../utils/checkJwtExpiration");
+router.post("/delete", diaryController.deleteDiary);
 router.get("/getMyNotesList", diaryController.getMyNotesList);
 router.get("/getMyNoteDetail", diaryController.getMyNoteDetail);
 router.get("/getNoteDetail", diaryController.getNoteDetail);
@@ -36,6 +37,5 @@ router.post(
   diaryController.newDiary
 );
 router.post("/updateDiaryStatus", diaryController.updateDiaryStatus);
-router.post("/delete", diaryController.deleteDiary);
 
 module.exports = router;

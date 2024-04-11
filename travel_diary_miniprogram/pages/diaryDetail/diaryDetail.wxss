@@ -72,13 +72,14 @@ swiper image {
 .note-detail {
   padding-left: 15rpx;
   margin: 15rpx;
-  padding-bottom: 200rpx;
+  padding-bottom: 150rpx;
 
 }
 
 .avter-content {
   font-size: 26rpx;
   letter-spacing: 2rpx;
+  
 
 }
 
