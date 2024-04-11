@@ -682,8 +682,6 @@ exports.getNoteDetail = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-<<<<<<< HEAD
-=======
 
 exports.getTotalDiary = async (req, res) => {
   try {
@@ -709,4 +707,3 @@ exports.getToBeCheckedDiary = async (req, res) => {
   }
 };
 
->>>>>>> ltq

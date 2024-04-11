@@ -85,7 +85,6 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
 //用户密码登录
 exports.loginUser = async (req, res) => {
   try {
@@ -129,21 +128,11 @@ exports.loginWithWx = async (req, res) => {
       // res.json(user);
       res.json({ user, token });
     }
-=======
-exports.getTotalUsers = async (req, res) => {
-  try {
-    // 查询总的记录数
-    const totalCount = await User.count();
-    res.json({
-      totalUsers: totalCount
-    });
->>>>>>> ltq
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-<<<<<<< HEAD
 // 获取用户唯一标识
 exports.getUserIdentifier = async (req, res) => {
   try {
@@ -187,5 +176,3 @@ exports.getUserStats = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-=======
->>>>>>> ltq
