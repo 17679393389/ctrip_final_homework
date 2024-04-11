@@ -1,8 +1,8 @@
 <!--pages/checkedDetail/checkedDetail.wxml-->
-<image class="ff" wx:if="{{ noteDetail.photoList.length === 1 }}" src="{{noteDetail.photoList[0]}}"></image>
+<image class="ff" wx:if="{{ noteDetail.photoList.length === 1 }}" src="{{noteDetail.photoList[0]}}" ></image>
 <swiper wx:else indicator-dots>
   <swiper-item wx:for="{{noteDetail.photoList}}" wx:key="id">
-    <image src="{{item}}" />
+    <image src="{{item}}" mode="aspectFill"/>
   </swiper-item>
 </swiper>
 
@@ -62,9 +62,7 @@
   <text class="note-checked-opinion">{{noteDetail.checked_opinion}}</text>  
 </view>
 </view>
-<view style="padding: 38rpx;" ></view>
-
-<view ></view>
+<view style="padding-bottom: 150rpx;" ></view>
 <view class="footer">
   <l-button shape="semicircle" size="large" bg-color="#ffb034" height="80" bind:lintap="navigateToEdit">重新编辑</l-button>
 </view>

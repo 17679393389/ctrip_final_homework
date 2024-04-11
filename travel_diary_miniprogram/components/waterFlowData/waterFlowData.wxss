@@ -1,13 +1,13 @@
 /* demo.wxss */
 .life-container {
-	width: 360rpx !important;
+	width: 350rpx !important;
   padding: 0 0 10rpx 0 !important;
   background-color: #fff !important;
-  box-shadow: 30px 38rpx 30rpx 0px rgba(9, 36, 66, 0.04) !important;
-  border-radius: 16rpx !important;
+  /* box-shadow: 30px 38rpx 30rpx 20px rgba(2, 20, 41, 0.1) !important; */
+  border-radius: 12rpx !important;
   overflow: hidden;
 	margin-bottom: 20rpx;
-	margin-top: 10rpx;
+	margin-top: 25rpx;
 	/* margin-left: 10rpx;
 	margin-right: 10rpx; */
 	/* height: 200px; */
@@ -15,8 +15,8 @@
 }
 
 .life-img {
-  width: 360rpx !important;
-  /* height: 380rpx !important; */
+  width: 350rpx !important;
+  height: 380rpx !important;
 }
 
 .life-product-contianer {
@@ -26,7 +26,11 @@
 }
 
 .life-title {
-  margin-left: 10rpx !important;
+  margin: 10rpx !important;
+  color: #2c2c2c !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tag {

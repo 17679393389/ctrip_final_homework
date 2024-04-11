@@ -6,12 +6,10 @@
     "l-tabpanel":"/miniprogram_npm/lin-ui/tabpanel/index",
     "l-tag":"/miniprogram_npm/lin-ui/tag/index"
   },
-  "navigationBarTextStyle": "black",
-  "navigationStyle": "default",
   "navigationBarTitleText": "我的游记",
+  "navigationBarBackgroundColor": "#fff",
   "onReachBottomDistance": 200,
-  "enablePullDownRefresh": true,
-  "backgroundColor": "#efefef",
-  "backgroundTextStyle": "dark"
+  "enablePullDownRefresh": true
+  
   
 }

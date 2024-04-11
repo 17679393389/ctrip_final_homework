@@ -55,6 +55,8 @@ exports.getDiaryById = async (req, res) => {
 
 exports.deleteDiary = async (req, res) => {
   try {
+    console.log(req.boday);
+    console.log(req.params);
     const deleted = await Diary.destroy({
       where: { id: req.params.id },
     });
@@ -306,7 +308,7 @@ const updateDiary = (diary) => {
     const updated = Diary.update(diary, {
       where: { id: diary.id },
     });
-    console.log(updated)
+    console.log(updated);
     if (updated) {
       const newdDiary = Diary.findByPk(diary.id);
       return { code: 200, data: newdDiary };
@@ -338,7 +340,7 @@ const createDiary = async (diary) => {
 exports.newDiary = async (req, res) => {
   try {
     if (req.body.status == 1) {
-      console.log(req.body.diary)
+      console.log(req.body.diary);
       //编辑状态
       const result = await updateDiary(req.body.diary);
       if (result.code == 200) {
@@ -647,8 +649,8 @@ exports.getNoteDetail = async (req, res) => {
       where: { id: d_id },
       include: [
         { model: User, attributes: ["username", "avatarUrl"], as: "author" },
-        { model: Love_, attributes: ["like_count"], as: "love_"},
-      ], 
+        { model: Love_, attributes: ["like_count"], as: "love_" },
+      ],
     });
 
     const noteData = note[0].toJSON();

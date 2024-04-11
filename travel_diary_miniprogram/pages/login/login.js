@@ -121,4 +121,10 @@ Page({
       url: "/pages/register/register",
     });
   },
+  //返回首页
+  back() {
+    wx.switchTab({
+      url: '/pages/home/home',
+    })
+  },
 });
