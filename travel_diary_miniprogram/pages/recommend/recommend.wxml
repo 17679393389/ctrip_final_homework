@@ -1,0 +1,39 @@
+<view class="search">
+	<l-search-bar show-cancel="{{false}}" placeholder="输入目的地，一键制定旅游攻略~" bind:linblur="searchStrategy" />
+</view>
+<view style="margin-top: 10rpx;">
+	<l-steps direction="column" active-index="0">
+		<l-step custom="{{true}}" title="美食">
+			<view class="shi" slot="dot">
+				<image class="icon" src="/images/美食.png" />
+			</view>
+			<view class="describe-container" slot="describe">
+				<l-card type="cover" image="{{ shi.photoList[0] }}" title="{{ shi.title }}" bindtap="onDiaryDetail" data-id="{{shi.id}}" image-mode="aspectFill"></l-card>
+			</view>
+		</l-step>
+		<l-step custom="{{true}}" title="住宿">
+			<view class="zhu" slot="dot">
+				<image class="icon" src="/images/住宿.png" />
+			</view>
+			<view class="describe-container" slot="describe">
+				<l-card type="cover" image="{{ zhu.photoList[0] }}" title="{{ zhu.title }}" bindtap="onDiaryDetail" data-id="{{zhu.id}}" image-mode="aspectFill"></l-card>
+			</view>
+		</l-step>
+		<l-step custom="{{true}}" title="出行">
+			<view class="xing" slot="dot">
+				<image class="icon" src="/images/出行.png" />
+			</view>
+			<view class="describe-container" slot="describe">
+				<l-card type="cover" image="{{ xing.photoList[0] }}" title="{{ xing.title }}" bindtap="onDiaryDetail" data-id="{{xing.id}}" image-mode="aspectFill"></l-card>
+			</view>
+		</l-step>
+		<l-step custom="{{true}}" title="风景">
+			<view class="jing" slot="dot">
+				<image class="icon" src="/images/风景.png" />
+			</view>
+			<view class="describe-container" slot="describe">
+				<l-card type="cover" image="{{ jing.photoList[0] }}" title="{{ jing.title }}" bindtap="onDiaryDetail" data-id="{{jing.id}}" image-mode="aspectFill"></l-card>
+			</view>
+		</l-step>
+	</l-steps>
+</view>
