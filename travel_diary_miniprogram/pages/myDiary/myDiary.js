@@ -4,6 +4,7 @@ let userInfo = getApp().globalData.userInfo;
 Page({
   // 页面的初始数据
   data: {
+    status: 1,
     islogged: true,
     user_id: !userInfo ? "" : userInfo.id,
     noteList: [], // 游记列表数据
@@ -13,6 +14,7 @@ Page({
     total: 0,
     isLoading: false,
     tab: "1",
+    
   },
 
   onNavButtonTap: function () {
@@ -23,7 +25,8 @@ Page({
 
   // 生命周期函数--监听页面加载
   onLoad: function (options) {
-    // console.log(options)
+    console.log(options)
+
 
     if (!userInfo) {
       //未登录
@@ -41,8 +44,17 @@ Page({
     userInfo = getApp().globalData.userInfo;
     if (userInfo) {
       this.setData({ user_id: userInfo.id });
-    }
-    if (userInfo) {
+      
+      if(this.data.status === 1){
+        this.setData({ 
+          page: 1,
+          pageSize: 6,
+          total: 0,
+          isLoading: false,
+          status:0 
+        });
+      }
+      
       this.showNotesList();
     }
   },
@@ -140,6 +152,13 @@ Page({
             }
           }
 
+          if(that.data.status === 0){
+            that.setData({
+              noteList:[],
+              status:1
+            })
+          }
+
           that.setData({
             noteList: that.data.noteList.concat(noteList),
             total: totalPages,
@@ -212,7 +231,7 @@ Page({
 
   navigateToEdit: function (e) {
     let d_id = e.target.dataset.did;
-    console.log(d_id);
+
     wx.navigateTo({
       url: "/pages/diaryPublish/diaryPublish?d_id=" + d_id, // 替换为目标页面的路径
     });
