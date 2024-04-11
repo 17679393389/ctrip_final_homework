@@ -7,6 +7,6 @@
 
   },
   "navigationBarTitleText": "游记详情",
-  "navigationBarTextStyle": "black",
+  "navigationBarBackgroundColor": "#fff",
   "navigationStyle": "default"
 }

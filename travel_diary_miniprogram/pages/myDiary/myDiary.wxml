@@ -24,7 +24,7 @@
   <!-- <movable-area> -->
     <!-- <movable-view out-of-bounds="true" direction="horizontal" x="-65" inertia="true" data-index="{{ index }}" bind:touchend="handleTouchEnd" bindchange="handleMovableChange" bind:touchstart="handleTouchStart"> -->
       <view class="note-item-left">
-      <image class="note-image" src="{{item.photoList[0]}}"></image>
+      <image class="note-image" src="{{item.photoList[0]}}" mode="aspectFill"></image>
     </view>   
     <view class="note-detail">
       <view class="note-title">{{item.title}}</view>
@@ -50,9 +50,18 @@
         <l-button special="{{true}}" bind:lintap="deleteNoteItem" data-did="{{item.id}}" >
           <l-icon name="delete" color="#bfbfbf" size="30"  />
         </l-button>
-          <l-button wx:if="{{item.checked_status === -1}}" type="warning" height="50" shape="semicircle" size="mini" plain="true" bind:lintap="navigateToEdit" data-did="{{item.id}}">重新编辑</l-button> 
+          <!-- <l-button wx:if="{{item.checked_status === -1}}" type="warning" height="50" shape="semicircle" size="mini" plain="true" bind:lintap="navigateToEdit" data-did="{{item.id}}">重新编辑</l-button> 
           <l-button wx:elif="{{item.checked_status === 0}}" shape="semicircle" height="50"  size="mini" bg-color="rgb(97, 159, 255)" bind:lintap="navigateToCheckedDetail" data-did="{{item.id}}">查看详情</l-button> 
-          <l-button wx:elif="{{item.checked_status === 1}}" shape="semicircle" height="50"  size="mini" bg-color="rgb(97, 159, 255)" bind:lintap="navigateToDiaryDetail" data-did="{{item.id}}">查看笔记</l-button> 
+          <l-button wx:elif="{{item.checked_status === 1}}" shape="semicircle" height="50"  size="mini" bg-color="rgb(97, 159, 255)" bind:lintap="navigateToDiaryDetail" data-did="{{item.id}}">查看笔记</l-button>  -->
+          <l-button wx:if="{{item.checked_status === -1}}" special="{{true}}" bind:lintap="navigateToEdit" data-did="{{item.id}}">
+            <l-icon name="edit" color="#bfbfbf" size="30"  />
+          </l-button> 
+          <l-button wx:elif="{{item.checked_status === 0}}" special="{{true}}"  bind:lintap="navigateToCheckedDetail" data-did="{{item.id}}">
+            <l-icon name="eye" color="#bfbfbf" size="30"  />
+          </l-button> 
+          <l-button wx:elif="{{item.checked_status === 1}}"  special="{{true}}" bind:lintap="navigateToDiaryDetail" data-did="{{item.id}}">
+            <l-icon name="eye" color="#bfbfbf" size="30"  />
+          </l-button> 
         </view>
          </view> 
     <!-- </movable-view> -->
@@ -74,6 +83,8 @@
                 <l-icon name="add" color="#ffb034" size="60" />
             </l-button>
         </view>
+</view>
+</view>
 </view>
 </view>
 </view>

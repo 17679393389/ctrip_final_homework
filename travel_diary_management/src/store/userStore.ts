@@ -59,7 +59,6 @@ export const useSignIn = () => {
     try {
       const res = await signInMutation.mutateAsync(data);
       const { admin:user, token:accessToken } = res.data;
-      // console.log(res.data.data)
       // const { user, accessToken } = res.data.data;
       //添加用户角色
       user.role_index = user.role

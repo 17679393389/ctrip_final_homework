@@ -6,5 +6,6 @@
     "l-tabs": "/miniprogram_npm/lin-ui/tabs/index",
     "l-tabpanel": "/miniprogram_npm/lin-ui/tabpanel/index"
   },
-  "onReachBottomDistance": 50
+  "onReachBottomDistance": 50,
+  "navigationBarBackgroundColor": "#fff"
 }

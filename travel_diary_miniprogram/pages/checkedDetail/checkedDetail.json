@@ -6,5 +6,6 @@
   },
   "navigationBarTextStyle": "black",
   "navigationStyle": "default",
-  "navigationBarTitleText": "游记审核"
+  "navigationBarTitleText": "游记审核",
+  "navigationBarBackgroundColor": "#fff"
 }

@@ -1,8 +1,7 @@
 // travel_diary_miniprogram/pages/myDiary/myDiary.js
-const baseUrl = getApp().globalData.baseUrl
-let userInfo = getApp().globalData.userInfo
+const baseUrl = getApp().globalData.baseUrl;
+let userInfo = getApp().globalData.userInfo;
 Page({
-
   // 页面的初始数据
   data: {
     follow_count: 0,
@@ -21,7 +20,7 @@ Page({
 
   onNavButtonTap: function () {
     wx.navigateTo({
-      url: '/pages/diaryPublish/diaryPublish' // 替换为目标页面的路径
+      url: "/pages/diaryPublish/diaryPublish", // 替换为目标页面的路径
     });
   },
 
@@ -36,13 +35,12 @@ Page({
       this.getFollowFansLove();
     }
 
+
     // this.setData({user_id:userInfo.id})
   },
 
   // 生命周期函数--监听页面初次渲染完成
-  onReady: function () {
-
-  },
+  onReady: function () {},
 
   // 生命周期函数--监听页面显示
   onShow: function () {
@@ -60,14 +58,10 @@ Page({
   },
 
   // 生命周期函数--监听页面隐藏
-  onHide: function () {
-
-  },
+  onHide: function () {},
 
   // 生命周期函数--监听页面卸载
-  onUnload: function () {
-
-  },
+  onUnload: function () {},
 
   // 页面相关事件处理函数--监听用户下拉动作
   onPullDownRefresh: function () {
@@ -86,6 +80,7 @@ Page({
   // 页面上拉触底事件的处理函数
   onReachBottom: function () {
     if (this.data.page * this.data.pageSize >= this.data.total) {
+    if (this.data.page * this.data.pageSize >= this.data.total) {
       return wx.showToast({
         title: '游记到底啦~',
         icon: 'none'
@@ -99,11 +94,10 @@ Page({
   },
 
   // 用户点击右上角分享
-  onShareAppMessage: function () {
-
-  },
+  onShareAppMessage: function () {},
 
   //展示游记列表
+  showNotesList(pr) {
   showNotesList(pr) {
     //登录态
     let that = this;
@@ -118,6 +112,7 @@ Page({
 
     //   return
     // }
+
 
     this.setData({
       isLoading: true
@@ -134,7 +129,7 @@ Page({
         _page: that.data.page,
         _limit: that.data.pageSize,
         user_id: that.data.user_id,
-        status: that.data.tab
+        status: that.data.tab,
       },
       success(res) {
         // console.log(res)
@@ -162,13 +157,14 @@ Page({
             }
           }
 
+
           that.setData({
             noteList: that.data.noteList.concat(noteList),
             total: totalPages
           });
-
         }
       },
+      complete() {
       complete() {
         //隐藏loading效果
         wx.hideLoading()
@@ -184,8 +180,10 @@ Page({
   },
 
   changeTabs: function (res) {
+  changeTabs: function (res) {
     this.setData({
       page: 1,
+      pageSize: 6,
       pageSize: 6,
       tab: res.detail.activeKey,
       noteList: [],
@@ -197,12 +195,13 @@ Page({
 
   //删除游记
   deleteNoteItem(e) {
+  deleteNoteItem(e) {
     const d_id = e.target.dataset.did;
     let that = this;
 
     wx.showModal({
-      title: '提示',
-      content: '确定删除该游记吗？',
+      title: "提示",
+      content: "确定删除该游记吗？",
       confirmColor: "#f16765",
       success(res) {
         if (res.confirm) {
@@ -215,7 +214,7 @@ Page({
             success(res) {
               // console.log('删除成功！')
               let notes = that.data.noteList;
-              notes = notes.filter(x => x.id !== d_id)
+              notes = notes.filter((x) => x.id !== d_id);
               that.setData({
                 noteList: notes
               })
@@ -233,25 +232,30 @@ Page({
   },
 
   navigateToPostNote: function () {
+  navigateToPostNote: function () {
     wx.navigateTo({
       url: '/pages/diaryPublish/diaryPublish' // 替换为目标页面的路径
     });
   },
 
   navigateToLogin: function () {
+  navigateToLogin: function () {
     wx.navigateTo({
-      url: '/pages/login/login' // 替换为目标页面的路径
+      url: "/pages/login/login", // 替换为目标页面的路径
     });
   },
 
   navigateToEdit: function (e) {
+  navigateToEdit: function (e) {
     let d_id = e.target.dataset.did;
-
+    console.log(d_id);
     wx.navigateTo({
-      url: '/pages/diaryPublish/diaryPubish?d_id=' + d_id // 替换为目标页面的路径
+      url: "/pages/diaryPublish/diaryPublish?d_id=" + d_id, // 替换为目标页面的路径
     });
   },
 
+  navigateToCheckedDetail: function (e) {
+    let d_id = e.target.dataset.did;
   navigateToCheckedDetail: function (e) {
     let d_id = e.target.dataset.did;
 
@@ -259,7 +263,10 @@ Page({
       url: '/pages/checkedDetail/checkedDetail?d_id=' + d_id
     });
   },
+  },
 
+  navigateToDiaryDetail: function (e) {
+    let d_id = e.target.dataset.did;
   navigateToDiaryDetail: function (e) {
     let d_id = e.target.dataset.did;
 
@@ -291,5 +298,3 @@ Page({
     });
   }
 
-
-})

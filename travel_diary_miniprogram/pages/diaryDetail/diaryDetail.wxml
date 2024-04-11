@@ -2,7 +2,7 @@
 <image class="ff" wx:if="{{ noteDetail.photoList.length === 1 }}" src="{{noteDetail.photoList[0]}}"></image>
 <swiper wx:else indicator-dots>
   <swiper-item wx:for="{{noteDetail.photoList}}" wx:key="id">
-    <image src="{{item}}" />
+    <image src="{{item}}" mode="aspectFill"/>
   </swiper-item>
 </swiper>
 <!-- avatar -->

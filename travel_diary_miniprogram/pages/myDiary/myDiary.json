@@ -7,12 +7,10 @@
     "l-tag":"/miniprogram_npm/lin-ui/tag/index",
     "followFansLove":"/components/followFansLove/followFansLove"
   },
-  "navigationBarTextStyle": "black",
-  "navigationStyle": "default",
   "navigationBarTitleText": "我的游记",
+  "navigationBarBackgroundColor": "#fff",
   "onReachBottomDistance": 200,
-  "enablePullDownRefresh": true,
-  "backgroundColor": "#efefef",
-  "backgroundTextStyle": "dark"
+  "enablePullDownRefresh": true
+  
   
 }

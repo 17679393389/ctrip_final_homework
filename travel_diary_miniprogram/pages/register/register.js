@@ -178,4 +178,10 @@ Page({
       });
     }
   },
+  //返回首页
+  back() {
+    wx.navigateBack({
+        delta: 1
+    })
+  },
 });

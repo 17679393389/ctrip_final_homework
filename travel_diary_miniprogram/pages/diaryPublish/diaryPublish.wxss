@@ -2,6 +2,9 @@
     display: flex;
     flex-direction: column;
     margin: 5%;
+    overflow-y: scroll;
+    /* margin-bottom: 100rpx; */
+    padding-bottom: 200rpx;
 }
 .media-container{
     margin-block: 15px;
@@ -40,15 +43,19 @@
     background-color:#f4ea2a ;
 }
 .publish-bt{
-    margin-top: 30px;
-    margin-bottom: 20px;
+    position: fixed;
+    bottom: 0;
     width: 100%;
+    height: 60rpx;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #fff;
+    border: none !important;
+    padding-bottom: 60rpx !important;
 }
 .publish-bt2{
     border-radius: 20px !important;
-    background-color: #f4ea2a !important;
+    background-color: #ffb034 !important;
     color: #fff;
 }
