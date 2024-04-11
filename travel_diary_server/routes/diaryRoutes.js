@@ -8,6 +8,8 @@ router.post("/delete", diaryController.deleteDiary);
 router.get("/getMyNotesList", diaryController.getMyNotesList);
 router.get("/getMyNoteDetail", diaryController.getMyNoteDetail);
 router.get("/getNoteDetail", diaryController.getNoteDetail);
+router.get("/getTotalDiary", diaryController.getTotalDiary);
+router.get("/getToBeCheckedDiary", diaryController.getToBeCheckedDiary);
 router.get("/getDiaryByStatus", diaryController.getDiaryByStatus);
 router.get(
   "/getUserDiaries",

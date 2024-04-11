@@ -13,11 +13,25 @@ import TopInstalled from './top-installed';
 import TopRelated from './top-related';
 import TotalCard from './total-card';
 import { useEffect, useState } from 'react';
-import { getTotalDiary, getToBeCheckedDiary } from '@/api/services/diaryService' 
+import { getTotalDiary, getDiaryVerify } from '@/api/services/diaryService' 
 
 function Workbench() {
+  const [totalDiary, setTotalDiary] = useState(0);
+  const [checkedDiary, setCheckedDiary] = useState(0);
+  const [totalUser, setTotalUser] = useState(0);
+useEffect(() => {
+  getTotalDiaryInterface()
+  getToBeCheckedDiaryInterface()
+},[])
 
-
+const getTotalDiaryInterface = async () => {
+  const res = await getTotalDiary()
+  setTotalDiary(res.data.totalDiaries)
+}
+const getToBeCheckedDiaryInterface = async () => {
+    const res = await getDiaryVerify();
+      setCheckedDiary(res.data.diaryCount)
+}
   return (
     <>
       <Row gutter={[16, 16]} justify="center">
@@ -47,7 +61,7 @@ function Workbench() {
           <TotalCard
             title="游记总数量"
             increase
-            count='2882'
+            count={totalDiary.toString()}
             percent="0.2%"
             chartData={[45, 52, 38, 24, 33, 26, 21, 20, 6]}
           />
@@ -57,7 +71,7 @@ function Workbench() {
           <TotalCard
             title="待审核笔记总数"
             increase={false}
-            count='89990'
+            count={checkedDiary.toString()}
             percent="0.1%"
             chartData={[35, 41, 62, 42, 13, 18, 29, 37, 36]}
           />
@@ -90,15 +104,6 @@ function Workbench() {
         <Col span={24} md={12} lg={8}>
           <TopAuthor />
         </Col>
-      </Row>
-
-      <Row gutter={[16, 16]} className="mt-4" justify="center">
-        <Col span={23} md={24}>
-          <NewInvoice />
-        </Col>
-        {/* <Col span={23} md={12} lg={8}>
-          <TopRelated />
-        </Col> */}
       </Row>
 
       

@@ -4,10 +4,12 @@ import Color from 'color';
 import Character3 from '@/assets/images/characters/character_3.png';
 import { useUserInfo } from '@/store/userStore';
 import { useThemeToken } from '@/theme/hooks';
+import { useNavigate } from 'react-router-dom';
 
 export default function BannerCard() {
   const { username } = useUserInfo();
   const themeToken = useThemeToken();
+  const navigate = useNavigate();
 
   const bg = `linear-gradient(135deg, ${Color(themeToken.colorPrimaryHover).alpha(0.2)}, ${Color(
     themeToken.colorPrimary,
@@ -35,8 +37,9 @@ export default function BannerCard() {
           发现世界的美，感谢您的审核工作，让旅行者获得有价值的信息，开始探索，留下你的足迹！
         </p>
         <button
-          className="font-mediumtext-black m-auto flex items-center justify-center rounded-md px-2 py-1 shadow-none md:m-0"
+          className="font-mediumtext m-auto flex items-center justify-center rounded-md px-2 py-1 shadow-none md:m-0"
           style={{ backgroundColor: themeToken.colorPrimary }}
+          onClick={() => navigate('/management/diary')}
         >
           开 始 审 核
         </button>
