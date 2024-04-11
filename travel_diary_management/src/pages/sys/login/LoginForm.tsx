@@ -1,6 +1,6 @@
 import { Button, Checkbox, Col, Form, Input, Row } from 'antd';
 import { useState } from 'react';
-import { DEFAULT_USER } from '@/_mock/assets';
+import { DEFAULT_USER } from '@/assets/assets';
 import { SignInReq } from '@/api/services/userService';
 import { useSignIn } from '@/store/userStore';
 
