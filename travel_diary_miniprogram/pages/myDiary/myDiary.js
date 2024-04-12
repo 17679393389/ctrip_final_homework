@@ -4,6 +4,7 @@ let userInfo = getApp().globalData.userInfo;
 Page({
   // 页面的初始数据
   data: {
+    status: 1,
     follow_count: 0,
     fans_count: 0,
     love_count: 0,
@@ -15,7 +16,8 @@ Page({
     pageSize: 6,
     total: 0,
     isLoading: false,
-    tab: '1'
+    tab: "1",
+    
   },
 
   onNavButtonTap: function () {
@@ -46,9 +48,18 @@ Page({
   onShow: function () {
     userInfo = getApp().globalData.userInfo
     if (userInfo) {
-      this.setData({
-        user_id: userInfo.id
-      })
+      this.setData({ user_id: userInfo.id });
+      
+      if(this.data.status === 1){
+        this.setData({ 
+          page: 1,
+          pageSize: 6,
+          total: 0,
+          isLoading: false,
+          status:0 
+        });
+      }
+      
     }
     if (userInfo) {
       this.showNotesList();
@@ -155,6 +166,12 @@ Page({
             }
           }
 
+          if(that.data.status === 0){
+            that.setData({
+              noteList:[],
+              status:1
+            })
+          }
 
           that.setData({
             noteList: that.data.noteList.concat(noteList),
@@ -171,6 +188,7 @@ Page({
         pr && pr()
       }
     })
+
   },
 
   changeTabs: function (res) {
@@ -237,7 +255,7 @@ Page({
 
   navigateToEdit: function (e) {
     let d_id = e.target.dataset.did;
-    console.log(d_id);
+
     wx.navigateTo({
       url: "/pages/diaryPublish/diaryPublish?d_id=" + d_id, // 替换为目标页面的路径
     });
@@ -245,16 +263,19 @@ Page({
 
   navigateToCheckedDetail: function (e) {
     let d_id = e.target.dataset.did;
+
     wx.navigateTo({
       url: '/pages/checkedDetail/checkedDetail?d_id=' + d_id
     });
   },
+
   navigateToDiaryDetail: function (e) {
     let d_id = e.target.dataset.did;
     wx.navigateTo({
       url: '/pages/diaryDetail/diaryDetail?d_id=' + d_id
     });
   },
+
   //获取用户的点赞数、粉丝数 和 关注人数
   getFollowFansLove() {
     let that = this;
