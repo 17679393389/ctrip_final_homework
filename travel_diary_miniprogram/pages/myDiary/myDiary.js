@@ -187,7 +187,6 @@ Page({
         })
         pr && pr()
       }
-
     })
 
   },
@@ -272,7 +271,6 @@ Page({
 
   navigateToDiaryDetail: function (e) {
     let d_id = e.target.dataset.did;
-
     wx.navigateTo({
       url: '/pages/diaryDetail/diaryDetail?d_id=' + d_id
     });

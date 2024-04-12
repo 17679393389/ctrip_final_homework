@@ -696,35 +696,47 @@ exports.getNoteDetail = async (req, res) => {
   }
 };
 
+//搜索攻略
 exports.searchStrategy = async (req, res) => {
   try {
     const { destination } = req.query;
-    const labels = ["美食", "住宿", "交通", "风景"];
 
-    // 执行原始 SQL 查询
-    const diaries = await sequelize.query(
-      `
-      SELECT d.*
-      FROM (
-        SELECT *,
-          ROW_NUMBER() OVER (PARTITION BY label ORDER BY RAND()) AS rn
-        FROM diary
-        WHERE label IN (:labels) AND checked_status = 1
-          AND (title LIKE :keyword OR content LIKE :keyword)
-      ) AS d
-      WHERE d.rn = 1;
-    `,
-      {
-        replacements: {
-          labels,
-          keyword: `%${destination}%`,
-        },
-        type: sequelize.QueryTypes.SELECT,
+    // 执行 SQL 查询，根据用户输入的 destination 对 title 和 content 进行模糊查询，并筛选 checked_status 为 1 的记录
+    const diaries = await Diary.findAll({
+      where: {
+        checked_status: 1,
+        is_deleted: 0,
+        [Op.or]: [
+          { title: { [Op.like]: `%${destination}%` } },
+          { content: { [Op.like]: `%${destination}%` } },
+        ],
+      },
+    });
+
+    // 将查询结果按照 label 进行分组
+    const groupedDiaries = {};
+    diaries.forEach((diary) => {
+      if (!groupedDiaries[diary.label]) {
+        groupedDiaries[diary.label] = [];
       }
-    );
+      groupedDiaries[diary.label].push(diary);
+    });
 
+    // 从每个分组中随机选择一条记录
+    const selectedDiaries = [];
+    const labels = Object.keys(groupedDiaries);
+    labels.forEach((label) => {
+      if (groupedDiaries[label].length > 0) {
+        const randomIndex = Math.floor(
+          Math.random() * groupedDiaries[label].length
+        );
+        selectedDiaries.push(groupedDiaries[label][randomIndex]);
+      }
+    });
+
+    // 返回结果给前端
     res.json({
-      diaries,
+      diaries: selectedDiaries,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
