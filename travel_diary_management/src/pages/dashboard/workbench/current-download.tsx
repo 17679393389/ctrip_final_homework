@@ -4,21 +4,20 @@ import Card from '@/components/card';
 import Chart from '@/components/chart/chart';
 import useChart from '@/components/chart/useChart';
 
-export default function CurrentDownload() {
+export default function CurrentDownload({series}:any) {
   return (
     <Card className="flex-col">
       <header className="self-start">
         <Typography.Title level={5}>适用人群 性别 占比%</Typography.Title>
       </header>
       <main>
-        <ChartDonut />
+        <ChartDonut series = {series} />
       </main>
     </Card>
   );
 }
 
-const series = [44, 55];
-function ChartDonut() {
+function ChartDonut({series}:any) {
   const chartOptions = useChart({
     labels: ['男', '女'],
     stroke: {

@@ -1,9 +1,9 @@
 import Chart from '@/components/chart/chart';
 import useChart from '@/components/chart/useChart';
 
-const series = [100, 58, 54, 44, 47, 43, 10];
+// const series = [100, 58, 54, 44, 47, 43, 10];
 
-export default function ChartBar_Up_Fans() {
+export default function ChartBar_Up_Fans({series}: any) {
   const chartOptions = useChart({
     stroke: { show: false },
     plotOptions: {
@@ -11,13 +11,13 @@ export default function ChartBar_Up_Fans() {
     },
     xaxis: {
       categories: [
-        '<5000',
-        '5K-5W',
-        '5W-50W',
-        '50W-100W',
-        '100W-500W',
-        '500W-1000W',
-        '>1000W'
+        '<100',
+        '100-500',
+        '500-1k',
+        '1k-5k',
+        '5k-1W',
+        '1W-5W',
+        '>5W'
       ],
     },
   });
