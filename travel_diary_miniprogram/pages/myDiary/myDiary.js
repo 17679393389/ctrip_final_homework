@@ -4,6 +4,7 @@ let userInfo = getApp().globalData.userInfo;
 Page({
   // 页面的初始数据
   data: {
+    status: 1,
     follow_count: 0,
     fans_count: 0,
     love_count: 0,
@@ -15,7 +16,8 @@ Page({
     pageSize: 6,
     total: 0,
     isLoading: false,
-    tab: '1'
+    tab: "1",
+    
   },
 
   onNavButtonTap: function () {
@@ -46,9 +48,18 @@ Page({
   onShow: function () {
     userInfo = getApp().globalData.userInfo
     if (userInfo) {
-      this.setData({
-        user_id: userInfo.id
-      })
+      this.setData({ user_id: userInfo.id });
+      
+      if(this.data.status === 1){
+        this.setData({ 
+          page: 1,
+          pageSize: 6,
+          total: 0,
+          isLoading: false,
+          status:0 
+        });
+      }
+      
     }
     if (userInfo) {
       this.showNotesList();
@@ -80,7 +91,6 @@ Page({
   // 页面上拉触底事件的处理函数
   onReachBottom: function () {
     if (this.data.page * this.data.pageSize >= this.data.total) {
-    if (this.data.page * this.data.pageSize >= this.data.total) {
       return wx.showToast({
         title: '游记到底啦~',
         icon: 'none'
@@ -97,7 +107,6 @@ Page({
   onShareAppMessage: function () {},
 
   //展示游记列表
-  showNotesList(pr) {
   showNotesList(pr) {
     //登录态
     let that = this;
@@ -157,6 +166,12 @@ Page({
             }
           }
 
+          if(that.data.status === 0){
+            that.setData({
+              noteList:[],
+              status:1
+            })
+          }
 
           that.setData({
             noteList: that.data.noteList.concat(noteList),
@@ -164,7 +179,6 @@ Page({
           });
         }
       },
-      complete() {
       complete() {
         //隐藏loading效果
         wx.hideLoading()
@@ -176,10 +190,8 @@ Page({
 
     })
 
-
   },
 
-  changeTabs: function (res) {
   changeTabs: function (res) {
     this.setData({
       page: 1,
@@ -194,7 +206,6 @@ Page({
   },
 
   //删除游记
-  deleteNoteItem(e) {
   deleteNoteItem(e) {
     const d_id = e.target.dataset.did;
     let that = this;
@@ -232,13 +243,11 @@ Page({
   },
 
   navigateToPostNote: function () {
-  navigateToPostNote: function () {
     wx.navigateTo({
       url: '/pages/diaryPublish/diaryPublish' // 替换为目标页面的路径
     });
   },
 
-  navigateToLogin: function () {
   navigateToLogin: function () {
     wx.navigateTo({
       url: "/pages/login/login", // 替换为目标页面的路径
@@ -246,9 +255,8 @@ Page({
   },
 
   navigateToEdit: function (e) {
-  navigateToEdit: function (e) {
     let d_id = e.target.dataset.did;
-    console.log(d_id);
+
     wx.navigateTo({
       url: "/pages/diaryPublish/diaryPublish?d_id=" + d_id, // 替换为目标页面的路径
     });
@@ -256,17 +264,12 @@ Page({
 
   navigateToCheckedDetail: function (e) {
     let d_id = e.target.dataset.did;
-  navigateToCheckedDetail: function (e) {
-    let d_id = e.target.dataset.did;
 
     wx.navigateTo({
       url: '/pages/checkedDetail/checkedDetail?d_id=' + d_id
     });
   },
-  },
 
-  navigateToDiaryDetail: function (e) {
-    let d_id = e.target.dataset.did;
   navigateToDiaryDetail: function (e) {
     let d_id = e.target.dataset.did;
 
@@ -274,6 +277,7 @@ Page({
       url: '/pages/diaryDetail/diaryDetail?d_id=' + d_id
     });
   },
+
   //获取用户的点赞数、粉丝数 和 关注人数
   getFollowFansLove() {
     let that = this;
@@ -297,4 +301,4 @@ Page({
       },
     });
   }
-
+})
