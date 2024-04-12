@@ -446,6 +446,7 @@ type DiaryModalProps = {
 
 function DiaryInfoModal({ title, show, formValue, onOk, onCancel }: DiaryModalProps) {
   const [form] = Form.useForm();
+  const [expanded, setExpanded] = useState(false);
   useEffect(() => {
     form.setFieldsValue({ ...formValue });
   }, [formValue]);
@@ -482,7 +483,12 @@ function DiaryInfoModal({ title, show, formValue, onOk, onCancel }: DiaryModalPr
         </Form.Item>
         <Form.Item name="content" label="内容">
           <div className='border border-2 rounded border-gray-300 h-32 p-1'>
-          <Typography.Paragraph ellipsis={{rows:5}}>{formValue.content}</Typography.Paragraph>
+          <Typography.Paragraph ellipsis={{
+          rows: 3,
+          expandable: 'collapsible',
+          expanded,
+          onExpand: (_, info) => setExpanded(info.expanded),
+        }}>{formValue.content}</Typography.Paragraph>
           </div>
         </Form.Item>
         <Form.Item name="checked_status" label="审核状态">

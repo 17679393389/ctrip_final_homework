@@ -34,7 +34,7 @@ function Login() {
           background: bg,
         }}
       >
-        <div className="text-3xl font-bold leading-normal lg:text-4xl xl:text-5xl mt-10">旅游日记审核管理系统</div>
+        <div className="text-3xl font-bold leading-normal lg:text-4xl xl:text-5xl mt-10">金陵游记管理系统</div>
         <img className="max-w-[480px] xl:max-w-[560px]" src={DashboardImg} alt="" />
       </div>
 

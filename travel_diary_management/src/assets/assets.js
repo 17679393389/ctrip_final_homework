@@ -44,6 +44,15 @@ const MANAGEMENT_PERMISSION = {
       route: 'diary',
       component: '/management/diary/index.tsx',
     },
+    {
+      id: '278168467555555',
+      parentId: '0901673425580518',
+      label: 'sys.menu.user.index',
+      name: 'User',
+      type: PermissionType.MENU,
+      route: 'user',
+      component: '/management/user/index.tsx',
+    },
   ],
 };
 

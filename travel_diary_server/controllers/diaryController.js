@@ -741,9 +741,20 @@ exports.searchStrategy = async (req, res) => {
 exports.getTotalDiary = async (req, res) => {
   try {
     // 查询总的记录数
-    const totalCount = await Diary.count();
+    const totalDiary = await Diary.findAll({
+      attributes: [
+        "label",
+        [sequelize.fn("COUNT", sequelize.col("*")), "count"],
+      ],
+      group: ["label"],
+      raw: true,
+    });
+    const totalCount = totalDiary.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue.count;
+    }, 0);
     res.json({
-      totalDiaries: totalCount,
+      totalCount,
+      categoryCount: totalDiary,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });

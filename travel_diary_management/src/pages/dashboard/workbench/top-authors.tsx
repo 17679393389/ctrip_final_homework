@@ -6,7 +6,8 @@ import Card from '@/components/card';
 import { Iconify } from '@/components/icon';
 import { useThemeToken } from '@/theme/hooks';
 
-export default function TopAuthor() {
+export default function TopAuthor({ data }: any) {
+  console.log(data)
   const themeToken = useThemeToken();
   const getTrophyIconColor = (index: number) => {
     switch (index) {
@@ -46,15 +47,15 @@ export default function TopAuthor() {
         <Typography.Title level={5}>Top Up主</Typography.Title>
       </header>
       <main className="w-full">
-        {new Array(5).fill('').map((_, index) => (
+        { data.map((_, index) => (
           <div key={index} className="mb-4 flex">
-            <img src={faker.image.avatar()} alt="" className="h-10 w-10 rounded-full" />
+            <img src={_.avatarUrl} alt="" className="h-10 w-10 rounded-full" />
             <div className="ml-2 flex flex-col">
-              <span>{faker.person.fullName()}</span>
+              <span>{_.username}</span>
               <div className="flex items-center  text-gray">
                 <Iconify icon="icon-park-solid:like" size={14} />
                 <span className="ml-2">
-                  {faker.number.float({ min: 3, max: 9, precision: 3 })}k
+                {_.likeCount}
                 </span>
               </div>
             </div>
