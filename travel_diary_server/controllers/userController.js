@@ -5,11 +5,30 @@ const Follow = require("../models/follow"); // 引入Love 和 Follow 模型
 const passWordEncryption = require("../utils/pwdEncrypt.js");
 const { signToken } = require("../utils/authMiddleware.js");
 const getOpenid = require("../utils/wx.js");
+const { Op, where } = require("sequelize");
+const sequelize = require("../utils/db_connection");
 // 获取所有用户
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.findAll();
-    res.json(users);
+    const likeInfo = await Love.findAll({
+      attributes: [
+        "author_id",
+        [sequelize.fn("COUNT", sequelize.col("*")), "count"],
+      ],
+      group: ["author_id"],
+      raw: true,
+    });
+    const FollowInfo = await Follow.findAll({
+      attributes: [
+        "up_id",
+        [sequelize.fn("COUNT", sequelize.col("*")), "count"],
+      ],
+      group: ["up_id"],
+      raw: true,
+    });
+
+    res.json({ users: users, likeInfo: likeInfo, FollowInfo: FollowInfo });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -172,6 +191,23 @@ exports.getUserStats = async (req, res) => {
 
     // 发送响应
     res.json(userStats);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// 搜索用户
+exports.searchUser = async (req, res) => {
+  try {
+    const { value } = req.query;
+    const users = await User.findAll({
+      where: {
+        username: {
+          [Op.like]: `%${value}%`,
+        },
+      },
+    });
+    res.json(users);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

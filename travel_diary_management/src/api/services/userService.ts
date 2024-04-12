@@ -17,12 +17,13 @@ export interface SignUpReq extends SignInReq {
 export enum UserApi {
   SignIn = '/admin/login',
   SignUp = '/admin',
-  getAllUser = '/user/getAllUser',
+  getTotalUser = '/user/getAllUser',
+  searchUser = '/user/searchUser'
 }
-
+export const getAllUser = () => apiClient.get({ url: UserApi.getTotalUser });
+export const searchUser = (value: string) => apiClient.get({url: `${UserApi.searchUser}?value=${value}`});
 const signin = (data: SignInReq) => apiClient.post({ url: UserApi.SignIn, data });
 const signup = (data: SignUpReq) => apiClient.post({ url: UserApi.SignUp, data });
-const getAllUser = () => apiClient.get({ url: UserApi.getAllUser });
 
 export default {
   signin,

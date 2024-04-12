@@ -8,6 +8,7 @@ import { AppRouteObject } from '#/router';
 
 const Diary = lazy(() => import('@/pages/management/diary'));
 const DiaryRecycle = lazy(() => import('@/pages/management/diary/components/recycleDiary'));
+const User = lazy(() => import('@/pages/management/user'));
 
 const management: AppRouteObject = {
   order: 2,
@@ -31,6 +32,11 @@ const management: AppRouteObject = {
       path: 'diary',
       element: <Diary />,
       meta: { label: 'sys.menu.diary', key: '/management/diary' },
+    },
+    {
+      path: 'user',
+      element: <User />,
+      meta: { label: 'sys.menu.user.index', key: '/management/user' },
     },
     // {
     //   path: 'diaryRecycle',

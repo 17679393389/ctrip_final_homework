@@ -1,36 +1,66 @@
 import { Card, Col, Row, Space } from 'antd';
-
-import AreaDownload from './area-download';
 import BannerCard from './banner-card';
-import { Applications, Conversion } from './conversion_applications';
 import CurrentDownload from './current-download';
 import ChartBar from '@/pages/components/chart/view/chart-bar';
 import ChartBar_Up_Fans from '@/pages/components/chart/view/chart-up-fans';
-import ChartRadar from '@/pages/components/chart/view/chart-radar';
-import NewInvoice from './new-invoice';
 import TopAuthor from './top-authors';
-import TopInstalled from './top-installed';
-import TopRelated from './top-related';
 import TotalCard from './total-card';
 import { useEffect, useState } from 'react';
-import { getTotalDiary, getDiaryVerify } from '@/api/services/diaryService' 
+import { getTotalDiary, getDiaryVerify } from '@/api/services/diaryService';
+import { getAllUser } from '@/api/services/userService';
 
 function Workbench() {
   const [totalDiary, setTotalDiary] = useState(0);
   const [checkedDiary, setCheckedDiary] = useState(0);
   const [totalUser, setTotalUser] = useState(0);
+  const [userInfo, setUserInfo] = useState([]);
+  const [genderNumber, setGenderNumber] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
+  const [fansNumber, setFansNumber] = useState([2,0,0,0,0,0,0]);
 useEffect(() => {
   getTotalDiaryInterface()
   getToBeCheckedDiaryInterface()
+  getTotalUserInterface()
 },[])
 
 const getTotalDiaryInterface = async () => {
   const res = await getTotalDiary()
-  setTotalDiary(res.data.totalDiaries)
+  setTotalDiary(res.data.totalCount)
+  setCategoryData(res.data.categoryCount)
+
 }
 const getToBeCheckedDiaryInterface = async () => {
     const res = await getDiaryVerify();
       setCheckedDiary(res.data.diaryCount)
+}
+const getTotalUserInterface = async () => {
+  const res = await getAllUser();
+  const userInfo = res.data.users
+  const like = res.data.likeInfo
+  const follow = res.data.FollowInfo
+  console.log(like,follow)
+  const userList = userInfo.map((item: any) => {
+    const likecount = like.filter((likeItem: any) => likeItem.author_id === item.id)[0]?.count || 0;
+    const followCount = follow.filter((followItem: any) => followItem.up_id === item.id)[0]?.count || 0;
+    return {
+      ...item,
+      likeCount: likecount,
+      followCount: followCount
+    }
+  })
+  // const fansCount = follow.map((item: any) => {
+  //   if (item.count < 100) {
+  //     return item.fans_id
+  //   }
+  // })
+  // setFansNumber([fansCount])
+
+  const sortedUserList = userList.sort((a: any, b: any) => b.likeCount - a.likeCount);
+  setUserInfo(sortedUserList)
+  setTotalUser(res.data.users.length)
+  const female = res.data.users.filter((item: any) => item.gender === 0).length
+  const male = res.data.users.filter((item: any) => item.gender === 1).length
+  setGenderNumber([female, male])
 }
   return (
     <>
@@ -51,7 +81,7 @@ const getToBeCheckedDiaryInterface = async () => {
           <TotalCard
             title="用户总数"
             increase
-            count="18,765"
+            count={totalUser.toString()}
             percent="2.6%"
             chartData={[22, 8, 35, 50, 82, 84, 77, 12, 87, 43]}
           />
@@ -80,29 +110,24 @@ const getToBeCheckedDiaryInterface = async () => {
 
       <Row gutter={[16, 16]} className="mt-4" justify="center">
         <Col span={24} md={12} lg={8}>
-          <CurrentDownload />
+          <CurrentDownload series={genderNumber}/>
         </Col>
         <Col span={24} md={12} lg={16}>
           <Card title="不同分类游记数量">
-            <ChartBar />
+            <ChartBar seriesCategory={categoryData}/>
           </Card>
         </Col>
-        {/* <Col span={24} md={12} lg={16}>
-          <AreaDownload />
-        </Col> */}
+
       </Row>
 
       <Row gutter={[16, 16]} className="mt-4" justify="center">
-        {/* <Col span={24} md={12}>
-          <TopInstalled />
-        </Col> */}
         <Col span={24} md={12} lg={16}>
           <Card title="博主关注度 / 粉丝数量分层分析">
-            <ChartBar_Up_Fans />
+            <ChartBar_Up_Fans series={fansNumber}/>
           </Card>
         </Col>
         <Col span={24} md={12} lg={8}>
-          <TopAuthor />
+          <TopAuthor data={userInfo}/>
         </Col>
       </Row>
 

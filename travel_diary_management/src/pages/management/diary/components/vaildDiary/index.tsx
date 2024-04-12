@@ -202,13 +202,13 @@ export default function Diary({onTabSwitch}) {
           title:"发布人",
           dataIndex: 'username',
           align: 'center',
-          width:120,
+          width:100,
         },
         {
           title:"审核人",
           dataIndex: 'checked_person',
           align: 'center',
-          width:120,
+          width:100,
         },
         {
           title:"审核时间",
@@ -220,7 +220,7 @@ export default function Diary({onTabSwitch}) {
           title:"审核意见",
           dataIndex: 'checked_opinion',
           align: 'center',
-          width:150,
+          width:120,
           ellipsis: {
             showTitle: false,
           },
@@ -534,9 +534,9 @@ export default function Diary({onTabSwitch}) {
         <Popconfirm title="确定批量拒绝" okText="Yes" cancelText="No" placement="left" onConfirm={() => onBatchEdit()}>
         <Button type="primary">拒绝</Button>
         </Popconfirm>
-        <Popconfirm title="确定删除" okText="Yes" cancelText="No" placement="left" onConfirm={() => onBatchDelete()}>
+        {userInfo.role_index == 1&&(<Popconfirm title="确定批量删除" okText="Yes" cancelText="No" placement="left" onConfirm={() => onBatchDelete()}>
         <Button type="primary">删除</Button>
-        </Popconfirm>
+        </Popconfirm>)}
         </Space>
         {userInfo.role_index == 1&&(<IconButton className='float-right' onClick={() => onTabSwitch(false)} title={'回收站'}>
               <Iconify icon="mingcute:delete-2-fill" size={18} className="text-gray" />
@@ -631,8 +631,7 @@ function DiaryInfoModal({ title, show, formValue, onOk, onCancel }: DiaryModalPr
           expandable: 'collapsible',
           expanded,
           onExpand: (_, info) => setExpanded(info.expanded),
-        }}>{formValue.content.repeat(
-            20)}</Typography.Paragraph>
+        }}>{formValue.content}</Typography.Paragraph>
           </div>
         </Form.Item>
         <Form.Item name="checked_status" label="审核状态">
