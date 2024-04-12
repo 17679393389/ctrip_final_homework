@@ -16,9 +16,9 @@ export interface SignUpReq extends SignInReq {
 
 export enum UserApi {
   SignIn = '/admin/login',
-  SignUp = '/admin',
+  SignUp = '/admin/',
   getTotalUser = '/user/getAllUser',
-  searchUser = '/user/searchUser'
+  searchUser = '/user/searchUser',
 }
 export const getAllUser = () => apiClient.get({ url: UserApi.getTotalUser });
 export const searchUser = (value: string) => apiClient.get({url: `${UserApi.searchUser}?value=${value}`});

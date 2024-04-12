@@ -150,7 +150,6 @@ export default function DiaryRecycle({onTabSwitch}) {
     );
     //获取搜索框内容
     const onSearch: SearchProps['onSearch'] = (value, _e, info) =>{
-      console.log(value,selectSearchInfo)
       const searchParams = getRandomuserParams(tableParams)
       getSearchResult({page:1,pageSize:searchParams.pageSize,keyword:value})
     };
@@ -303,7 +302,7 @@ export default function DiaryRecycle({onTabSwitch}) {
           ...tableParams.pagination,
           pageSize: filters.pageSize,
           current:1,
-          total: 200,
+          total: searchStatusRes.data.totalCount,
         },
       });
       

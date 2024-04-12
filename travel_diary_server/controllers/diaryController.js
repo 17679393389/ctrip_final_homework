@@ -77,6 +77,7 @@ exports.getDiariesList = async (req, res) => {
       // user_id为空，说明发送请求的是小程序用户
       whereClause = { checked_status: 1 }; // 初始化查询条件对象
     }
+    whereClause.is_deleted = 0;
     category = parseInt(category);
     if (category !== 1) {
       switch (category) {
@@ -178,12 +179,12 @@ exports.searchDiaries = async (req, res) => {
   try {
     const { page, pageSize, keyword, user_id } = req.query;
     const offset = (page - 1) * pageSize;
-    let whereClause;
+    let whereClause = {};
     if (!user_id) {
       //user_id为空 说明请求方是微信小程序用户，只查询审核通过的游记
       whereClause = { checked_status: 1 };
     }
-
+    whereClause.is_deleted = 0;
     const diaries = await Diary.findAndCountAll({
       where: {
         [Op.or]: [
@@ -220,8 +221,12 @@ exports.searchDiaries = async (req, res) => {
       // 从关联的用户表中获取用户名和头像 URL
       diaryData.username = diaryData.author.username;
       diaryData.avatarUrl = diaryData.author.avatarUrl;
-      //从关联的管理员表中获取审核员的姓名
-      diaryData.checked_person = diaryData.checked.name;
+      ///从关联的管理员表中获取审核员的姓名
+      if (!diaryData.checked) {
+        diaryData.checked_person = "未审核";
+      } else {
+        diaryData.checked_person = diaryData.checked.name;
+      }
       //从关联的点赞表中获取该条游记的点赞数
       diaryData.love_count = diaryData.love_.like_count;
       // 删除原始的 author 字段，如果不需要保留的话
@@ -243,7 +248,7 @@ exports.searchDiaries = async (req, res) => {
 exports.getUserDiaries = async (req, res) => {
   try {
     const { openid, page, pageSize } = req.query; // 获取客户端发送的openid、页码和每页数量参数
-    const whereClause = { create_by: openid, checked_status:1}
+    const whereClause = { create_by: openid, checked_status: 1, is_deleted: 0 };
     // 查询总的记录数
     const totalCount = await Diary.count({
       where: whereClause, // 添加查询条件，只查询指定用户的游记
@@ -479,13 +484,12 @@ exports.getDeletedDiaries = async (req, res) => {
 
       include: include, // 关联查询用户表，并指定返回的字段
     });
-
     // 将 Sequelize 模型对象转换成普通的 JavaScript 对象，并处理时间戳字段
     const diariesData = diaries.map((diary) => {
       const diaryData = diary.toJSON(); // 转换成普通的 JavaScript 对象
       diaryData.create_at = new Date(diaryData.create_at).toLocaleString(); // 转换创建时间
       diaryData.update_time = new Date(diaryData.update_time).toLocaleString(); // 转换更新时间
-      if (diariesData.checked_at) {
+      if (diaryData.checked_at) {
         diaryData.checked_at = new Date(diaryData.checked_at).toLocaleString(); // 转换审核时间
       } else {
         diaryData.checked_at = "未审核";
@@ -607,7 +611,7 @@ exports.getMyNotesList = async (req, res) => {
       where: { ...whereClause, create_by: user_id },
       offset: offset,
       limit: parseInt(_limit),
-      order:[["update_time","desc"]]
+      order: [["update_time", "desc"]],
     });
 
     const notesData = notes.map((diary) => {
@@ -692,17 +696,14 @@ exports.getNoteDetail = async (req, res) => {
   }
 };
 
-
-
-
-
 exports.searchStrategy = async (req, res) => {
   try {
     const { destination } = req.query;
-    const labels = ['美食', '住宿', '交通', '风景'];
+    const labels = ["美食", "住宿", "交通", "风景"];
 
     // 执行原始 SQL 查询
-    const diaries = await sequelize.query(`
+    const diaries = await sequelize.query(
+      `
       SELECT d.*
       FROM (
         SELECT *,
@@ -712,13 +713,15 @@ exports.searchStrategy = async (req, res) => {
           AND (title LIKE :keyword OR content LIKE :keyword)
       ) AS d
       WHERE d.rn = 1;
-    `, {
-      replacements: {
-        labels,
-        keyword: `%${destination}%`,
-      },
-      type: sequelize.QueryTypes.SELECT,
-    });
+    `,
+      {
+        replacements: {
+          labels,
+          keyword: `%${destination}%`,
+        },
+        type: sequelize.QueryTypes.SELECT,
+      }
+    );
 
     res.json({
       diaries,
@@ -727,16 +730,6 @@ exports.searchStrategy = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
-
-
-
-
-
-
-
-
-
 
 exports.getTotalDiary = async (req, res) => {
   try {

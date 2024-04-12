@@ -90,7 +90,6 @@ const signUp = async (data: SignUpReq) => {
   try {
     const res = await signUpMutation.mutateAsync(data);
     const { newAdmin:user, token:accessToken } = res.data;
-    console.log(user,accessToken)
     user.role_index = user.role
     user.role = ADMIN_ROLE;
     setUserToken({ accessToken });
