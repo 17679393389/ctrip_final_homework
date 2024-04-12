@@ -16,6 +16,7 @@
   <l-icon name="add" color="#ffb034"  size="40" />
 </l-button>
 </view>
+</view>
 
 
 <!-- 游记列表 -->
@@ -83,9 +84,6 @@
                 <l-icon name="add" color="#ffb034" size="60" />
             </l-button>
         </view>
-</view>
-</view>
-</view>
 </view>
 </view>
 

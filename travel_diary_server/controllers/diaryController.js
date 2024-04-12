@@ -607,11 +607,7 @@ exports.getMyNotesList = async (req, res) => {
       where: { ...whereClause, create_by: user_id },
       offset: offset,
       limit: parseInt(_limit),
-<<<<<<< HEAD
       order:[["update_time","desc"]]
-=======
-      order: [['update_time','DESC']]
->>>>>>> 0032790bd54e3f6006b6c1437fb4638e68ba5901
     });
 
     const notesData = notes.map((diary) => {
