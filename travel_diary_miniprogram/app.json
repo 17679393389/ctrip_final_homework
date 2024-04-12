@@ -3,7 +3,6 @@
     "pages/home/home",
     "pages/register/register",
     "pages/login/login",
-    "pages/index/index",
     "pages/logs/logs",
     "pages/diaryDetail/diaryDetail",
     "pages/diaryPublish/diaryPublish",
@@ -12,7 +11,6 @@
     "pages/checkedDetail/checkedDetail",
     "pages/comment/comment",
     "pages/userList/userList",
-    "pages/fansList/fansList",
     "pages/recommend/recommend"
   ],
   "window": {
@@ -32,6 +30,12 @@
         "text": "游记",
         "iconPath": "/images/首页未选中.png",
         "selectedIconPath": "/images/首页已选中.png"
+      },
+      {
+        "pagePath": "pages/recommend/recommend",
+        "text": "推荐",
+        "iconPath": "/images/推荐未选中.png",
+        "selectedIconPath": "/images/推荐已选中.png"
       },
       {
         "pagePath": "pages/myDiary/myDiary",

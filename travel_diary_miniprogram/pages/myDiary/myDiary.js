@@ -80,7 +80,6 @@ Page({
   // 页面上拉触底事件的处理函数
   onReachBottom: function () {
     if (this.data.page * this.data.pageSize >= this.data.total) {
-    if (this.data.page * this.data.pageSize >= this.data.total) {
       return wx.showToast({
         title: '游记到底啦~',
         icon: 'none'
@@ -97,7 +96,6 @@ Page({
   onShareAppMessage: function () {},
 
   //展示游记列表
-  showNotesList(pr) {
   showNotesList(pr) {
     //登录态
     let that = this;
@@ -165,7 +163,6 @@ Page({
         }
       },
       complete() {
-      complete() {
         //隐藏loading效果
         wx.hideLoading()
         that.setData({
@@ -173,13 +170,9 @@ Page({
         })
         pr && pr()
       }
-
     })
-
-
   },
 
-  changeTabs: function (res) {
   changeTabs: function (res) {
     this.setData({
       page: 1,
@@ -194,7 +187,6 @@ Page({
   },
 
   //删除游记
-  deleteNoteItem(e) {
   deleteNoteItem(e) {
     const d_id = e.target.dataset.did;
     let that = this;
@@ -232,20 +224,17 @@ Page({
   },
 
   navigateToPostNote: function () {
-  navigateToPostNote: function () {
     wx.navigateTo({
       url: '/pages/diaryPublish/diaryPublish' // 替换为目标页面的路径
     });
   },
 
   navigateToLogin: function () {
-  navigateToLogin: function () {
     wx.navigateTo({
       url: "/pages/login/login", // 替换为目标页面的路径
     });
   },
 
-  navigateToEdit: function (e) {
   navigateToEdit: function (e) {
     let d_id = e.target.dataset.did;
     console.log(d_id);
@@ -256,20 +245,12 @@ Page({
 
   navigateToCheckedDetail: function (e) {
     let d_id = e.target.dataset.did;
-  navigateToCheckedDetail: function (e) {
-    let d_id = e.target.dataset.did;
-
     wx.navigateTo({
       url: '/pages/checkedDetail/checkedDetail?d_id=' + d_id
     });
   },
-  },
-
   navigateToDiaryDetail: function (e) {
     let d_id = e.target.dataset.did;
-  navigateToDiaryDetail: function (e) {
-    let d_id = e.target.dataset.did;
-
     wx.navigateTo({
       url: '/pages/diaryDetail/diaryDetail?d_id=' + d_id
     });
@@ -297,4 +278,4 @@ Page({
       },
     });
   }
-
+})

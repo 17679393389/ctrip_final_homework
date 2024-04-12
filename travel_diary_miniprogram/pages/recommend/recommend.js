@@ -72,6 +72,9 @@ Page({
     // console.log(e.detail.value)
     wx.request({
       url: baseUrl + '/diary/searchStrategy',
+      data:{
+        destination:e.detail.value
+      }
     })
   }
 
