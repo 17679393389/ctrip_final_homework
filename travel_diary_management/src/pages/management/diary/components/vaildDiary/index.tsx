@@ -82,6 +82,7 @@ export default function Diary({onTabSwitch}) {
   const [layout,setLayout] = useState("full");
   const [diaryData,setDiaryData] = useState([]);
   const [filterFlag,setFilterFlag] = useState(false); //筛选状态
+  const [searchFlag,setSearchFlag] = useState(false); //筛选状态
   const [selectBatch,setSelectBatch] = useState<DiaryType[]>([]);
   const navigator = useNavigate();
   const [tableParams, setTableParams] = useState<TableParams>({
@@ -130,8 +131,8 @@ export default function Diary({onTabSwitch}) {
     }
   };
   useEffect(() => {
-    const pageParams = getRandomuserParams(tableParams)
-    if(!filterFlag){  //页面重新加载都要把筛选状态重置
+    if(!filterFlag && !searchFlag){  //页面重新加载都要把筛选状态重置
+      const pageParams = getRandomuserParams(tableParams)
       getDiaryList({page:pageParams.page,pageSize:pageParams.pageSize,category:pageParams.category,user_id:userInfo.id});
     }
     setUserInfo(getItem(StorageEnum.User));
@@ -151,7 +152,11 @@ export default function Diary({onTabSwitch}) {
     );
     //获取搜索框内容
     const onSearch: SearchProps['onSearch'] = (value, _e, info) =>{
+      if(value == ""){
+        setSearchFlag(false);
+      }
       const searchParams = getRandomuserParams(tableParams)
+      setSearchFlag(true);
       getSearchResult({page:1,pageSize:searchParams.pageSize,keyword:value,user_id:userInfo.id})
     };
 
@@ -160,14 +165,17 @@ export default function Diary({onTabSwitch}) {
       try{
         setLoading(true);
       const searchRes = await searchDiary(DiarySearchList);
+      console.log(searchRes);
       setLoading(false);
       setDiaryData(searchRes.data.diaries.map((item:DiaryType)=>({...item,diaryInfo:item})));
+      console.log(tableParams)
       setTableParams({
         ...tableParams,
         pagination: {
           ...tableParams.pagination,
+          total: searchRes.data.totalCount,
         },
-      })
+      });
       }catch(error){
         console.log('搜索失败',error)
         setLoading(false);
@@ -295,7 +303,7 @@ export default function Diary({onTabSwitch}) {
       //判断是否需要筛选
       if (filters.checked_status && filters.checked_status.length > 0) {
         setFilterFlag(true);
-        onFilterDiaryTable({ status: filters.checked_status, pageSize:pagination.pageSize });
+        onFilterDiaryTable({ status: filters.checked_status, pageSize:pagination.pageSize,page:pagination.current });
       }else{
         setFilterFlag(false);
       }
@@ -309,10 +317,11 @@ export default function Diary({onTabSwitch}) {
       setLoading(true);
       const searchStatusReq = {
         pageSize: filters.pageSize,
-        page: 1,
+        page: filters.page,
         status: filters.status?.join(','),
       }
       const searchStatusRes = await getDiaryByStatus(searchStatusReq);
+      // console.log(searchStatusRes)
       setLoading(false);
       setDiaryData(searchStatusRes.data.diaries.map((item:DiaryType) => ({...item,diaryInfo:item})));
       setTableParams({
@@ -320,8 +329,8 @@ export default function Diary({onTabSwitch}) {
         pagination: {
           ...tableParams.pagination,
           pageSize: filters.pageSize,
-          current:1,
-          total: 200,
+          current:filters.page,
+          total: searchStatusRes.data.totalCount,
         },
       });
       
@@ -346,7 +355,8 @@ export default function Diary({onTabSwitch}) {
       if (formValue.checked_status === 1) {
         message.warning('这篇游记已经审核通过啦');
       }else{
-        setDiaryData((prev) => prev.map((item) => item['id'] === formValue['id'] ? {...item, checked_status: 1, checked_opinion: '通过', checked_person: userInfo.name,checked_by: userInfo.id,check_at:Date.now()} : item));
+        //获取当前时间
+        setDiaryData((prev) => prev.map((item) => item['id'] === formValue['id'] ? {...item, checked_status: 1, checked_opinion: '通过', checked_person: userInfo.name,checked_by: userInfo.id,checked_at:new Date().toLocaleString()} : item));
         const newStatusForm = {...formValue, checked_status: 1, checked_opinion: '通过', checked_person: userInfo.name,checked_by: userInfo.id};
         onDiarypUpdate([newStatusForm])
         message.success('审核通过');
@@ -365,7 +375,7 @@ export default function Diary({onTabSwitch}) {
         // 返回一个新的对象，其中不包含 diaryinfo  
         return { ...rest,checked_status: 1,checked_opinion: '通过', checked_person: userInfo.name,checked_by: userInfo.id}
       });
-      setDiaryData((prev) => prev.map((item) => item['id'] === formValue['id'] ? {...item, checked_status: 1, checked_opinion: '通过', checked_person: userInfo.name,checked_by: userInfo.id,check_at:Date.now()} : item));
+      setDiaryData((prev) => prev.map((item) => formValueList.includes(item) ? {...item, checked_status: 1, checked_opinion: '通过', checked_person: userInfo.name,checked_by: userInfo.id,checked_at:new Date().toLocaleString()} : item));
       onDiarypUpdate(newStatusForm)
       message.success('审核通过');
     }
@@ -400,13 +410,15 @@ export default function Diary({onTabSwitch}) {
             return { ...rest, checked_status: 0, checked_person: userInfo.name,checked_by: userInfo.id,checked_opinion: reject};  
           });
           onDiarypUpdate(newStatusForm)
+          setDiaryData((prev) => prev.map((item) => formValue.includes(item)  ? {...item, checked_status: 0, checked_opinion: reject, checked_person: userInfo.name,checked_by: userInfo.id,checked_at:new Date().toLocaleString()} : item));
+          
         }else{
           const newStatusForm = {...formValue, checked_status: 0, checked_person: userInfo.name,checked_by: userInfo.id,checked_opinion: reject};
           delete newStatusForm['diaryInfo']
           onDiarypUpdate([newStatusForm])
+          setDiaryData((prev) => prev.map((item) => item['id'] === formValue['id'] ? {...item, checked_status: 0, checked_opinion: reject, checked_person: userInfo.name,checked_by: userInfo.id,checked_at:new Date().toLocaleString()} : item));
         }
-        setDiaryData((prev) => prev.map((item) => item['id'] === formValue['id'] ? {...item, checked_status: 0, checked_opinion: reject, checked_person: userInfo.name,checked_by: userInfo.id} : item));
-      },
+        },
       onCancel: () => {
         setDiaryRejectReasonModalProps((prev) => ({ ...prev, show: false }));
       },
@@ -439,9 +451,9 @@ export default function Diary({onTabSwitch}) {
     
     //单个删除游记 更新游记is_deleted
     const onDelete = (formValue: DiaryType) => {
-      setDiaryData((prev) => prev.filter((item) => item['id'] !== formValue['id']));
       const newStatusForm = {...formValue, checked_person: userInfo.name,is_deleted: 1,checked_by: userInfo.id};
       onDiarypUpdate([newStatusForm])
+      setDiaryData((prev) => prev.filter((item) => item['id'] !== formValue['id']));
       message.success('删除成功');
     };
 
@@ -452,8 +464,6 @@ export default function Diary({onTabSwitch}) {
         message.warning('请选择要删除的游记');
         return;
       }
-      setDiaryData((prev) => prev.filter((item) => !formValueList.includes(item)));
-      // TODO 更改删除标识
       const newStatusForm = formValueList.map((item) => {
         // 使用解构赋值排除 diaryinfo 属性  
         const { diaryInfo, ...rest } = item;  
@@ -461,6 +471,7 @@ export default function Diary({onTabSwitch}) {
         return { ...rest, checked_person: userInfo.name,is_deleted: 1,checked_by: userInfo.id };
       });
       onDiarypUpdate(newStatusForm)
+      setDiaryData((prev) => prev.filter((item) => !formValueList.includes(item)));
       message.success('批量删除成功');
     };
 

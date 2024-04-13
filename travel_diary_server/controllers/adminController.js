@@ -20,7 +20,7 @@ exports.createAdmin = async (req, res) => {
       },
     });
     if (admin) {
-      res.status(403).json({ message: "该账户已存在，请重新填写" });
+      res.json({ message: "该账户已存在，请重新填写" });
     }
     //密码加密
     const pwd = passWordEncryption(req.body.password);
