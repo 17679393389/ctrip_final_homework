@@ -464,6 +464,7 @@ export default function Diary({onTabSwitch}) {
         message.warning('请选择要删除的游记');
         return;
       }
+      setDiaryData((prev) => prev.filter((item) => !formValueList.includes(item)));
       const newStatusForm = formValueList.map((item) => {
         // 使用解构赋值排除 diaryinfo 属性  
         const { diaryInfo, ...rest } = item;  
@@ -471,7 +472,6 @@ export default function Diary({onTabSwitch}) {
         return { ...rest, checked_person: userInfo.name,is_deleted: 1,checked_by: userInfo.id };
       });
       onDiarypUpdate(newStatusForm)
-      setDiaryData((prev) => prev.filter((item) => !formValueList.includes(item)));
       message.success('批量删除成功');
     };
 

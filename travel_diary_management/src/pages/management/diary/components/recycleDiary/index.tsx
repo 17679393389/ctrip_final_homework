@@ -343,6 +343,7 @@ export default function DiaryRecycle({onTabSwitch}) {
         return { ...rest, checked_person: userInfo.name,is_deleted: 0,checked_by: userInfo.id };
       });
       onDiarypUpdate(newStatusForm)
+
       message.success(newStatusForm.length + '条游记恢复成功');
     };
 
@@ -410,7 +411,7 @@ export default function DiaryRecycle({onTabSwitch}) {
     <Card>
       
         <Space>
-        <Popconfirm title="确定恢复该游记？" okText="Yes" cancelText="No" placement="left" onConfirm={() => onRecoverBatch(record)}>
+        <Popconfirm title="确定恢复该游记？" okText="Yes" cancelText="No" placement="left" onConfirm={() => onRecoverBatch()}>
               <Button type="primary">撤销</Button>
         </Popconfirm>
         </Space>

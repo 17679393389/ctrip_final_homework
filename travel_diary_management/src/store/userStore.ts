@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { create } from 'zustand';
 
-import userService, { SignInReq, SignUpReq } from '@/api/services/userService';
+import {signin,signup, SignInReq, SignUpReq } from '@/api/services/userService';
 import { getItem, removeItem, setItem } from '@/utils/storage';
 
 import { UserInfo, UserToken } from '#/entity';
@@ -53,7 +53,7 @@ export const useSignIn = () => {
   const navigatge = useNavigate();
   const { notification, message } = App.useApp();
   const { setUserToken, setUserInfo } = useUserActions();
-  const signInMutation = useMutation(userService.signin);
+  const signInMutation = useMutation(signin);
 
   const signIn = async (data: SignInReq) => {
     try {
@@ -85,7 +85,7 @@ export const useSignUp = () => {
 const navigatge = useNavigate();
 const { notification, message } = App.useApp();
 const { setUserToken, setUserInfo } = useUserActions();
-  const signUpMutation = useMutation(userService.signup);
+  const signUpMutation = useMutation(signup);
 const signUp = async (data: SignUpReq) => {
   try {
     const res = await signUpMutation.mutateAsync(data);

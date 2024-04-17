@@ -25,7 +25,7 @@ import { StorageEnum } from '#/enum';
 import { getItem, removeItem, setItem } from '@/utils/storage';
 import { useEffect, useState } from 'react';
 import ProTag from '@/theme/antd/components/tag';
-import { getAllUser,searchUser } from '@/api/services/userService';
+import { getAllUser,searchUser,deleteUser } from '@/api/services/userService';
 
 const { Search } = Input;
 interface UserType {
@@ -215,22 +215,27 @@ export default function UserManage() {
 
 
     
-    //单个删除游记 更新游记is_deleted
+    //单个删除用户
     const onDelete = (formValue: UserType) => {
         setUserData((prev) => prev.filter((item) => item['id'] !== formValue['id']));
+        // deletedUser(formValue.id)
       message.success('删除成功');
     };
 
-    //批量删除游记 更新游记is_deleted
+    //批量删除用户
     const onBatchDelete = () => {
       const formValueList:UserType[] = selectBatch
       if (formValueList.length === 0) {
-        message.warning('请选择要删除的游记');
+        message.warning('请选择要删除的用户');
         return;
       }
       setUserData((prev) => prev.filter((item) => !formValueList.includes(item)));
       message.success('批量删除成功');
     };
+
+    const deletedUser = async (id:number) => {
+      const res = await deleteUser(id)
+    }
 
 
     
