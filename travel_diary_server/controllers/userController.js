@@ -1,12 +1,30 @@
 // controllers/userController.js
 const User = require("../models/user");
-const Love = require("../models/love_"); // 引入Love 和 Follow 模型
-const Follow = require("../models/follow"); // 引入Love 和 Follow 模型
+const Love = require("../models/love_"); // 引入Love 模型
+const Follow = require("../models/follow"); // 引入Follow 模型
+const Diary = require("../models/diary");
 const passWordEncryption = require("../utils/pwdEncrypt.js");
 const { signToken } = require("../utils/authMiddleware.js");
 const getOpenid = require("../utils/wx.js");
 const { Op, where } = require("sequelize");
 const sequelize = require("../utils/db_connection");
+const Redis = require("ioredis");
+// 创建Redis客户端
+const client = new Redis({
+  host: 'localhost', // Redis服务器的主机名
+  port: 6379  // Redis服务器的端口号
+});
+
+// 当连接到Redis服务器时触发的事件
+client.on('connect', () => {
+  console.log('Connected to Redis server');
+});
+
+// 当与Redis服务器断开连接时触发的事件
+client.on('error', (err) => {
+  console.error('Error: ', err);
+});
+
 // 获取所有用户
 exports.getAllUsers = async (req, res) => {
   try {
@@ -209,6 +227,23 @@ exports.searchUser = async (req, res) => {
       },
     });
     res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+//将用户浏览记录存储到redis中
+exports.storeUserDiaryView = (req, res) => {
+  try {
+    const { userId, diaryId } = req.query; // 从请求体中获取用户ID和游记ID
+    // 将游记ID添加到用户的浏览记录中
+    client.hset(userId, diaryId, new Date().toLocaleString(), (err, reply) => {
+      if (err) {
+        throw err;
+      }
+      console.log(`User ${userId} viewed diary ${diaryId}`);
+      res.status(200).json({ message: `User ${userId} viewed diary ${diaryId}` });
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

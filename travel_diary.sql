@@ -11,7 +11,7 @@
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 13/04/2024 13:38:09
+ Date: 18/04/2024 17:21:27
 */
 
 SET NAMES utf8mb4;
@@ -1087,7 +1087,8 @@ INSERT INTO `diary` VALUES (1027, '鸡鸣汤包', '南京特色美食，推荐�
 INSERT INTO `diary` VALUES (1028, '全季酒店（夫子庙店）', '酒店处于热门景点群附近,处于市中心,但是晚上睡觉很安静,卫生也搞的和很好,就是要提前订购,不然钱包扛不住~', 'https://it-recite.oss-cn-shenzhen.aliyuncs.com/%E5%85%A8%E5%AD%A3%E9%85%92%E5%BA%97.webp', '住宿', 'o4VqY5sJfSWnl92Btl0YXphUdafQ', '2024-04-12 10:26:16', '2024-04-12 10:26:19', '1', '2024-04-12 10:26:23', 1, '通过', 0);
 INSERT INTO `diary` VALUES (1029, '南京地铁3号线', '南京地铁3号线夫子庙站，挺方便的', 'https://it-recite.oss-cn-shenzhen.aliyuncs.com/%E5%8D%97%E4%BA%AC%E5%9C%B0%E9%93%81.webp', '交通', 'o4VqY5sJfSWnl92Btl0YXphUdafQ', '2024-04-12 10:27:39', '2024-04-12 10:27:42', '1', '2024-04-12 10:27:45', 1, '通过', 0);
 INSERT INTO `diary` VALUES (1030, '鸡鸣寺', '好多人啊 看樱花了,顺便求个姻缘', 'https://it-recite.oss-cn-shenzhen.aliyuncs.com/%E9%B8%A1%E9%B8%A3%E5%AF%BA.png', '风景', 'o4VqY5sJfSWnl92Btl0YXphUdafQ', '2024-04-12 10:28:37', '2024-04-12 10:28:40', '1', '2024-04-12 10:28:44', 1, '通过', 0);
-INSERT INTO `diary` VALUES (1031, '测试', '测试发布功能', 'https://it-recite.oss-cn-shenzhen.aliyuncs.com/KE6pdcvJfPYF63f984fdd3381dbbdc6e5ce9246194f7.png,https://it-recite.oss-cn-shenzhen.aliyuncs.com/ujRMuO6lJtVwefb7ff28b525d882eb8edfbfcee7d340.png', '其他', 'o4VqY5sJfSWnl92Btl0YXphUdafQ', '2024-04-12 11:57:01', '2024-04-12 11:57:01', NULL, NULL, -1, NULL, 0);
+INSERT INTO `diary` VALUES (1031, '测试', '测试发布功能，修改中', 'https://it-recite.oss-cn-shenzhen.aliyuncs.com/KE6pdcvJfPYF63f984fdd3381dbbdc6e5ce9246194f7.png,https://it-recite.oss-cn-shenzhen.aliyuncs.com/ujRMuO6lJtVwefb7ff28b525d882eb8edfbfcee7d340.png', '其他', 'o4VqY5sJfSWnl92Btl0YXphUdafQ', '2024-04-12 11:57:01', '2024-04-18 16:47:01', NULL, NULL, -1, NULL, 0);
+INSERT INTO `diary` VALUES (1032, '准备答辩', '旅游日记测试', 'https://it-recite.oss-cn-shenzhen.aliyuncs.com/TF2019hYGYLn3ce81ce202fca76238a5fea4dcabe355.png', '其他', 'o4pi25I1ZKVEQ0_vU3zMyFk0mbXo', '2024-04-18 16:55:01', '2024-04-18 16:55:01', NULL, NULL, -1, NULL, 0);
 
 -- ----------------------------
 -- Table structure for follow
@@ -1103,7 +1104,7 @@ CREATE TABLE `follow`  (
 -- ----------------------------
 -- Records of follow
 -- ----------------------------
-INSERT INTO `follow` VALUES (1, 'o4VqY5sJfSWnl92Btl0YXphUdafQ', 'o4VqY5sJfSWnl92Btl0YXphUdafQ');
+INSERT INTO `follow` VALUES (1, 'o4VqY5sJfSWnl92Btl0YXphUdafQ', 'o4VqY5uTlYII9Ws0iDuvf5q1x--U');
 INSERT INTO `follow` VALUES (4, 'o4VqY5uTlYII9Ws0iDuvf5q1x--U', 'o4VqY5sJfSWnl92Btl0YXphUdafQ');
 
 -- ----------------------------
@@ -1116,7 +1117,7 @@ CREATE TABLE `love`  (
   `author_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '作者id',
   `like_count` int(0) NULL DEFAULT 0 COMMENT '点赞数，默认为0',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1031 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1032 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of love
@@ -2151,6 +2152,7 @@ INSERT INTO `love` VALUES (1027, 1028, 'o4VqY5sJfSWnl92Btl0YXphUdafQ', 0);
 INSERT INTO `love` VALUES (1028, 1029, 'o4VqY5sJfSWnl92Btl0YXphUdafQ', 0);
 INSERT INTO `love` VALUES (1029, 1030, 'o4VqY5sJfSWnl92Btl0YXphUdafQ', 0);
 INSERT INTO `love` VALUES (1030, 1031, 'o4VqY5sJfSWnl92Btl0YXphUdafQ', 0);
+INSERT INTO `love` VALUES (1031, 1032, 'o4pi25I1ZKVEQ0_vU3zMyFk0mbXo', 0);
 
 -- ----------------------------
 -- Table structure for user
@@ -2173,5 +2175,6 @@ CREATE TABLE `user`  (
 -- ----------------------------
 INSERT INTO `user` VALUES ('o4VqY5sJfSWnl92Btl0YXphUdafQ', 'https://it-recite.oss-cn-shenzhen.aliyuncs.com/2b56fa24d81742f48531e00079e41101.jpg', 1, '哆啦A梦', 'sl', '1765454545', '少说多做', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225');
 INSERT INTO `user` VALUES ('o4VqY5uTlYII9Ws0iDuvf5q1x--U', 'https://thirdwx.qlogo.cn/mmopen/vi_32/PiajxSqBRaELEIiccImuXEVkoRnDY08qDfsPcjrdXEhricCDhdg0zYLibqaYynibicv9Ao4FUkXCYKQPffknJqxJYls8XLDkBwaI4BIeib3ia0Mbo71bY4oQGrEZMg/132', 0, '酸甜土豆丝', '归去来兮', '17854564875', '技术大牛', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f');
+INSERT INTO `user` VALUES ('o4pi25I1ZKVEQ0_vU3zMyFk0mbXo', 'https://thirdwx.qlogo.cn/mmopen/vi_32/uhogtENjiabOaf1K0DztLJoGrjUJATq7r06dDibctcOAibjpMHBwPLW1vtKnIZIA0rLjM1H65ChYqu3ppjgPibg1sQ/132', 0, '酸甜土豆丝', 'sl', '18987854575', '努力进携程', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225');
 
 SET FOREIGN_KEY_CHECKS = 1;
