@@ -292,7 +292,7 @@ Page({
         getApp().listenForNewToken(res);
         // console.log(res)
         that.setData({
-          love_count: res.data.likeCount,
+          love_count: res.data.likeCount==null?0:res.data.likeCount,
           follow_count: res.data.followingCount,
           fans_count: res.data.followersCount,
         });
