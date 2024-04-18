@@ -1,0 +1,4 @@
+<!-- startup.wxml -->
+<view class="container" style="height: 750px;background-color: rgb(255, 255, 255);">
+  <image class="logo" src="/images/南京.png" mode="aspectFit"></image>
+</view>

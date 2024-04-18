@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/startup/startup",
     "pages/home/home",
     "pages/register/register",
     "pages/login/login",
@@ -15,8 +16,8 @@
   ],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "旅行日记",
-    "navigationBarBackgroundColor": "#f4ea2a",
+    "navigationBarTitleText": "金陵游记",
+    "navigationBarBackgroundColor": "#ffffff",
     "navigationStyle": "default"
   },
   "tabBar": {

@@ -38,7 +38,8 @@ Page({
   onUploadImage() {
     const aliyunURL = "https://it-recite.oss-cn-shenzhen.aliyuncs.com";
     //遍历图片数组，上传图片
-    const validImage = this.data.photoList.map((item) => {
+    const photoList = [this.data.avatarUrl]
+    const validImage = photoList.map((item) => {
       //提取图片名称
       const file = item;
       const fileName = file.match(/([^\/]+)(\?.*)?$/)[1];

@@ -5,6 +5,7 @@ const router = express.Router();
 const { authMiddleware } = require("../utils/authMiddleware");
 const checkTokenExpiration = require("../utils/checkJwtExpiration");
 const userController = require("../controllers/userController");
+router.get("/storeUserDiaryView",userController.storeUserDiaryView);
 router.get("/getAllUser", userController.getAllUsers);
 router.get("/searchUser", userController.searchUser);
 // 需要验证身份的路由使用 authMiddleware 中间件

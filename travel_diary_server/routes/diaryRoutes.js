@@ -4,6 +4,7 @@ const router = express.Router();
 const diaryController = require("../controllers/diaryController");
 const { authMiddleware } = require("../utils/authMiddleware");
 const checkTokenExpiration = require("../utils/checkJwtExpiration");
+router.get('/getRecommendedDiaries',diaryController.getRecommendedDiaries);
 router.get('/searchStrategy',diaryController.searchStrategy);
 router.post("/delete", diaryController.deleteDiary);
 router.get("/getMyNotesList", diaryController.getMyNotesList);

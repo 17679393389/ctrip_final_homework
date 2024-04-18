@@ -791,3 +791,102 @@ exports.getDiaryVerify = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+const Redis = require("ioredis");
+// 创建Redis客户端
+const client = new Redis({
+  host: 'localhost', // Redis服务器的主机名
+  port: 6379  // Redis服务器的端口号
+});
+
+// 获取用户浏览记录
+async function getUserViews(userId) {
+  try {
+    const keys = await client.hkeys(userId);
+    return keys;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// 获取所有用户的 ID
+async function getAllUserIds() {
+  try {
+    const users = await User.findAll({ attributes: ['id'] }); // 查询所有用户的 ID
+    const userIds = users.map(user => user.id); // 提取用户的 ID
+    return userIds;
+  } catch (error) {
+    throw new Error("Failed to get all user IDs");
+  }
+}
+// 计算两个用户的相似度
+function calculateSimilarity(targetUserViews, currentUserViews) {
+  const targetKeys = Object.keys(targetUserViews);
+  const currentKeys = Object.keys(currentUserViews);
+
+  // 计算两个用户共同浏览的游记数量
+  const intersection = targetKeys.filter(key => currentKeys.includes(key)).length;
+  // 计算两个用户总浏览的游记数量
+  const union = new Set([...targetKeys, ...currentKeys]).size;
+
+  // 计算 Jaccard 相似度
+  const similarity = intersection / union;
+
+  return similarity;
+}
+
+// 获取所有用户的浏览记录，并计算相似度
+async function calculateUserSimilarities(targetUserId) {
+  const targetUserViews = await getUserViews(targetUserId);
+  const allUserIds = await getAllUserIds(); // 获取所有用户的ID
+  const similarities = [];
+  for (const userId of allUserIds) {
+    if (userId !== targetUserId) {
+      const currentUserViews = await getUserViews(userId);
+      const similarity = calculateSimilarity(targetUserViews, currentUserViews);
+      similarities.push({ userId, similarity });
+    }
+  }
+
+  // 按相似度降序排序
+  similarities.sort((a, b) => b.similarity - a.similarity);
+
+  return similarities;
+}
+
+// 获取最相似用户关注的用户 ID
+function getFollowedUserIds(userIds) {
+  const followedUserIds =  Follow.findAll({
+      where: {
+          fans_id: userIds
+      },
+      attributes: ['up_id']
+  });
+
+  return followedUserIds;
+}
+
+// 获取关注用户发布成功的游记 ID
+function getFollowedUserDiaryIds(userIds) {
+  let followedUserDiaries = Diary.findAll({
+      where: {
+          create_by: userIds,
+          checked_status: 1, // 发布成功的游记
+          is_deleted: 0 // 未删除的游记
+      },
+      attributes: ['id']
+  });
+
+  return followedUserDiaries;
+}
+//协同过滤推荐游记
+exports.getRecommendedDiaries = async (req, res) => {
+  const { userId } = req.query;
+  try {
+    const keys = await client.hkeys(userId);
+    res.status(200).json({ keys: keys });
+  } catch (error) {
+    throw error;
+  }
+};
+
