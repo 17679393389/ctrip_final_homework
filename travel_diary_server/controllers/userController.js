@@ -44,14 +44,15 @@ exports.createUser = async (req, res) => {
     });
     if (user) {
       res.status(403).json({ message: "该昵称已存在" });
+    } else {
+      //密码加密
+      const pwd = passWordEncryption(req.body.password);
+      req.body.password = pwd;
+      const newUser = await User.create(req.body);
+      //生成token
+      const token = signToken({ id: newUser.id });
+      res.json({ newUser, token });
     }
-    //密码加密
-    const pwd = passWordEncryption(req.body.password);
-    req.body.password = pwd;
-    const newUser = await User.create(req.body);
-    //生成token
-    const token = signToken({ id: newUser.id });
-    res.json({ newUser, token });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
