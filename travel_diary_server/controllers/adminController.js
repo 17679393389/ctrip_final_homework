@@ -21,14 +21,15 @@ exports.createAdmin = async (req, res) => {
     });
     if (admin) {
       res.json({ message: "该账户已存在，请重新填写" });
+    } else {
+      //密码加密
+      const pwd = passWordEncryption(req.body.password);
+      req.body.password = pwd;
+      const newAdmin = await Admin.create(req.body);
+      //生成token
+      const token = signToken({ username: req.body.username });
+      res.json({ newAdmin, token });
     }
-    //密码加密
-    const pwd = passWordEncryption(req.body.password);
-    req.body.password = pwd;
-    const newAdmin = await Admin.create(req.body);
-    //生成token
-    const token = signToken({ username: req.body.username });
-    res.json({ newAdmin, token });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

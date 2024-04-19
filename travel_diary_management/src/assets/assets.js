@@ -81,7 +81,7 @@ export const DEFAULT_USER = {
   avatar: 'http://img-blog.csdnimg.cn/direct/b8a65f8b767f4791865dad1985e6a473.png',
   createdAt: faker.date.anytime(),
   updatedAt: faker.date.recent(),
-  password: 'demo1234',
+  password: '12345678',
   role: ADMIN_ROLE,
   permissions: ADMIN_ROLE.permission,
 };
